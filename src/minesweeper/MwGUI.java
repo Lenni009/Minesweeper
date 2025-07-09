@@ -25,15 +25,52 @@ public class MwGUI extends JFrame {
 		// Testweise paar Buttons
 		// https://stackoverflow.com/a/6390444
         for (int i = 0; i < 64; ++i) {
-            JButton b = new JButton(String.valueOf(i));
+        	// Statt JButton sollte es "Feld" sein (custom 
+            Mine b = new Mine(String.valueOf(i));
             b.addMouseListener(new MouseAdapter() {
             	@Override
                 public void mouseClicked(MouseEvent e) {
                     // TODO
-                	if (SwingUtilities.isLeftMouseButton(e)) System.out.println("links"); 
-                	if (SwingUtilities.isRightMouseButton(e)) System.out.println("rechts");
+                	if (SwingUtilities.isLeftMouseButton(e)) {
+                		leftclickEvent(e, b);
+                		System.out.println("links");
+                	}
+                	if (SwingUtilities.isRightMouseButton(e)) {
+                		rightclickEvent(e,b);
+                		System.out.println("rechts");
+                	}
+                	System.out.println(b.getFlagged());
                 	
                 }
+
+				private void rightclickEvent(MouseEvent e, Mine b) {
+					// TODO auslagern in Data
+					if (b.getFlagged() == Flag.NOFLAG) { // flag bereits gesetzt
+						b.setVisibleText("");
+						b.setFlagged(Flag.FLAGGED);
+					}
+					else if (b.getFlagged() == Flag.FLAGGED) {
+						b.setVisibleText("!");
+						b.setFlagged(Flag.QUESTIONMARK);
+					}
+					else {
+						b.setVisibleText("?");
+						b.setFlagged(Flag.NOFLAG);
+					}
+					
+				}
+
+				private void leftclickEvent(MouseEvent e, Mine b) {
+					// TODO auslagern in Data
+					if (b.getMine()) {
+						System.out.println("BOOOOOOOM");
+						JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
+					}
+					else {
+						b.setVisibleText(String.valueOf(b.getBombNeighbourCount()));
+					}
+					
+				}
             });
             add(b);
         }
