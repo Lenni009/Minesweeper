@@ -8,13 +8,11 @@ public class Mine extends JButton {
 	
 	Random zufall = new Random();
 	
-
 	/**
 	 * true: ist eine Bombe
 	 * false: ist keine Bombe
 	 */
 	private boolean mine;
-	//
 	
 	/**
 	 * NOFLAG = keine Flagge
@@ -34,26 +32,22 @@ public class Mine extends JButton {
 	 * false: aufgedeckt -> zeige Zahl (oder tot lol)
 	 */
 	private boolean clicklable;
+
+	/**
+	 * ID der Mine, wird aus GUI heraus generiert
+	 */
+	private int mineID;
 	
-	public Mine(String text) {
-		super(text);
+	public Mine(int ID) {
+		super(""); // Text muss an Standardkonstruktur uebergeben werden, dieser soll aber leer sein
+		
+		mineID = ID;
 		
 		mine = (zufall.nextInt(2) == 1);
 		
-		switch (zufall.nextInt(3)) {
-		case 0: 
-			flagged = Flag.NOFLAG;
-			break;
-		case 1:
-			flagged = Flag.FLAGGED;
-			break;
-		case 2:
-			flagged = Flag.QUESTIONMARK;
-			break;
-		}
+		flagged = Flag.NOFLAG;
 		
-		bombNeighbourCount = 0;
-		
+		bombNeighbourCount = 0;		
 	}
 
 	public Boolean getMine() {
@@ -75,9 +69,13 @@ public class Mine extends JButton {
 	public int getBombNeighbourCount() {
 		return bombNeighbourCount;
 	}
+	
+	public int getID() {
+		return mineID;
+	}
 
-	public void setBombNeighbourCount(int bombedNeighbours) {
-		this.bombNeighbourCount = bombedNeighbours;
+	public void setBombNeighbourCount(int bombNeighbourCount) {
+		this.bombNeighbourCount = bombNeighbourCount;
 	}
 	
 	public void setVisibleText(String text) {

@@ -26,21 +26,22 @@ public class MwGUI extends JFrame {
 		// https://stackoverflow.com/a/6390444
         for (int i = 0; i < 64; ++i) {
         	// Statt JButton sollte es "Feld" sein (custom 
-            Mine b = new Mine(String.valueOf(i));
+            Mine b = new Mine(i);
             b.addMouseListener(new MouseAdapter() {
             	@Override
                 public void mouseClicked(MouseEvent e) {
-                    // TODO
-                	if (SwingUtilities.isLeftMouseButton(e)) {
-                		leftclickEvent(e, b);
-                		System.out.println("links");
-                	}
-                	if (SwingUtilities.isRightMouseButton(e)) {
-                		rightclickEvent(e,b);
-                		System.out.println("rechts");
-                	}
-                	System.out.println(b.getFlagged());
-                	
+            		if(b.isEnabled()) {
+	                    // TODO
+	                	if (SwingUtilities.isLeftMouseButton(e)) {
+	                		leftclickEvent(e, b);
+	                		System.out.println("links");
+	                	}
+	                	if (SwingUtilities.isRightMouseButton(e)) {
+	                		rightclickEvent(e,b);
+	                		System.out.println("rechts");
+	                	}
+	                	System.out.println(b.getFlagged());
+            		}
                 }
 
 				private void rightclickEvent(MouseEvent e, Mine b) {
@@ -68,6 +69,8 @@ public class MwGUI extends JFrame {
 					}
 					else {
 						b.setVisibleText(String.valueOf(b.getBombNeighbourCount()));
+						b.setEnabled(false);
+						b.removeMouseListener(b.getMouseListeners()[0]);
 					}
 					
 				}
