@@ -1,23 +1,79 @@
 package minesweeper;
 
-import java.util.Map;
-
 public class MwData {
 	
-	private Map<Integer, Mine> minefield;
+	final int fieldLen;
 	
-	public MwData() {
-		minefield = new Map<Integer, Mine>(); 
+	/**
+	 * Mine[x][y] mit
+	 * x .. Zeile
+	 * y .. Spalte
+	 */
+	private Mine[][] minefield;
+			
+	public MwData(int fieldLen) {
+		this.fieldLen = fieldLen;
+		minefield = new Mine[fieldLen][fieldLen];
 	}
 	
-	/* Nachbarn:
-	 * +--+--+--+
-	 * |-9|-8|-7|
-	 * +--+--+--+
-	 * |-1|ID|+1|
-	 * +--+--+--+
-	 * |+7|+8|+9|
-	 * +--+--+--+
-	 */
+	public void generateMinefield(int fieldLen) {
+		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
+		for (int x = 0; x < (fieldLen); ++x) {
+			for (int y = 0; y < (fieldLen); ++y) {
+				Mine m = new Mine(x,y);
+				minefield[x][y] = m;
+			}
+		}
+	}
+	
+	public Mine[][] getMinefield() {
+		return this.minefield;
+	}
+
+	public Mine getMine(int x, int y) {
+		/*try {
+			Mine mine = minefield[x][y]; 
+			return mine;
+		}
+		catch (Exception e) {
+			return null;
+		}*/
+		return minefield[x][y];
+	}
+	
+	void countMineNeighbours(int posX, int posY) {
+		// Nachbarn ermitteln
+		/* 
+		 * +--+--+-----+-----+
+		 * |-1/-1|-1/00|-1/+1|
+		 * +--+--+-----+-----+
+		 * |00/-1| X/Y |00/+1|
+		 * +--+--+-----+-----+
+		 * |+1/-1|+1/00|+1/+1|
+		 * +--+--+-----+-----+
+		 */
+		int[][] neighbourPos = {
+				{posX-1,posY-1},{posX-1,posY},{posX-1,posY+1},
+				{posX,posY-1},{posX,posY+1},
+				{posX+1,posY-1},{posX+1,posY},{posX+1,posY+1}};
+		
+		int counterMines = 0;
+		
+		for (int i=0; i<8; i++) {
+			if (isValidNeighbourPos(neighbourPos, i) && getMine(neighbourPos[i][0],neighbourPos[i][1]).isMine()) {
+				counterMines++;
+			}
+		}
+		System.out.println("" + counterMines);
+		getMine(posX, posY).setBombNeighbourCount(counterMines);
+	}
+
+	private boolean isValidNeighbourPos(int[][] neighbourPos, int i) {
+		return neighbourPos[i][0] >= 0 && neighbourPos[i][0] < fieldLen && neighbourPos[i][1] >= 0 && neighbourPos[i][1] < fieldLen;
+	}
+	
+	
+	
+
 
 }

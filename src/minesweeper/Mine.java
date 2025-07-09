@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 
-public class Mine extends JButton {
+public class Mine {
 	
 	Random zufall = new Random();
 	
@@ -31,26 +31,33 @@ public class Mine extends JButton {
 	 * true: kann noch geklickt werden -> zeige flagged
 	 * false: aufgedeckt -> zeige Zahl (oder tot lol)
 	 */
-	private boolean clicklable;
+	private boolean clickable;
 
 	/**
-	 * ID der Mine, wird aus GUI heraus generiert
+	 * ID der Mine, wird aus MwData heraus generiert
 	 */
-	private int mineID;
+	private int posX;
+	private int posY;
 	
-	public Mine(int ID) {
-		super(""); // Text muss an Standardkonstruktur uebergeben werden, dieser soll aber leer sein
+	public String caption;
+	
+	public Mine(int x, int y) {
 		
-		mineID = ID;
+		this.posX = x;
+		this.posY = y;
 		
 		mine = (zufall.nextInt(2) == 1);
 		
 		flagged = Flag.NOFLAG;
 		
-		bombNeighbourCount = 0;		
+		bombNeighbourCount = 0;	
+		
+		caption = "";
+		
+		clickable = true;
 	}
 
-	public Boolean getMine() {
+	public boolean isMine() {
 		return mine;
 	}
 
@@ -70,23 +77,30 @@ public class Mine extends JButton {
 		return bombNeighbourCount;
 	}
 	
-	public int getID() {
-		return mineID;
+	public int getPosX() {
+		return posX;
+	}
+	public int getPosY() {
+		return posY;
 	}
 
 	public void setBombNeighbourCount(int bombNeighbourCount) {
 		this.bombNeighbourCount = bombNeighbourCount;
 	}
 	
-	public void setVisibleText(String text) {
+	public void setText(String text) {
 		// zeigt feld zahl oder flagging?
-		if (this.clicklable) {
-			this.setText(text);			
+		if (this.clickable) {
+			this.caption = text;			
 		}
 		else {
-			this.setText(String.valueOf(bombNeighbourCount));
+			this.caption = String.valueOf(bombNeighbourCount);
 		}
 		// TODO: wenn linksclick zu bumm führt sollte nicht bombNeighbourCount gezeigt werden, sondern eine rote Bombe
+	}
+	
+	public String getText() {
+		return this.caption;
 	}
 	
 

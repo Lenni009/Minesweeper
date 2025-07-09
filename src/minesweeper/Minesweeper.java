@@ -7,8 +7,8 @@ public class Minesweeper {
 	private MwGUI view;
 
 	public Minesweeper() {
-		// model = new LottoDaten();
-		view = new MwGUI();
+		model = new MwData(8);
+		view = new MwGUI(model);
 	}
 
 	public static void main(String[] args) {
