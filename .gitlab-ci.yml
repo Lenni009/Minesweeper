@@ -1,4 +1,4 @@
-image: bitnami/java-min:latest
+image: bitnami/java:latest
 test-compile:
   script:
     - find -name "*.java" > sources.txt
