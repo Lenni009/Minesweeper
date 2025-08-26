@@ -4,7 +4,7 @@ import java.util.Random;
 
 import javax.swing.JButton;
 
-public class Mine {
+public class Feld {
 	
 	Random zufall = new Random();
 	
@@ -41,7 +41,7 @@ public class Mine {
 	
 	public String caption;
 	
-	public Mine(int x, int y) {
+	public Feld(int x, int y) {
 		
 		this.posX = x;
 		this.posY = y;
