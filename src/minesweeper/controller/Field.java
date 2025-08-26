@@ -89,7 +89,12 @@ public class Field {
 			this.caption = text;			
 		}
 		else {
-			this.caption = String.valueOf(bombNeighbourCount);
+			if (bombNeighbourCount == 0) {
+				this.caption = "";
+			}
+			else {
+				this.caption = String.valueOf(bombNeighbourCount);				
+			}
 		}
 		// TODO: wenn linksclick zu bumm führt sollte nicht bombNeighbourCount gezeigt werden, sondern eine rote Bombe
 	}
