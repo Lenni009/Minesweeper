@@ -4,7 +4,8 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import minesweeper.controller.Flag;
-import minesweeper.controller.Feld;
+import minesweeper.controller.BombDistributor;
+import minesweeper.controller.Field;
 import minesweeper.model.MwData;
 
 import java.awt.event.*;
@@ -12,6 +13,8 @@ import java.awt.event.*;
 public class MwGUI extends JFrame {
 	
 	private MwData data;
+	
+	private boolean isFirstClick = true; 
 		
 	// Menueleiste
 	private JMenuBar menueLeiste;
@@ -44,7 +47,7 @@ public class MwGUI extends JFrame {
 		                    // TODO
 	            			
 	            			// entsprechendes Minen-Objekt holen
-	            			Feld m = data.getMine(posX,posY);
+	            			Field m = data.getMine(posX,posY);
 	            			
 		                	if (SwingUtilities.isLeftMouseButton(e)) {
 		                		leftclickEvent(b, m);
@@ -82,7 +85,7 @@ public class MwGUI extends JFrame {
 
 	}
 	
-	private void rightclickEvent(JButton b, Feld m) {
+	private void rightclickEvent(JButton b, Field m) {
 		// TODO auslagern in Data
 		if (m.getFlagged() == Flag.NOFLAG) { // flag bereits gesetzt
 			m.setText("!");
@@ -100,8 +103,15 @@ public class MwGUI extends JFrame {
 		
 	}
 	
-	private void leftclickEvent(JButton b, Feld m) {
+	private void leftclickEvent(JButton b, Field m) {
 		// TODO auslagern in Data
+		
+		if (isFirstClick) {
+			isFirstClick = false;
+			BombDistributor bd = new BombDistributor(data);
+			bd.distributeMines();
+		}
+		
 		if (m.isMine()) {
 			System.out.println("BOOOOOOOM");
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
