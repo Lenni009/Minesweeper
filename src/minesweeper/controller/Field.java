@@ -88,13 +88,11 @@ public class Field {
 		if (this.isClickable) {
 			this.caption = text;			
 		}
-		else {
-			if (bombNeighbourCount == 0) {
+		else if (bombNeighbourCount == 0) {
 				this.caption = "";
-			}
-			else {
-				this.caption = String.valueOf(bombNeighbourCount);				
-			}
+		}
+		else {
+			this.caption = String.valueOf(bombNeighbourCount);				
 		}
 		// TODO: wenn linksclick zu bumm führt sollte nicht bombNeighbourCount gezeigt werden, sondern eine rote Bombe
 	}
@@ -103,5 +101,12 @@ public class Field {
 		return this.caption;
 	}
 	
+	public boolean isClickable() {
+		return isClickable;
+	}
+
+	public void setClickable(boolean isClickable) {
+		this.isClickable = isClickable;
+	}
 
 }

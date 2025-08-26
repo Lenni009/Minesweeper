@@ -36,8 +36,8 @@ public class BombDistributor {
 		while (choosenMines.size() < data.amountOfMines) {
 			int fieldX = random.nextInt(data.fieldLen);
 			int fieldY = random.nextInt(data.fieldLen);
-			data.getMine(fieldX, fieldY).setMine(true);
-			choosenMines.add(data.getMine(fieldX, fieldY));
+			data.getField(fieldX, fieldY).setMine(true);
+			choosenMines.add(data.getField(fieldX, fieldY));
 		}
 	}
 }
