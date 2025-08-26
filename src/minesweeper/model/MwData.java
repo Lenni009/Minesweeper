@@ -1,36 +1,38 @@
-package minesweeper;
+package minesweeper.model;
+
+import minesweeper.controller.Feld;
 
 public class MwData {
 	
-	final int fieldLen;
+	public final int fieldLen;
 	
 	/**
 	 * Mine[x][y] mit
 	 * x .. Zeile
 	 * y .. Spalte
 	 */
-	private Mine[][] minefield;
+	private Feld[][] minefield;
 			
 	public MwData(int fieldLen) {
 		this.fieldLen = fieldLen;
-		minefield = new Mine[fieldLen][fieldLen];
+		minefield = new Feld[fieldLen][fieldLen];
 	}
 	
 	public void generateMinefield(int fieldLen) {
 		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
 		for (int x = 0; x < (fieldLen); ++x) {
 			for (int y = 0; y < (fieldLen); ++y) {
-				Mine m = new Mine(x,y);
+				Feld m = new Feld(x,y);
 				minefield[x][y] = m;
 			}
 		}
 	}
 	
-	public Mine[][] getMinefield() {
+	public Feld[][] getMinefield() {
 		return this.minefield;
 	}
 
-	public Mine getMine(int x, int y) {
+	public Feld getMine(int x, int y) {
 		/*try {
 			Mine mine = minefield[x][y]; 
 			return mine;
@@ -41,7 +43,7 @@ public class MwData {
 		return minefield[x][y];
 	}
 	
-	void countMineNeighbours(int posX, int posY) {
+	public void countMineNeighbours(int posX, int posY) {
 		// Nachbarn ermitteln
 		/* 
 		 * +--+--+-----+-----+

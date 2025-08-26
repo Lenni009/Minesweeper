@@ -1,4 +1,4 @@
-package minesweeper;
+package minesweeper.controller;
 
 public enum Flag {
 	NOFLAG,

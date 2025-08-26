@@ -1,7 +1,12 @@
-package minesweeper;
+package minesweeper.view;
 
 import java.awt.GridLayout;
 import javax.swing.*;
+
+import minesweeper.controller.Flag;
+import minesweeper.controller.Feld;
+import minesweeper.model.MwData;
+
 import java.awt.event.*;
 
 public class MwGUI extends JFrame {
@@ -39,7 +44,7 @@ public class MwGUI extends JFrame {
 		                    // TODO
 	            			
 	            			// entsprechendes Minen-Objekt holen
-	            			Mine m = data.getMine(posX,posY);
+	            			Feld m = data.getMine(posX,posY);
 	            			
 		                	if (SwingUtilities.isLeftMouseButton(e)) {
 		                		leftclickEvent(b, m);
@@ -77,7 +82,7 @@ public class MwGUI extends JFrame {
 
 	}
 	
-	private void rightclickEvent(JButton b, Mine m) {
+	private void rightclickEvent(JButton b, Feld m) {
 		// TODO auslagern in Data
 		if (m.getFlagged() == Flag.NOFLAG) { // flag bereits gesetzt
 			m.setText("!");
@@ -95,7 +100,7 @@ public class MwGUI extends JFrame {
 		
 	}
 	
-	private void leftclickEvent(JButton b, Mine m) {
+	private void leftclickEvent(JButton b, Feld m) {
 		// TODO auslagern in Data
 		if (m.isMine()) {
 			System.out.println("BOOOOOOOM");
@@ -106,7 +111,9 @@ public class MwGUI extends JFrame {
 			m.setText(String.valueOf(m.getBombNeighbourCount()));
 			b.setText(m.getText());
 			b.setEnabled(false);
-			b.removeMouseListener(b.getMouseListeners()[0]);
+			// [0] ist nicht der gesuchte Listener (sondern javax.swing.plaf.basic.BasicButtonListener)
+			// [1] ist der gesuchte Listener
+			b.removeMouseListener(b.getMouseListeners()[1]);
 		}
 		
 	}

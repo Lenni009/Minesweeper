@@ -1,5 +1,7 @@
 package minesweeper;
 
+import minesweeper.model.MwData;
+import minesweeper.view.MwGUI;
 
 public class Minesweeper {
 	
