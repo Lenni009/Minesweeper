@@ -39,7 +39,7 @@ public class MwData {
 		return this.minefield;
 	}
 
-	public Field getMine(int x, int y) {
+	public Field getField(int x, int y) {
 		/*try {
 			Mine mine = minefield[x][y]; 
 			return mine;
@@ -69,12 +69,12 @@ public class MwData {
 		int counterMines = 0;
 		
 		for (int i=0; i<8; i++) {
-			if (isValidNeighbourPos(neighbourPos, i) && getMine(neighbourPos[i][0],neighbourPos[i][1]).isMine()) {
+			if (isValidNeighbourPos(neighbourPos, i) && getField(neighbourPos[i][0],neighbourPos[i][1]).isMine()) {
 				counterMines++;
 			}
 		}
 		System.out.println("" + counterMines);
-		getMine(posX, posY).setBombNeighbourCount(counterMines);
+		getField(posX, posY).setBombNeighbourCount(counterMines);
 	}
 
 	private boolean isValidNeighbourPos(int[][] neighbourPos, int i) {

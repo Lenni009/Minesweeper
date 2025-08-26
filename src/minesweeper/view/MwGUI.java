@@ -47,7 +47,7 @@ public class MwGUI extends JFrame {
 		                    // TODO
 	            			
 	            			// entsprechendes Minen-Objekt holen
-	            			Field m = data.getMine(posX,posY);
+	            			Field m = data.getField(posX,posY);
 	            			
 		                	if (SwingUtilities.isLeftMouseButton(e)) {
 		                		leftclickEvent(b, m);
@@ -117,6 +117,7 @@ public class MwGUI extends JFrame {
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
 		else {
+			m.setClickable(false);
 			data.countMineNeighbours(m.getPosX(),m.getPosY());
 			m.setText(String.valueOf(m.getBombNeighbourCount()));
 			b.setText(m.getText());
