@@ -1,7 +1,12 @@
-package minesweeper;
+package minesweeper.view;
 
 import java.awt.GridLayout;
 import javax.swing.*;
+
+import minesweeper.controller.Flag;
+import minesweeper.controller.Mine;
+import minesweeper.model.MwData;
+
 import java.awt.event.*;
 
 public class MwGUI extends JFrame {

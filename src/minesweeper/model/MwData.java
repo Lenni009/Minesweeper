@@ -1,8 +1,10 @@
-package minesweeper;
+package minesweeper.model;
+
+import minesweeper.controller.Mine;
 
 public class MwData {
 	
-	final int fieldLen;
+	public final int fieldLen;
 	
 	/**
 	 * Mine[x][y] mit
@@ -41,7 +43,7 @@ public class MwData {
 		return minefield[x][y];
 	}
 	
-	void countMineNeighbours(int posX, int posY) {
+	public void countMineNeighbours(int posX, int posY) {
 		// Nachbarn ermitteln
 		/* 
 		 * +--+--+-----+-----+
