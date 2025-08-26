@@ -1,18 +1,12 @@
 package minesweeper.controller;
 
-import java.util.Random;
-
-import javax.swing.JButton;
-
-public class Feld {
-	
-	Random zufall = new Random();
-	
+public class Field {
+		
 	/**
 	 * true: ist eine Bombe
 	 * false: ist keine Bombe
 	 */
-	private boolean mine;
+	private boolean isMine;
 	
 	/**
 	 * NOFLAG = keine Flagge
@@ -31,7 +25,7 @@ public class Feld {
 	 * true: kann noch geklickt werden -> zeige flagged
 	 * false: aufgedeckt -> zeige Zahl (oder tot lol)
 	 */
-	private boolean clickable;
+	private boolean isClickable;
 
 	/**
 	 * ID der Mine, wird aus MwData heraus generiert
@@ -41,12 +35,13 @@ public class Feld {
 	
 	public String caption;
 	
-	public Feld(int x, int y) {
+	public Field(int x, int y) {
 		
 		this.posX = x;
 		this.posY = y;
 		
-		mine = (zufall.nextInt(2) == 1);
+		// bei init ist kein Feld eine mine, damit beim STart des Spiels das erste Aufdecken immer erfolgreich ist
+		isMine = false;
 		
 		flagged = Flag.NOFLAG;
 		
@@ -54,15 +49,15 @@ public class Feld {
 		
 		caption = "";
 		
-		clickable = true;
+		isClickable = true;
 	}
 
 	public boolean isMine() {
-		return mine;
+		return isMine;
 	}
 
 	public void setMine(Boolean mine) {
-		this.mine = mine;
+		this.isMine = mine;
 	}
 
 	public Flag getFlagged() {
@@ -90,7 +85,7 @@ public class Feld {
 	
 	public void setText(String text) {
 		// zeigt feld zahl oder flagging?
-		if (this.clickable) {
+		if (this.isClickable) {
 			this.caption = text;			
 		}
 		else {

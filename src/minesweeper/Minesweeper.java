@@ -9,7 +9,7 @@ public class Minesweeper {
 	private MwGUI view;
 
 	public Minesweeper() {
-		model = new MwData(8);
+		model = new MwData(8,7);
 		view = new MwGUI(model);
 	}
 
