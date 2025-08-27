@@ -22,9 +22,12 @@ public class BombDistributor {
  * 
  */
 	private MwData data;
+	
+	private Field initField;
 		
-	public BombDistributor(MwData model) {
+	public BombDistributor(MwData model, Field initField) {
 		this.data = model;
+		this.initField = initField;
 	}
 	
 	
@@ -36,8 +39,12 @@ public class BombDistributor {
 		while (choosenMines.size() < data.amountOfMines) {
 			int fieldX = random.nextInt(data.fieldLen);
 			int fieldY = random.nextInt(data.fieldLen);
-			data.getField(fieldX, fieldY).setMine(true);
-			choosenMines.add(data.getField(fieldX, fieldY));
+			if (data.getField(fieldX, fieldY) != initField) {
+				// TODO: eig soll ja nicht nur initFeld ohne Bombe sein, sondern auch alle direkten Nachbarn
+				// sonst ist es nicht immer möglich mehrere Felder aufzudecken
+				data.getField(fieldX, fieldY).setMine(true);
+				choosenMines.add(data.getField(fieldX, fieldY));
+			}
 		}
 	}
 }
