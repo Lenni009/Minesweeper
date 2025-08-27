@@ -5,6 +5,7 @@ import minesweeper.view.MwGUI;
 
 public class Minesweeper {
 	
+	
 	private MwData model;
 	private MwGUI view;
 

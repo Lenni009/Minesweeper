@@ -7,6 +7,7 @@ import minesweeper.controller.Flag;
 import minesweeper.controller.BombDistributor;
 import minesweeper.controller.Field;
 import minesweeper.model.MwData;
+import minesweeper.utils.Logger;
 
 import java.awt.event.*;
 
@@ -51,13 +52,13 @@ public class MwGUI extends JFrame {
 	            			
 		                	if (SwingUtilities.isLeftMouseButton(e)) {
 		                		leftclickEvent(b, m);
-		                		System.out.println("links");
+		                		Logger.info("links");
 		                	}
 		                	if (SwingUtilities.isRightMouseButton(e)) {
 		                		rightclickEvent(b,m);
-		                		System.out.println("rechts");
+		                		Logger.info("rechts");
 		                	}
-		                	System.out.println(m.getFlagged());
+		                	Logger.info(m.getFlagged().toString());
 	            		}
 	                }
 	            });
@@ -113,7 +114,7 @@ public class MwGUI extends JFrame {
 		}
 		
 		if (m.isMine()) {
-			System.out.println("BOOOOOOOM");
+			Logger.info("BOOOOOOOM");
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
 		else {

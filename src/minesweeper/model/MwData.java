@@ -1,6 +1,7 @@
 package minesweeper.model;
 
 import minesweeper.controller.Field;
+import minesweeper.utils.Logger;
 
 /**
  * @args int fieldLen n*n
@@ -73,7 +74,7 @@ public class MwData {
 				counterMines++;
 			}
 		}
-		System.out.println("" + counterMines);
+		Logger.info("" + counterMines);
 		getField(posX, posY).setBombNeighbourCount(counterMines);
 	}
 
