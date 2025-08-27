@@ -13,6 +13,8 @@ public class MwData {
 	
 	public final int amountOfMines;
 	
+	public int placedFlags = 0;
+	
 	/**
 	 * Mine[x][y] mit
 	 * x .. Zeile

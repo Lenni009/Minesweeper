@@ -86,22 +86,31 @@ public class MwGUI extends JFrame {
 
 	}
 	
-	private void rightclickEvent(JButton b, Field m) {
+	private void rightclickEvent(JButton button, Field field) {
+		Flag flag = Flag.NOFLAG;
+		String text = "";
 		// TODO auslagern in Data
-		if (m.getFlagged() == Flag.NOFLAG) { // flag bereits gesetzt
-			m.setText("!");
-			m.setFlagged(Flag.FLAGGED);
+		if (field.getFlagged() == Flag.NOFLAG) { // es war keine Flag gesetzt
+			if (data.placedFlags < data.amountOfMines) {
+				data.placedFlags++;				
+				text = "!";
+				flag = Flag.FLAGGED;
+			}
+			else {
+				// es muss "?" platziert werden
+				text = "?";
+				flag = Flag.QUESTIONMARK;
+			}
 		}
-		else if (m.getFlagged() == Flag.FLAGGED) {
-			m.setText("?");
-			m.setFlagged(Flag.QUESTIONMARK);
+		else if (field.getFlagged() == Flag.FLAGGED) { // flag war bereits gesetzt
+			text = "?";
+			flag = Flag.QUESTIONMARK;
+			data.placedFlags--;
 		}
-		else {
-			m.setText("");
-			m.setFlagged(Flag.NOFLAG);
-		}
-		b.setText(m.getText());
-		
+		field.setText(text);
+		field.setFlagged(flag);
+		button.setText(field.getText());
+		Logger.info("# platzierte Flaggen: " + data.placedFlags);
 	}
 	
 	private void leftclickEvent(JButton b, Field m) {
