@@ -23,6 +23,8 @@ public class MwGUI extends JFrame {
 	private JMenu onlineMenue;
 	private JMenu helpMenue;
 	private JMenuItem beenden;
+	private JLabel flags_label;
+	private JSeparator sep;
 	
 	public MwGUI(MwData model) {
 		this.data = model;
@@ -75,11 +77,15 @@ public class MwGUI extends JFrame {
 		});
 		onlineMenue = new JMenu("Online");
 		helpMenue = new JMenu("Hilfe");
+		sep = new JSeparator();
+		flags_label = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		// alles zuordnen
 		menueLeiste.add(dateiMenue);
 		menueLeiste.add(onlineMenue);
 		menueLeiste.add(helpMenue);
 		dateiMenue.add(beenden);
+		menueLeiste.add(sep);
+		menueLeiste.add(flags_label);
 		// zum Fenster hinzufuegen
 		this.setJMenuBar(menueLeiste);
 		
@@ -92,20 +98,22 @@ public class MwGUI extends JFrame {
 		// TODO auslagern in Data
 		if (field.getFlagged() == Flag.NOFLAG) { // es war keine Flag gesetzt
 			if (data.placedFlags < data.amountOfMines) {
-				data.placedFlags++;				
-				text = "!";
+				data.placedFlags++;
+				flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+				text = "/ ! \\";
 				flag = Flag.FLAGGED;
 			}
 			else {
 				// es muss "?" platziert werden
-				text = "?";
+				text = "/ ? \\";
 				flag = Flag.QUESTIONMARK;
 			}
 		}
 		else if (field.getFlagged() == Flag.FLAGGED) { // flag war bereits gesetzt
-			text = "?";
+			text = "/ ? \\";
 			flag = Flag.QUESTIONMARK;
 			data.placedFlags--;
+			flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		}
 		field.setText(text);
 		field.setFlagged(flag);
@@ -119,6 +127,7 @@ public class MwGUI extends JFrame {
 		// Linksklick vereiteln: FLAGGED Feld wird nicht aufgedeckt
 		if (m.getFlagged() == Flag.FLAGGED) {
 			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
+			return;
 		}
 		
 		// Nach dem ersten Klick werden die Bomben verteilt
