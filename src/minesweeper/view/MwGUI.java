@@ -107,16 +107,25 @@ public class MwGUI extends JFrame {
 	private void leftclickEvent(JButton b, Field m) {
 		// TODO auslagern in Data
 		
+		// Linksklick vereiteln: FLAGGED Feld wird nicht aufgedeckt
+		if (m.getFlagged() == Flag.FLAGGED) {
+			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
+		}
+		
+		// Nach dem ersten Klick werden die Bomben verteilt
 		if (isFirstClick) {
 			isFirstClick = false;
 			BombDistributor bd = new BombDistributor(data);
 			bd.distributeMines();
 		}
 		
+		// Wenn eine Mine aufgedeckt wird, endet das Spiel 
 		if (m.isMine()) {
 			Logger.info("BOOOOOOOM");
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
+		
+		// Feld aufdecken
 		else {
 			m.setClickable(false);
 			data.countMineNeighbours(m.getPosX(),m.getPosY());
