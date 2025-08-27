@@ -11,7 +11,7 @@ import minesweeper.utils.Logger;
 
 import java.awt.event.*;
 
-public class MwGUI extends JFrame {
+public class MsGUI extends JFrame {
 	
 	private MwData data;
 	
@@ -26,7 +26,7 @@ public class MwGUI extends JFrame {
 	private JLabel flags_label;
 	private JSeparator sep;
 	
-	public MwGUI(MwData model) {
+	public MsGUI(MwData model) {
 		this.data = model;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -38,35 +38,15 @@ public class MwGUI extends JFrame {
 		
 		data.generateMinefield(data.fieldLen);
 		
-		for (int x = 0; x < (data.fieldLen); ++x) {
-			final int posX = x;
-			for (int y = 0; y < (data.fieldLen); ++y) {
-				final int posY = y;
-	            JButton b = new JButton("");
-	            b.addMouseListener(new MouseAdapter() {
-	            	@Override
-	                public void mouseClicked(MouseEvent e) {
-	            		if(b.isEnabled()) {
-		                    // TODO
-	            			
-	            			// entsprechendes Minen-Objekt holen
-	            			Field m = data.getField(posX,posY);
-	            			
-		                	if (SwingUtilities.isLeftMouseButton(e)) {
-		                		leftclickEvent(b, m);
-		                		Logger.info("links");
-		                	}
-		                	if (SwingUtilities.isRightMouseButton(e)) {
-		                		rightclickEvent(b,m);
-		                		Logger.info("rechts");
-		                	}
-		                	Logger.info(m.getFlagged().toString());
-	            		}
-	                }
-	            });
-	            add(b);
-			}
-        }
+		for (int x = 0; x < data.fieldLen; ++x) {
+		    final int posX = x;
+		    for (int y = 0; y < data.fieldLen; ++y) {
+		        final int posY = y;
+		        JButton button = new JButton("");
+		        button.addMouseListener(createMouseListener(button, posX, posY));
+		        add(button);
+		    }
+		}
 
 		// Menue
 		menueLeiste = new JMenuBar();
@@ -80,31 +60,60 @@ public class MwGUI extends JFrame {
 		sep = new JSeparator();
 		flags_label = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		// alles zuordnen
+		dateiMenue.add(beenden);
 		menueLeiste.add(dateiMenue);
 		menueLeiste.add(onlineMenue);
 		menueLeiste.add(helpMenue);
-		dateiMenue.add(beenden);
 		menueLeiste.add(sep);
 		menueLeiste.add(flags_label);
 		// zum Fenster hinzufuegen
 		this.setJMenuBar(menueLeiste);
-		
-
 	}
 	
-	private void rightclickEvent(JButton button, Field field) {
+	/**
+	 * Adds MouseListener to JButton-Object
+	 * @param button the JButton-Object 
+	 * @param posX X-Coord of corresponding Field-Object
+	 * @param posY Y-Coord of corresponding Field-Object
+	 * @return
+	 */
+	private MouseListener createMouseListener(JButton button, int posX, int posY) { // TODO auslagern in Data
+	    return new MouseAdapter() {
+	        @Override
+	        public void mouseClicked(MouseEvent e) {
+	            if (button.isEnabled()) {
+	                Field field = data.getField(posX, posY);
+
+	                if (SwingUtilities.isLeftMouseButton(e)) {
+	                    leftclickEvent(button, field);
+	                    Logger.info("links");
+	                }
+	                if (SwingUtilities.isRightMouseButton(e)) {
+	                    rightclickEvent(button, field);
+	                    Logger.info("rechts");
+	                }
+	                Logger.info(field.getFlagged().toString());
+	            }
+	        }
+	    };
+	}
+
+	/**
+	 * processes rightclick
+	 * @param button the clicked JButton
+	 * @param field the corresponding Field
+	 */
+	private void rightclickEvent(JButton button, Field field) { // TODO auslagern in Data
 		Flag flag = Flag.NOFLAG;
 		String text = "";
-		// TODO auslagern in Data
+		
 		if (field.getFlagged() == Flag.NOFLAG) { // es war keine Flag gesetzt
 			if (data.placedFlags < data.amountOfMines) {
 				data.placedFlags++;
-				flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 				text = "/ ! \\";
 				flag = Flag.FLAGGED;
 			}
-			else {
-				// es muss "?" platziert werden
+			else { // keine Flaggen mehr uebrig, platziere stattdessen "?"
 				text = "/ ? \\";
 				flag = Flag.QUESTIONMARK;
 			}
@@ -113,19 +122,26 @@ public class MwGUI extends JFrame {
 			text = "/ ? \\";
 			flag = Flag.QUESTIONMARK;
 			data.placedFlags--;
-			flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		}
+				
 		field.setText(text);
 		field.setFlagged(flag);
+		
+		flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		button.setText(field.getText());
+		
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);
 	}
 	
-	private void leftclickEvent(JButton b, Field m) {
-		// TODO auslagern in Data
+	/**
+	 * processes leftclick
+	 * @param button the clicked JButton
+	 * @param field the corresponding Field
+	 */
+	private void leftclickEvent(JButton button, Field field) { // TODO auslagern in Data
 		
 		// Linksklick vereiteln: FLAGGED Feld wird nicht aufgedeckt
-		if (m.getFlagged() == Flag.FLAGGED) {
+		if (field.getFlagged() == Flag.FLAGGED) {
 			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
 			return;
 		}
@@ -133,26 +149,26 @@ public class MwGUI extends JFrame {
 		// Nach dem ersten Klick werden die Bomben verteilt
 		if (isFirstClick) {
 			isFirstClick = false;
-			BombDistributor bd = new BombDistributor(data);
+			BombDistributor bd = new BombDistributor(data, field);
 			bd.distributeMines();
 		}
 		
 		// Wenn eine Mine aufgedeckt wird, endet das Spiel 
-		if (m.isMine()) {
+		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
 		
 		// Feld aufdecken
 		else {
-			m.setClickable(false);
-			data.countMineNeighbours(m.getPosX(),m.getPosY());
-			m.setText(String.valueOf(m.getBombNeighbourCount()));
-			b.setText(m.getText());
-			b.setEnabled(false);
+			field.setClickable(false);
+			data.countMineNeighbours(field.getPosX(),field.getPosY());
+			field.setText(String.valueOf(field.getBombNeighbourCount()));
+			button.setText(field.getText());
+			button.setEnabled(false);
 			// [0] ist nicht der gesuchte Listener (sondern javax.swing.plaf.basic.BasicButtonListener)
 			// [1] ist der gesuchte Listener
-			b.removeMouseListener(b.getMouseListeners()[1]);
+			button.removeMouseListener(button.getMouseListeners()[1]);
 		}
 		
 	}

@@ -42,6 +42,12 @@ public class MwData {
 		return this.minefield;
 	}
 
+	/**
+	 * Returns Field-Object, specified by X/Y-Choords
+	 * @param int x
+	 * @param int y
+	 * @return Field
+	 */
 	public Field getField(int x, int y) {
 		/*try {
 			Mine mine = minefield[x][y]; 
