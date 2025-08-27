@@ -65,7 +65,7 @@ public class MwGUI extends JFrame {
 			}
         }
 
-		// Menue
+		// Menu
 		menueLeiste = new JMenuBar();
 		dateiMenue = new JMenu("Datei");
 		beenden = new JMenuItem("Beenden");
@@ -74,12 +74,12 @@ public class MwGUI extends JFrame {
 		});
 		onlineMenue = new JMenu("Online");
 		helpMenue = new JMenu("Hilfe");
-		// alles zuordnen
+		// assign everything
 		menueLeiste.add(dateiMenue);
 		menueLeiste.add(onlineMenue);
 		menueLeiste.add(helpMenue);
 		dateiMenue.add(beenden);
-		// zum Fenster hinzufuegen
+		// add to window
 		this.setJMenuBar(menueLeiste);
 		
 
