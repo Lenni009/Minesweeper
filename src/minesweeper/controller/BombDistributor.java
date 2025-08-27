@@ -1,6 +1,6 @@
 package minesweeper.controller;
 
-import minesweeper.model.MwData;
+import minesweeper.model.MsData;
 
 import java.util.HashSet;
 import java.util.Random;
@@ -21,11 +21,11 @@ public class BombDistributor {
  * 3. 
  * 
  */
-	private MwData data;
+	private MsData data;
 	
 	private Field initField;
 		
-	public BombDistributor(MwData model, Field initField) {
+	public BombDistributor(MsData model, Field initField) {
 		this.data = model;
 		this.initField = initField;
 	}

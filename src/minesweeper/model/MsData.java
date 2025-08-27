@@ -3,11 +3,7 @@ package minesweeper.model;
 import minesweeper.controller.Field;
 import minesweeper.utils.Logger;
 
-/**
- * @args int fieldLen n*n
- * @args int amountOfMines konkrete Anzahl an Minen
- */
-public class MwData {
+public class MsData {
 	
 	public final int fieldLen;
 	
@@ -16,51 +12,62 @@ public class MwData {
 	public int placedFlags = 0;
 	
 	/**
-	 * Mine[x][y] mit
-	 * x .. Zeile
-	 * y .. Spalte
+	 * Mine[x][y] with
+	 * x .. Row
+	 * y .. Column
 	 */
 	private Field[][] minefield;
-			
-	public MwData(int fieldLen, int amountOfMines) {
+	
+	/**
+	 * Constructor
+	 * @param fieldLen Length of one site
+	 * @param amountOfMines Concrete Number of Mines 
+	 */
+	public MsData(int fieldLen, int amountOfMines) {
 		this.fieldLen = fieldLen;
 		minefield = new Field[fieldLen][fieldLen];
 		this.amountOfMines = amountOfMines;
 	}
 	
+	/**
+	 * Generate Minefield by given Length
+	 * @param fieldLen Length of one site
+	 */
 	public void generateMinefield(int fieldLen) {
 		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
 		for (int x = 0; x < (fieldLen); ++x) {
 			for (int y = 0; y < (fieldLen); ++y) {
-				Field m = new Field(x,y);
-				minefield[x][y] = m;
+				Field field = new Field(x,y);
+				minefield[x][y] = field;
 			}
 		}
 	}
 	
+	/**
+	 * Getter for the 2D Array
+	 * @return the 2D Array with all the Fields
+	 */
 	public Field[][] getMinefield() {
 		return this.minefield;
 	}
 
 	/**
 	 * Returns Field-Object, specified by X/Y-Choords
-	 * @param int x
-	 * @param int y
+	 * @param posX X-Choord of the Field
+	 * @param posY Y-Choord of the Field
 	 * @return Field
 	 */
-	public Field getField(int x, int y) {
-		/*try {
-			Mine mine = minefield[x][y]; 
-			return mine;
-		}
-		catch (Exception e) {
-			return null;
-		}*/
-		return minefield[x][y];
+	public Field getField(int posX, int posY) {
+		return minefield[posX][posY];
 	}
 	
+	/**
+	 * Count how many neighbours are mines and store result in BombNeighbourCount of Field-Obj
+	 * @param posX X-Choord of the Field
+	 * @param posY Y-Choord of the Field
+	 */
 	public void countMineNeighbours(int posX, int posY) {
-		// Nachbarn ermitteln
+		// calculate neighbours
 		/* 
 		 * +--+--+-----+-----+
 		 * |-1/-1|-1/00|-1/+1|
@@ -86,12 +93,14 @@ public class MwData {
 		getField(posX, posY).setBombNeighbourCount(counterMines);
 	}
 
-	private boolean isValidNeighbourPos(int[][] neighbourPos, int i) {
-		return neighbourPos[i][0] >= 0 && neighbourPos[i][0] < fieldLen && neighbourPos[i][1] >= 0 && neighbourPos[i][1] < fieldLen;
+	/**
+	 * Returns True, if Position i is valid
+	 * @param neighbourPos the 2D Array
+	 * @param position the Position
+	 * @return True, if valid, else instead
+	 */
+	private boolean isValidNeighbourPos(int[][] neighbourPos, int position) {
+		return neighbourPos[position][0] >= 0 && neighbourPos[position][0] < fieldLen && neighbourPos[position][1] >= 0 && neighbourPos[position][1] < fieldLen;
 	}
-	
-	
-	
-
 
 }

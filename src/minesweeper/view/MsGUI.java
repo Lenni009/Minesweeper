@@ -6,14 +6,14 @@ import javax.swing.*;
 import minesweeper.controller.Flag;
 import minesweeper.controller.BombDistributor;
 import minesweeper.controller.Field;
-import minesweeper.model.MwData;
+import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
 
 import java.awt.event.*;
 
 public class MsGUI extends JFrame {
 	
-	private MwData data;
+	private MsData data;
 	
 	private boolean isFirstClick = true; 
 		
@@ -26,7 +26,7 @@ public class MsGUI extends JFrame {
 	private JLabel flags_label;
 	private JSeparator sep;
 	
-	public MsGUI(MwData model) {
+	public MsGUI(MsData model) {
 		this.data = model;
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 

@@ -1,16 +1,16 @@
 package minesweeper;
 
-import minesweeper.model.MwData;
+import minesweeper.model.MsData;
 import minesweeper.view.MsGUI;
 
 public class Minesweeper {
 	
 	
-	private MwData model;
+	private MsData model;
 	private MsGUI view;
 
 	public Minesweeper() {
-		model = new MwData(8,7);
+		model = new MsData(8,7);
 		view = new MsGUI(model);
 	}
 
