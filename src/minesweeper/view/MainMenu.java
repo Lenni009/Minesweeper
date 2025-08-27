@@ -41,6 +41,10 @@ public class MainMenu extends JFrame {
 		JButton medium = new JButton("13 x 13 (40 Minen)");
 		JButton hard = new JButton("20 x 20 (100 Minen)");
 		JButton custom = new JButton("Benutzerdefiniert");
+		custom.addActionListener(e -> {
+			this.setVisible(false);
+			new CustomDifficulty();
+		});
 		add(easy);
 		add(medium);
 		add(hard);
