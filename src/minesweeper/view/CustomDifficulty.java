@@ -5,31 +5,31 @@ import java.awt.HeadlessException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
 public class CustomDifficulty extends JFrame {
 
+	private JPanel customDifficultyView;
+	
 	public CustomDifficulty() {
-		// JFrame-Konfiguration
-		this.setSize(600, 600);
-		this.setLocation(300, 300);
-		this.setTitle("Minesweeper");
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
-
 		JSpinner length = new JSpinner();
 		JSpinner minePercentage = new JSpinner();
 		JLabel lengthLabel = new JLabel("Seitenlänge");
 		JLabel minePercentageLabel = new JLabel("Anteil Minen (%)");
 		
 		JButton playButton = new JButton("Spielen");
+		customDifficultyView = new JPanel();
 		
-		add(lengthLabel);
-		add(length);
-		add(minePercentageLabel);
-		add(minePercentage);
-		add(playButton);
-		
-		this.setVisible(true);
+		customDifficultyView.add(lengthLabel);
+		customDifficultyView.add(length);
+		customDifficultyView.add(minePercentageLabel);
+		customDifficultyView.add(minePercentage);
+		customDifficultyView.add(playButton);
 	}
-	
+
+	public JPanel getCustomDifficultyView() {
+		return customDifficultyView;
+	}
+
 }
