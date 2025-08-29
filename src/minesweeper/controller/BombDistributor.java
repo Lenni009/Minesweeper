@@ -1,26 +1,14 @@
 package minesweeper.controller;
 
 import minesweeper.model.MsData;
+import minesweeper.utils.Logger;
 
 import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
 public class BombDistributor {
-/*
- * siehe issue #3
- * Idee:
- * bei init der Feld-Objekte wird mine auf false gesetzt
- * Set anlegen; while set.size < anzahlMinen:
- * Random werden die bereits vorhandenen Feld-Objekte ausgewählt und mine auf true gesetzt.
- * Die minen werden in set gespeichert -> wenn mine ein 2. mal ausgewählt wird, wird set nicht erweitert
- * 
- * daraus folgt:
- * 1. die Fields dürfne nicht selbstständig entscheiden, ob sie eine Bombe sind
- * 2. Fields werden mit mine = false initialisiert
- * 3. 
- * 
- */
+
 	private MsData data;
 	
 	private Field initField;
@@ -35,16 +23,46 @@ public class BombDistributor {
 	
 	Random random = new Random();
 	
+	/**
+	 * Randomly chooses fields that will contain mines. The field initially clicked on and its neighbours won't be chosen.
+	 */
 	public void distributeMines() {
+		
+		int initX = initField.getPosX();
+		int initY = initField.getPosY();
+		
+		// initiale field with all 8 neighbours
+		int[][] freeFields = {
+				{initX-1,initY-1},{initX-1,initY},{initX-1,initY+1},
+				{initX,initY-1},{initX,initY},{initX,initY+1},
+				{initX+1,initY-1},{initX+1,initY},{initX+1,initY+1}};
+		
 		while (choosenMines.size() < data.amountOfMines) {
 			int fieldX = random.nextInt(data.fieldLen);
 			int fieldY = random.nextInt(data.fieldLen);
-			if (data.getField(fieldX, fieldY) != initField) {
-				// TODO: eig soll ja nicht nur initFeld ohne Bombe sein, sondern auch alle direkten Nachbarn
-				// sonst ist es nicht immer möglich mehrere Felder aufzudecken
+			if (isPosValid(fieldX, fieldY, freeFields)) {
 				data.getField(fieldX, fieldY).setMine(true);
 				choosenMines.add(data.getField(fieldX, fieldY));
 			}
 		}
 	}
+
+	/**
+	 * Checks wether a bomb can be placed at generated coords.
+	 * @param randomX randomly generated X-Coord
+	 * @param randomY randomly generated Y-Coord
+	 * @param freeFields coords of the initially clicked field and its neighbours
+	 * @return true, if chosen position is valid
+	 */
+	private boolean isPosValid(int randomX, int randomY, int[][] freeFields) {
+		
+		for (int[] coord : freeFields) {
+			if (coord[0] == randomX && coord[1] == randomY) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }
