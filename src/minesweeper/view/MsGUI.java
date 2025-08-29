@@ -4,18 +4,22 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import minesweeper.controller.Flag;
+import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.BombDistributor;
 import minesweeper.controller.Field;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
 
 import java.awt.event.*;
+import java.util.Set;
 
 public class MsGUI extends JFrame {
 	
 	private MsData data;
 	
 	private boolean isFirstClick = true; 
+	
+	private JButton[][] buttons;
 		
 	// Menueleiste
 	private JMenuBar menueLeiste;
@@ -38,6 +42,8 @@ public class MsGUI extends JFrame {
 		
 		data.generateMinefield(data.fieldLen);
 		
+		buttons = new JButton[data.fieldLen][data.fieldLen];
+		
 		for (int x = 0; x < data.fieldLen; ++x) {
 		    final int posX = x;
 		    for (int y = 0; y < data.fieldLen; ++y) {
@@ -45,6 +51,7 @@ public class MsGUI extends JFrame {
 		        JButton button = new JButton("");
 		        button.addMouseListener(createMouseListener(button, posX, posY));
 		        add(button);
+		        buttons[x][y] = button;
 		    }
 		}
 
@@ -140,37 +147,46 @@ public class MsGUI extends JFrame {
 	 */
 	private void leftclickEvent(JButton button, Field field) { // TODO auslagern in Data
 		
-		// Linksklick vereiteln: FLAGGED Feld wird nicht aufgedeckt
+		AutoRevealer ar = new AutoRevealer(data);
+		
+		// prevent leftclick: FLAGGED fields will not be revealed
 		if (field.getFlagged() == Flag.FLAGGED) {
 			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
 			return;
 		}
 		
-		// Nach dem ersten Klick werden die Bomben verteilt
+		// distribute bombs after initial click
 		if (isFirstClick) {
 			isFirstClick = false;
 			BombDistributor bd = new BombDistributor(data, field);
 			bd.distributeMines();
 		}
 		
-		// Wenn eine Mine aufgedeckt wird, endet das Spiel 
+		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
 			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
 		
-		// Feld aufdecken
-		else {
-			field.setClickable(false);
-			data.countMineNeighbours(field.getPosX(),field.getPosY());
-			field.setText(String.valueOf(field.getBombNeighbourCount()));
-			button.setText(field.getText());
-			button.setEnabled(false);
-			// [0] ist nicht der gesuchte Listener (sondern javax.swing.plaf.basic.BasicButtonListener)
-			// [1] ist der gesuchte Listener
-			button.removeMouseListener(button.getMouseListeners()[1]);
+		// reveal field
+		else {			
+			Set<Field> revealedFields = ar.revealField(field);
+			updateButtonsGUI(revealedFields);
 		}
-		
 	}
 
+	private void updateButtonsGUI(Set<Field> revealedFields) {
+		for (Field changedField : revealedFields) {
+			int posX = changedField.getPosX();
+			int posY = changedField.getPosY();
+			
+			JButton changedButton = buttons[posX][posY];
+
+			changedButton.setText(changedField.getText());
+			changedButton.setEnabled(false);
+			// [0] ist nicht der gesuchte Listener (sondern javax.swing.plaf.basic.BasicButtonListener)
+			// [1] ist der gesuchte Listener
+			changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
+		}
+	}
 }
