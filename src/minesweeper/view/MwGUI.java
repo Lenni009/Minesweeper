@@ -1,132 +1,58 @@
 package minesweeper.view;
 
-import java.awt.GridLayout;
-import javax.swing.*;
+import java.awt.CardLayout;
 
-import minesweeper.controller.Flag;
-import minesweeper.controller.BombDistributor;
-import minesweeper.controller.Field;
-import minesweeper.model.MwData;
-
-import java.awt.event.*;
+import javax.swing.JFrame;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JPanel;
 
 public class MwGUI extends JFrame {
-	
-	private MwData data;
-	
-	private boolean isFirstClick = true; 
-		
-	// Menueleiste
-	private JMenuBar menueLeiste;
-	private JMenu dateiMenue;
-	private JMenu onlineMenue;
-	private JMenu helpMenue;
-	private JMenuItem beenden;
-	
-	public MwGUI(MwData model) {
-		this.data = model;
+	static CardLayout cardLayout = new CardLayout();
+    static JPanel cardPanel = new JPanel(cardLayout);
+
+    public MwGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-		// JFrame-Konfiguration
+		// JFrame config
 		this.setSize(600, 600);
 		this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
-		this.setLayout(new GridLayout(data.fieldLen, data.fieldLen));
-		
-		data.generateMinefield(data.fieldLen);
-		
-		for (int x = 0; x < (data.fieldLen); ++x) {
-			final int posX = x;
-			for (int y = 0; y < (data.fieldLen); ++y) {
-				final int posY = y;
-	            JButton b = new JButton("");
-	            b.addMouseListener(new MouseAdapter() {
-	            	@Override
-	                public void mouseClicked(MouseEvent e) {
-	            		if(b.isEnabled()) {
-		                    // TODO
-	            			
-	            			// entsprechendes Minen-Objekt holen
-	            			Field m = data.getField(posX,posY);
-	            			
-		                	if (SwingUtilities.isLeftMouseButton(e)) {
-		                		leftclickEvent(b, m);
-		                		System.out.println("links");
-		                	}
-		                	if (SwingUtilities.isRightMouseButton(e)) {
-		                		rightclickEvent(b,m);
-		                		System.out.println("rechts");
-		                	}
-		                	System.out.println(m.getFlagged());
-	            		}
-	                }
-	            });
-	            add(b);
-			}
-        }
 
 		// Menu
-		menueLeiste = new JMenuBar();
-		dateiMenue = new JMenu("Datei");
-		beenden = new JMenuItem("Beenden");
-		beenden.addActionListener(e -> {
+		JMenuBar menuBar = new JMenuBar();
+		JMenu fileMenu = new JMenu("Datei");
+		JMenuItem exit = new JMenuItem("Beenden");
+		JMenu onlineMenu = new JMenu("Online");
+		JMenu helpMenu = new JMenu("Hilfe");
+		exit.addActionListener(e -> {
 			System.exit(0);
 		});
-		onlineMenue = new JMenu("Online");
-		helpMenue = new JMenu("Hilfe");
+
 		// assign everything
-		menueLeiste.add(dateiMenue);
-		menueLeiste.add(onlineMenue);
-		menueLeiste.add(helpMenue);
-		dateiMenue.add(beenden);
+		menuBar.add(fileMenu);
+		menuBar.add(onlineMenu);
+		menuBar.add(helpMenu);
+		fileMenu.add(exit);
+
 		// add to window
-		this.setJMenuBar(menueLeiste);
-		
+		this.setJMenuBar(menuBar);
 
-	}
-	
-	private void rightclickEvent(JButton b, Field m) {
-		// TODO auslagern in Data
-		if (m.getFlagged() == Flag.NOFLAG) { // flag bereits gesetzt
-			m.setText("!");
-			m.setFlagged(Flag.FLAGGED);
-		}
-		else if (m.getFlagged() == Flag.FLAGGED) {
-			m.setText("?");
-			m.setFlagged(Flag.QUESTIONMARK);
-		}
-		else {
-			m.setText("");
-			m.setFlagged(Flag.NOFLAG);
-		}
-		b.setText(m.getText());
-		
-	}
-	
-	private void leftclickEvent(JButton b, Field m) {
-		// TODO auslagern in Data
-		
-		if (isFirstClick) {
-			isFirstClick = false;
-			BombDistributor bd = new BombDistributor(data);
-			bd.distributeMines();
-		}
-		
-		if (m.isMine()) {
-			System.out.println("BOOOOOOOM");
-			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
-		}
-		else {
-			m.setClickable(false);
-			data.countMineNeighbours(m.getPosX(),m.getPosY());
-			m.setText(String.valueOf(m.getBombNeighbourCount()));
-			b.setText(m.getText());
-			b.setEnabled(false);
-			// [0] ist nicht der gesuchte Listener (sondern javax.swing.plaf.basic.BasicButtonListener)
-			// [1] ist der gesuchte Listener
-			b.removeMouseListener(b.getMouseListeners()[1]);
-		}
-		
-	}
+        this.add(cardPanel);
 
+		this.setVisible(true);
+    }
+    
+    public static void addPanel(JPanel panel, String identifier) {
+    	cardPanel.add(panel, identifier);
+    	// GPT generated
+    	cardPanel.revalidate();
+    	cardPanel.repaint();
+    	// end GPT
+    }
+
+    public static void showPanel(String identifier) {
+    	cardLayout.show(cardPanel, identifier);
+    }
 }
