@@ -46,10 +46,6 @@ public class MwGUI extends JFrame {
     
     public static void addPanel(JPanel panel, String identifier) {
     	cardPanel.add(panel, identifier);
-    	// GPT generated
-    	cardPanel.revalidate();
-    	cardPanel.repaint();
-    	// end GPT
     }
 
     public static void showPanel(String identifier) {
