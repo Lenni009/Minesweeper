@@ -1,17 +1,12 @@
 package minesweeper.view;
 
-import java.awt.HeadlessException;
-
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 
-public class CustomDifficulty extends JFrame {
+public class CustomDifficulty extends JPanel {
 
-	private JPanel customDifficultyView;
-	
 	public CustomDifficulty() {
 		JSpinner length = new JSpinner();
 		JSpinner minePercentage = new JSpinner();
@@ -19,17 +14,21 @@ public class CustomDifficulty extends JFrame {
 		JLabel minePercentageLabel = new JLabel("Anteil Minen (%)");
 		
 		JButton playButton = new JButton("Spielen");
-		customDifficultyView = new JPanel();
+		JButton backButton = new JButton("Zurück");
 		
-		customDifficultyView.add(lengthLabel);
-		customDifficultyView.add(length);
-		customDifficultyView.add(minePercentageLabel);
-		customDifficultyView.add(minePercentage);
-		customDifficultyView.add(playButton);
-	}
+		playButton.addActionListener(e -> {
+			
+		});
 
-	public JPanel getCustomDifficultyView() {
-		return customDifficultyView;
-	}
+		backButton.addActionListener(e -> {
+			MwGUI.showPanel("menu");
+		});
 
+		this.add(lengthLabel);
+		this.add(length);
+		this.add(minePercentageLabel);
+		this.add(minePercentage);
+		this.add(playButton);
+		this.add(backButton);
+	}
 }
