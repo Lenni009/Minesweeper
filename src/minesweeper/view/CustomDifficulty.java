@@ -42,7 +42,10 @@ public class CustomDifficulty extends JPanel {
 		playButton.addActionListener(e -> {
 			new Minesweeper(20, 100);	
 		});
-		backButton.addActionListener(e -> MsGUI.showPanel("menu"));
+		backButton.addActionListener(e -> {
+			MsGUI view = MsGUI.getInstance();
+			view.showPanel("menu");
+		});
 
 		wrapper.add(lengthInput);
 		wrapper.add(minePercentageInput);

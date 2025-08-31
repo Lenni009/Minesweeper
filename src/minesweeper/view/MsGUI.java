@@ -10,10 +10,12 @@ import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
 public class MsGUI extends JFrame {
+	static MsGUI instance;
+	
 	static CardLayout cardLayout = new CardLayout();
     static JPanel cardPanel = new JPanel(cardLayout);
 
-    public MsGUI() {
+    private MsGUI() {
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 			// JFrame config
@@ -50,11 +52,19 @@ public class MsGUI extends JFrame {
 			this.setVisible(true);
     }
     
-    public static void addPanel(JPanel panel, String identifier) {
+    // in case someone asks: this is the singleton pattern!
+    public static MsGUI getInstance() {
+        if(instance == null) {
+        	instance = new MsGUI();
+        }
+        return instance;
+    }
+    
+    public void addPanel(JPanel panel, String identifier) {
     	cardPanel.add(panel, identifier);
     }
 
-    public static void showPanel(String identifier) {
+    public void showPanel(String identifier) {
     	cardLayout.show(cardPanel, identifier);
     }
 }

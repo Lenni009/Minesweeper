@@ -55,4 +55,4 @@ Wir nutzen [Trunk-based Development](https://www.atlassian.com/continuous-delive
   - Es kann auch ein Issue erstellt werden, mit dem Hinweis, dass etwas nochmal überarbeitet werden muss
   - Im Code kann auch ein Kommentar mit `// TODO: ` hinterlassen werden
 - Wenn die CI Pipeline erfolgreich durchgelaufen ist, kann der Branch gemerged werden
-  - Der Prozess kann auch mit dem "Auto-Merge" Button automatisiert werden
+  - Der Prozess kann auch mit dem "Set to auto-merge" Button automatisiert werden
