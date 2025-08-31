@@ -10,35 +10,36 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
+import javax.swing.SpinnerNumberModel;
 
 public class CustomDifficulty extends JPanel {
 
 	public CustomDifficulty() {
 		BoxLayout settingsLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
 		this.setLayout(settingsLayout);
+		//this.setAlignmentX(CENTER_ALIGNMENT);
 		// this.setLayout(null);	// this is actually needed, otherwise it uses a flow layout (or some other layout that we don't want)
 		
 		
 		
 		JPanel lengthWrapper = new JPanel();
-		lengthWrapper.setLayout(null);
+		lengthWrapper.setLayout(new FlowLayout());
 
-		JSpinner length = new JSpinner();
-		length.setBounds(0, 0, 50, 30);
-
+		// TODO: implement dynamic limits
+		// from 0 to 9, in 1.0 steps start value 5
+		SpinnerNumberModel lengthModel = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
+		JSpinner length = new JSpinner(lengthModel);
 		lengthWrapper.add(length);
-		lengthWrapper.setAlignmentX(CENTER_ALIGNMENT);
 
 
 		
 		JPanel minePercentageWrapper = new JPanel();
-		minePercentageWrapper.setLayout(null);
-
-		JSpinner minePercentage = new JSpinner();
-		minePercentage.setBounds(0, 0, 50, 30);
-
+		minePercentageWrapper.setLayout(new FlowLayout());
+		
+		// from 0 to 9, in 1.0 steps start value 5
+		SpinnerNumberModel PercentageModel = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
+		JSpinner minePercentage = new JSpinner(PercentageModel);
 		minePercentageWrapper.add(minePercentage);
-		minePercentageWrapper.setAlignmentX(CENTER_ALIGNMENT);
 
 		
 		
@@ -57,9 +58,11 @@ public class CustomDifficulty extends JPanel {
 		JButton backButton = new JButton("Zurück");
 		backButton.setAlignmentX(CENTER_ALIGNMENT);
 
+		// copied from https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 		buttons.add(backButton);
-		buttons.add(Box.createRigidArea(new Dimension(10, 0)));
+		buttons.add(Box.createRigidArea(new Dimension(10, 0)));	// adds padding between buttons
 		buttons.add(playButton);
+		// end of copy
 		
 		playButton.addActionListener(e -> {
 			MwGUI.showPanel("game");
@@ -71,7 +74,9 @@ public class CustomDifficulty extends JPanel {
 
 		this.add(lengthLabel);
 		this.add(lengthWrapper);
+		//this.add(length);
 		this.add(minePercentageLabel);
+		//this.add(minePercentage);
 		this.add(minePercentageWrapper);
 		this.add(buttons);
 	}
