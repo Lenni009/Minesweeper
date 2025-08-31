@@ -27,7 +27,7 @@ public class MsGUI extends JFrame {
 	private JMenu onlineMenue;
 	private JMenu helpMenue;
 	private JMenuItem beenden;
-	private JLabel flags_label;
+	private JLabel flagsLabel;
 	private JSeparator sep;
 	
 	public MsGUI(MsData model) {
@@ -65,14 +65,14 @@ public class MsGUI extends JFrame {
 		onlineMenue = new JMenu("Online");
 		helpMenue = new JMenu("Hilfe");
 		sep = new JSeparator();
-		flags_label = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+		flagsLabel = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		// alles zuordnen
 		dateiMenue.add(beenden);
 		menueLeiste.add(dateiMenue);
 		menueLeiste.add(onlineMenue);
 		menueLeiste.add(helpMenue);
 		menueLeiste.add(sep);
-		menueLeiste.add(flags_label);
+		menueLeiste.add(flagsLabel);
 		// zum Fenster hinzufuegen
 		this.setJMenuBar(menueLeiste);
 	}
@@ -134,7 +134,7 @@ public class MsGUI extends JFrame {
 		field.setText(text);
 		field.setFlagged(flag);
 		
-		flags_label.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+		flagsLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		button.setText(field.getText());
 		
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);
