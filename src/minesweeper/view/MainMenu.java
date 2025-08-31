@@ -1,5 +1,7 @@
 package minesweeper.view;
 
+import java.awt.GridLayout;
+
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
@@ -7,6 +9,9 @@ public class MainMenu extends JPanel {
     
 	public MainMenu() {
 
+		GridLayout menuGrid = new GridLayout(2, 2);
+		this.setLayout(menuGrid);
+		
 		// TODO: make proper bomb/field ratios
 		JButton easy = new JButton("8 x 8 (10 Minen)");
 		JButton medium = new JButton("13 x 13 (40 Minen)");
