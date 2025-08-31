@@ -14,58 +14,44 @@ import javax.swing.SpinnerNumberModel;
 
 public class CustomDifficulty extends JPanel {
 
+	JPanel wrapper = new JPanel();
+	
 	public CustomDifficulty() {
 
-		// using BorderLayout to group content at the top
-		this.setLayout(new BorderLayout());
-
-		JPanel wrapper = new JPanel();
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
 		wrapper.setLayout(settingsLayout);
-		//this.setAlignmentX(CENTER_ALIGNMENT);
-		// this.setLayout(null);	// this is actually needed, otherwise it uses a flow layout (or some other layout that we don't want)
 		
+		// using BorderLayout to group content at the top (GPT's idea)
+		this.setLayout(new BorderLayout());
 		this.add(wrapper, BorderLayout.NORTH);
 
 
 		
 		
 		
-		JPanel lengthWrapper = new JPanel();
-		lengthWrapper.setLayout(new FlowLayout());
-
-		// TODO: implement dynamic limits
-		// from 0 to 9, in 1.0 steps start value 5
-		SpinnerNumberModel lengthModel = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
-		JSpinner length = new JSpinner(lengthModel);
-		lengthWrapper.add(length);
+		addNumberInput("Seitenlänge");
 
 
 		
 		JPanel minePercentageWrapper = new JPanel();
 		minePercentageWrapper.setLayout(new FlowLayout());
 		
+		JLabel minePercentageLabel = new JLabel("Anteil Minen (%)");
+
 		// from 0 to 9, in 1.0 steps start value 5
 		SpinnerNumberModel PercentageModel = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
 		JSpinner minePercentage = new JSpinner(PercentageModel);
+
+		minePercentageWrapper.add(minePercentageLabel);
 		minePercentageWrapper.add(minePercentage);
-
 		
 		
-		JLabel lengthLabel = new JLabel("Seitenlänge");
-		lengthLabel.setAlignmentX(CENTER_ALIGNMENT);
-
-		JLabel minePercentageLabel = new JLabel("Anteil Minen (%)");
-		minePercentageLabel.setAlignmentX(CENTER_ALIGNMENT);
 		
 		JPanel buttons = new JPanel();
-		buttons.setLayout(new BoxLayout(buttons, BoxLayout.LINE_AXIS));
+		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 		
 		JButton playButton = new JButton("Spielen");
-		playButton.setAlignmentX(CENTER_ALIGNMENT);
-		
 		JButton backButton = new JButton("Zurück");
-		backButton.setAlignmentX(CENTER_ALIGNMENT);
 
 		// copied from https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 		buttons.add(backButton);
@@ -81,12 +67,29 @@ public class CustomDifficulty extends JPanel {
 			MwGUI.showPanel("menu");
 		});
 
-		wrapper.add(lengthLabel);
 		wrapper.add(lengthWrapper);
-		//this.add(length);
-		wrapper.add(minePercentageLabel);
-		//this.add(minePercentage);
 		wrapper.add(minePercentageWrapper);
+
+		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// adds vertical padding between elements
 		wrapper.add(buttons);
+	}
+
+	/**
+	 * adds a number input with label to the panel
+	 * @param label label to display next to the input
+	 * @param numberModel model to use for the input (initialValue, min, max, stepSize)
+	 */
+	private void addNumberInput(String label, SpinnerNumberModel numberModel) {
+		JPanel inputWrapper = new JPanel();
+		inputWrapper.setLayout(new FlowLayout());
+
+		JLabel inputLabel = new JLabel(label);
+
+		JSpinner numberInput = new JSpinner(numberModel);
+
+		inputWrapper.add(inputLabel);
+		inputWrapper.add(numberInput);
+		
+		wrapper.add(numberInput);
 	}
 }
