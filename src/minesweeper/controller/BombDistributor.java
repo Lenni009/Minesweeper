@@ -1,7 +1,6 @@
 package minesweeper.controller;
 
 import minesweeper.model.MsData;
-import minesweeper.utils.Logger;
 
 import java.util.HashSet;
 import java.util.Random;
