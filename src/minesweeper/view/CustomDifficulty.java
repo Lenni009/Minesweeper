@@ -16,6 +16,8 @@ import minesweeper.Minesweeper;
 
 public class CustomDifficulty extends JPanel {
 
+	
+	
 	public CustomDifficulty() {
 
 		JPanel wrapper = new JPanel();
@@ -40,7 +42,7 @@ public class CustomDifficulty extends JPanel {
 		
 		// TODO: dynamically calculate bomb count
 		playButton.addActionListener(e -> {
-			new Minesweeper(20, 100);	
+			Minesweeper.getInstance().startGame(20, 100);
 		});
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
@@ -69,7 +71,11 @@ public class CustomDifficulty extends JPanel {
 		JLabel inputLabel = new JLabel(label);
 
 		JSpinner numberInput = new JSpinner(numberModel);
-
+		
+		numberInput.addChangeListener(e -> {
+			
+		});
+		
 		inputWrapper.add(inputLabel);
 		inputWrapper.add(numberInput);
 		
