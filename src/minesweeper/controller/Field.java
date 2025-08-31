@@ -28,7 +28,7 @@ public class Field {
 	private boolean isClickable;
 
 	/**
-	 * ID der Mine, wird aus MwData heraus generiert
+	 * ID der Mine, wird aus MsData heraus generiert
 	 */
 	private int posX;
 	private int posY;
