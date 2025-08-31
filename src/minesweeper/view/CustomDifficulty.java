@@ -22,6 +22,7 @@ public class CustomDifficulty extends JPanel {
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
 		wrapper.setLayout(settingsLayout);
 
+		// TODO: do proper limit calculations
 		JPanel lengthInput = createNumberInput("Seitenlänge", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
 		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
 		
