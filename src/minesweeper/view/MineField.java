@@ -42,36 +42,6 @@ public class MineField extends JPanel {
 		        buttons[x][y] = button;
 		    }
 		}
-
-		for (int x = 0; x < (data.fieldLen); ++x) {
-			final int posX = x;
-			for (int y = 0; y < (data.fieldLen); ++y) {
-				final int posY = y;
-	            JButton b = new JButton("");
-	            b.addMouseListener(new MouseAdapter() {
-	            	@Override
-	                public void mouseClicked(MouseEvent e) {
-	            		if(b.isEnabled()) {
-		                    // TODO
-	            			
-	            			// entsprechendes Minen-Objekt holen
-	            			Field m = data.getField(posX,posY);
-	            			
-		                	if (SwingUtilities.isLeftMouseButton(e)) {
-		                		leftclickEvent(b, m);
-		                		System.out.println("links");
-		                	}
-		                	if (SwingUtilities.isRightMouseButton(e)) {
-		                		rightclickEvent(b,m);
-		                		System.out.println("rechts");
-		                	}
-		                	System.out.println(m.getFlagged());
-	            		}
-	                }
-	            });
-	            add(b);
-			}
-        }
 	}
 	
 	/**
@@ -102,6 +72,11 @@ public class MineField extends JPanel {
 	    };
 	}
 
+	/**
+	* processes rightclick
+	* @param button the clicked JButton
+	* @param field the corresponding Field
+	*/
 	private void rightclickEvent(JButton button, Field field) {
 		Flag flag = Flag.NOFLAG;
 		String text = "";
@@ -128,7 +103,7 @@ public class MineField extends JPanel {
 		field.setFlagged(flag);
 		
 		// TODO: get this working again (currently duplicated variable in MsGUI)
-		flagsLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+		//flagsLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		button.setText(field.getText());
 		
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);
