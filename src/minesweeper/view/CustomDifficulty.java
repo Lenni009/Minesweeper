@@ -16,9 +16,9 @@ import minesweeper.Minesweeper;
 
 public class CustomDifficulty extends JPanel {
 
+	private static CustomDifficulty instance;
 	
-	
-	public CustomDifficulty() {
+	private CustomDifficulty() {
 
 		JPanel wrapper = new JPanel();
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
@@ -81,4 +81,12 @@ public class CustomDifficulty extends JPanel {
 		
 		return inputWrapper;
 	}
+	
+	public static CustomDifficulty getInstance() {
+		if (instance == null) {
+			instance = new CustomDifficulty();
+		}
+		return instance;
+	}
+
 }

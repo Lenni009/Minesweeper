@@ -24,7 +24,7 @@ public class Minesweeper {
 	}
 
 	public void startGame(int sideLength, int bombs) {
-		mineField.getParent().remove(mineField);
+		view.removePanel("game");
 
 		model = new MsData(sideLength, bombs);
 		mineField = new MineField(model);
@@ -35,7 +35,7 @@ public class Minesweeper {
 
 	public static void main(String[] args) {
 		view = MsGUI.getInstance();
-		MainMenu mainMenu = new MainMenu();
+		MainMenu mainMenu = MainMenu.getInstance();
 
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");

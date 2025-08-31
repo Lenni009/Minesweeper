@@ -1,6 +1,8 @@
 package minesweeper.view;
 
 import java.awt.CardLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JMenu;
@@ -9,11 +11,14 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import minesweeper.utils.Logger;
+
 public class MsGUI extends JFrame {
 	static MsGUI instance;
 
 	static CardLayout cardLayout = new CardLayout();
 	static JPanel cardPanel = new JPanel(cardLayout);
+	private Map<String, JPanel> panels = new HashMap<>();
 
 	private MsGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -62,10 +67,29 @@ public class MsGUI extends JFrame {
 	}
 
 	public void addPanel(JPanel panel, String identifier) {
+		if (panels.containsKey(identifier)) {
+			Logger.error("Panel Key already exists!");
+		}
+
 		cardPanel.add(panel, identifier);
+		panels.put(identifier, panel);
 	}
 
 	public void showPanel(String identifier) {
 		cardLayout.show(cardPanel, identifier);
+	}
+
+	public void removePanel(String identifier) {
+		if (!panels.containsKey(identifier)) {
+			Logger.error("Panel Key doesn't exist!");
+		}
+
+		JPanel panelToRemove = panels.get(identifier);
+		if (panelToRemove == null) {
+			return;
+		}
+
+		cardPanel.remove(panelToRemove);
+		panels.remove(identifier);
 	}
 }
