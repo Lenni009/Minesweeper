@@ -7,6 +7,7 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
+import javax.swing.JSeparator;
 
 public class MsGUI extends JFrame {
 	static CardLayout cardLayout = new CardLayout();
@@ -29,7 +30,7 @@ public class MsGUI extends JFrame {
 			JMenu helpMenu = new JMenu("Hilfe");
 			JSeparator sep = new JSeparator();
 			// TODO: get this working again
-			// flagsLabel = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+			// JLabel flagsLabel = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 
 			exit.addActionListener(e -> System.exit(0));
 
@@ -39,7 +40,7 @@ public class MsGUI extends JFrame {
 			menuBar.add(helpMenu);
 			fileMenu.add(exit);
 			menuBar.add(sep);
-			menuBar.add(flagsLabel);
+			// menuBar.add(flagsLabel);
 
 			// add to window
 			this.setJMenuBar(menuBar);
