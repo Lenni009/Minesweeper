@@ -30,17 +30,15 @@ public class AutoRevealer {
 		data.countMineNeighbours(fieldX,fieldY);
 		field.setText(String.valueOf(field.getBombNeighbourCount()));
 		
-		int[][] updateFields = {
+		int[][] neighbours = {
 				{fieldX-1, fieldY-1},{fieldX-1, fieldY},{fieldX-1, fieldY+1}, // above
 				{fieldX, fieldY-1},{fieldX, fieldY+1}, // left & right
 				{fieldX+1, fieldY-1},{fieldX+1, fieldY},{fieldX+1, fieldY+1}}; // under
 				
 		// if field has 0 Bomb as neighbours call reveal for direct neigbours
 		if (field.getBombNeighbourCount() == 0) {
-			for (int[] fieldXY : updateFields) {
-				if (isValidPosition(fieldXY[0], fieldXY[1])) {
-					changedFields.addAll(revealField(data.getField(fieldXY[0], fieldXY[1])));					
-				}
+			for (int[] fieldXY : neighbours) {
+				updateField(changedFields, fieldXY);
 			}
 		}
 		
@@ -49,8 +47,14 @@ public class AutoRevealer {
 		return changedFields;
 		
 	}
+
+	private void updateField(Set<Field> changedFields, int[] fieldXY) {
+		if (isValidPosition(fieldXY[0], fieldXY[1])) {
+			changedFields.addAll(revealField(data.getField(fieldXY[0], fieldXY[1])));					
+		}
+	}
 	
-	public boolean isValidPosition(int posX, int posY) {
+	private boolean isValidPosition(int posX, int posY) {
 		if (0 <= posX && posX < data.fieldLen && 0 <= posY && posY < data.fieldLen) {
 			return true;
 		}
