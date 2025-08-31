@@ -1,6 +1,6 @@
 package minesweeper.view;
 
-import java.awt.Component;
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 
@@ -15,10 +15,19 @@ import javax.swing.SpinnerNumberModel;
 public class CustomDifficulty extends JPanel {
 
 	public CustomDifficulty() {
-		BoxLayout settingsLayout = new BoxLayout(this, BoxLayout.PAGE_AXIS);
-		this.setLayout(settingsLayout);
+
+		// using BorderLayout to group content at the top
+		this.setLayout(new BorderLayout());
+
+		JPanel wrapper = new JPanel();
+		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
+		wrapper.setLayout(settingsLayout);
 		//this.setAlignmentX(CENTER_ALIGNMENT);
 		// this.setLayout(null);	// this is actually needed, otherwise it uses a flow layout (or some other layout that we don't want)
+		
+		this.add(wrapper, BorderLayout.NORTH);
+
+
 		
 		
 		
@@ -72,12 +81,12 @@ public class CustomDifficulty extends JPanel {
 			MwGUI.showPanel("menu");
 		});
 
-		this.add(lengthLabel);
-		this.add(lengthWrapper);
+		wrapper.add(lengthLabel);
+		wrapper.add(lengthWrapper);
 		//this.add(length);
-		this.add(minePercentageLabel);
+		wrapper.add(minePercentageLabel);
 		//this.add(minePercentage);
-		this.add(minePercentageWrapper);
-		this.add(buttons);
+		wrapper.add(minePercentageWrapper);
+		wrapper.add(buttons);
 	}
 }

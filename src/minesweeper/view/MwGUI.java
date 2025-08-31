@@ -20,6 +20,7 @@ public class MwGUI extends JFrame {
 		this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
 
+		// TODO: extract menubar to make more dynamic
 		// Menu
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("Datei");
