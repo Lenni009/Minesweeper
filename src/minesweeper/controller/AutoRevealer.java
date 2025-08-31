@@ -13,39 +13,38 @@ public class AutoRevealer {
 		this.data = model;
 	}
 	
-	public Set<Field> revealField(Field clickedField) {
-		
+	public Set<Field> revealField(Field field) {
+				
 		Set<Field> changedFields = new HashSet<Field>();
 
-		// early return, if field is a bomb
-		if (clickedField.isMine() ) {
+		// early return, if field is a bomb or is already revealed
+		if (field.isMine() || !field.isClickable()) {
 			return changedFields;
 		}
 		
+		int fieldX = field.getPosX();
+		int fieldY = field.getPosY();
+		
 		// reveal field
-		clickedField.setClickable(false);
-		data.countMineNeighbours(clickedField.getPosX(),clickedField.getPosY());
-		clickedField.setText(String.valueOf(clickedField.getBombNeighbourCount()));
+		field.setClickable(false);
+		data.countMineNeighbours(fieldX,fieldY);
+		field.setText(String.valueOf(field.getBombNeighbourCount()));
 		
 		int[][] updateFields = {
-				{clickedField.getPosX()-1, clickedField.getPosY()}, // above
-				{clickedField.getPosX(), clickedField.getPosY()-1}, // left
-				{clickedField.getPosX(), clickedField.getPosY()+1}, // right
-				{clickedField.getPosX()+1, clickedField.getPosY()}}; // under
+				{fieldX-1, fieldY-1},{fieldX-1, fieldY},{fieldX-1, fieldY+1}, // above
+				{fieldX, fieldY-1},{fieldX, fieldY+1}, // left & right
+				{fieldX+1, fieldY-1},{fieldX+1, fieldY},{fieldX+1, fieldY+1}}; // under
 				
 		// if field has 0 Bomb as neighbours call reveal for direct neigbours
-		// TODO: also call indirect neighbours ("all 8")?
-		if (clickedField.getBombNeighbourCount() == 0) {
+		if (field.getBombNeighbourCount() == 0) {
 			for (int[] fieldXY : updateFields) {
-				// TODO: kann man natürlich nur aufrufen, wenn Position valide ist
 				if (isValidPosition(fieldXY[0], fieldXY[1])) {
-					// DAS HIER IST EIN STACKOVERFLOW:
-					//changedFields.addAll(revealField(data.getField(fieldXY[0], fieldXY[1])));					
+					changedFields.addAll(revealField(data.getField(fieldXY[0], fieldXY[1])));					
 				}
 			}
 		}
 		
-		changedFields.add(clickedField);
+		changedFields.add(field);
 		
 		return changedFields;
 		
