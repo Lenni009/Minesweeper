@@ -54,7 +54,7 @@ public class CustomDifficulty extends JPanel {
 	}
 
 	/**
-	 * adds a number input with label to the panel
+	 * generates a number input with label, wrapped in a JPanel
 	 * @param label label to display next to the input
 	 * @param numberModel model to use for the input (initialValue, min, max, stepSize)
 	 */
