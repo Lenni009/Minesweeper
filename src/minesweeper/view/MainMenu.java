@@ -11,7 +11,7 @@ public class MainMenu extends JPanel {
 
 	private static MainMenu instance;
 	private CustomDifficulty customDifficultyView;
-	
+
 	private MainMenu() {
 
 		GridLayout menuGrid = new GridLayout(2, 2);

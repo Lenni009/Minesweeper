@@ -13,11 +13,14 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
+import minesweeper.model.CustomGameVariable;
 
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
-	
+	private CustomGameVariable bombPercentage = new CustomGameVariable();
+	private CustomGameVariable sideLength = new CustomGameVariable();
+
 	private CustomDifficulty() {
 
 		JPanel wrapper = new JPanel();
@@ -25,21 +28,22 @@ public class CustomDifficulty extends JPanel {
 		wrapper.setLayout(settingsLayout);
 
 		// TODO: do proper limit calculations
-		JPanel lengthInput = createNumberInput("Seitenlänge", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
-		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
-		
+		JPanel lengthInput = createNumberInput("Seitenlänge", sideLength, new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
+		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", bombPercentage,
+				new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
+
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-		
+
 		JButton playButton = new JButton("Spielen");
 		JButton backButton = new JButton("Zurück");
 
 		// copied from https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 		buttons.add(backButton);
-		buttons.add(Box.createRigidArea(new Dimension(10, 0)));	// add padding between buttons
+		buttons.add(Box.createRigidArea(new Dimension(10, 0))); // add padding between buttons
 		buttons.add(playButton);
 		// end of copy
-		
+
 		// TODO: dynamically calculate bomb count
 		playButton.addActionListener(e -> {
 			Minesweeper.getInstance().startGame(20, 100);
@@ -51,7 +55,7 @@ public class CustomDifficulty extends JPanel {
 
 		wrapper.add(lengthInput);
 		wrapper.add(minePercentageInput);
-		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// add vertical padding between elements
+		wrapper.add(Box.createRigidArea(new Dimension(0, 10))); // add vertical padding between elements
 		wrapper.add(buttons);
 
 		// using BorderLayout to group content at the top (GPT's idea)
@@ -61,27 +65,35 @@ public class CustomDifficulty extends JPanel {
 
 	/**
 	 * generates a number input with label, wrapped in a JPanel
-	 * @param label label to display next to the input
-	 * @param numberModel model to use for the input (initialValue, min, max, stepSize)
+	 * 
+	 * @param label       label to display next to the input
+	 * @param numberModel model to use for the input (initialValue, min, max,
+	 *                    stepSize)
 	 */
-	private JPanel createNumberInput(String label, SpinnerNumberModel numberModel) {
+	private JPanel createNumberInput(String label, CustomGameVariable model, SpinnerNumberModel numberModel) {
 		JPanel inputWrapper = new JPanel();
 		inputWrapper.setLayout(new FlowLayout());
 
 		JLabel inputLabel = new JLabel(label);
 
 		JSpinner numberInput = new JSpinner(numberModel);
-		
-		numberInput.addChangeListener(e -> {
+
+		numberInput.addChangeListener(evt -> {
+			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
+			int value = ((Number) numberInput.getValue()).intValue();
+			// end of copy
+
+			model.setValue(value);
 			
+			// TODO: in here, we somehow need to add logic to do numberInput.setModel(model)
 		});
-		
+
 		inputWrapper.add(inputLabel);
 		inputWrapper.add(numberInput);
-		
+
 		return inputWrapper;
 	}
-	
+
 	public static CustomDifficulty getInstance() {
 		if (instance == null) {
 			instance = new CustomDifficulty();
