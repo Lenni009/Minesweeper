@@ -6,17 +6,17 @@ import javax.swing.*;
 import minesweeper.controller.Flag;
 import minesweeper.controller.BombDistributor;
 import minesweeper.controller.Field;
-import minesweeper.model.MwData;
+import minesweeper.model.MsData;
 
 import java.awt.event.*;
 
 public class MineField extends JPanel {
 
-	private MwData data;
+	private MsData data;
 	
 	private boolean isFirstClick = true; 
 	
-	public MineField(MwData model) {
+	public MineField(MsData model) {
 		this.data = model;
 		
 		this.setLayout(new GridLayout(data.fieldLen, data.fieldLen));

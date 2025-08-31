@@ -22,8 +22,8 @@ public class MainMenu extends JPanel {
 		JButton custom = new JButton("Benutzerdefiniert");
         custom.addActionListener(e -> {
         	JPanel customDifficultyView = new CustomDifficulty();
-        	MwGUI.addPanel(customDifficultyView, "custom");
-            MwGUI.showPanel("custom");
+        	MsGUI.addPanel(customDifficultyView, "custom");
+            MsGUI.showPanel("custom");
         });
 
         this.add(easy);

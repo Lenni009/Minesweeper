@@ -8,11 +8,11 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 
-public class MwGUI extends JFrame {
+public class MsGUI extends JFrame {
 	static CardLayout cardLayout = new CardLayout();
     static JPanel cardPanel = new JPanel(cardLayout);
 
-    public MwGUI() {
+    public MsGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		// JFrame config
