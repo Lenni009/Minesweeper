@@ -20,9 +20,7 @@ public class MineField extends JPanel {
 	private boolean isFirstClick = true; 
 	
 	private JButton[][] buttons;
-
-	private JLabel flagsLabel;
-
+	
 	public MineField(MsData model) {
 		this.data = model;
 		
@@ -42,6 +40,8 @@ public class MineField extends JPanel {
 		        buttons[x][y] = button;
 		    }
 		}
+		
+		MsGUI.statusLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 	}
 	
 	/**
@@ -103,7 +103,7 @@ public class MineField extends JPanel {
 		field.setFlagged(flag);
 		
 		// TODO: get this working again (currently duplicated variable in MsGUI)
-		//flagsLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+		MsGUI.statusLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
 		button.setText(field.getText());
 		
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);

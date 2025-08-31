@@ -3,6 +3,7 @@ package minesweeper.view;
 import java.awt.CardLayout;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -14,6 +15,8 @@ public class MsGUI extends JFrame {
 	
 	static CardLayout cardLayout = new CardLayout();
     static JPanel cardPanel = new JPanel(cardLayout);
+    
+    static JLabel statusLabel;
 
     private MsGUI() {
 			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -31,8 +34,7 @@ public class MsGUI extends JFrame {
 			JMenu onlineMenu = new JMenu("Online");
 			JMenu helpMenu = new JMenu("Hilfe");
 			JSeparator sep = new JSeparator();
-			// TODO: get this working again
-			// JLabel flagsLabel = new JLabel("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+			statusLabel = new JLabel("");
 
 			exit.addActionListener(e -> System.exit(0));
 
@@ -42,7 +44,7 @@ public class MsGUI extends JFrame {
 			menuBar.add(helpMenu);
 			fileMenu.add(exit);
 			menuBar.add(sep);
-			// menuBar.add(flagsLabel);
+			menuBar.add(statusLabel);
 
 			// add to window
 			this.setJMenuBar(menuBar);
