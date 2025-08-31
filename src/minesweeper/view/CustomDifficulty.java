@@ -14,38 +14,14 @@ import javax.swing.SpinnerNumberModel;
 
 public class CustomDifficulty extends JPanel {
 
-	JPanel wrapper = new JPanel();
-	
 	public CustomDifficulty() {
 
+		JPanel wrapper = new JPanel();
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
 		wrapper.setLayout(settingsLayout);
-		
-		// using BorderLayout to group content at the top (GPT's idea)
-		this.setLayout(new BorderLayout());
-		this.add(wrapper, BorderLayout.NORTH);
 
-
-		
-		
-		
-		addNumberInput("Seitenlänge");
-
-
-		
-		JPanel minePercentageWrapper = new JPanel();
-		minePercentageWrapper.setLayout(new FlowLayout());
-		
-		JLabel minePercentageLabel = new JLabel("Anteil Minen (%)");
-
-		// from 0 to 9, in 1.0 steps start value 5
-		SpinnerNumberModel PercentageModel = new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0);
-		JSpinner minePercentage = new JSpinner(PercentageModel);
-
-		minePercentageWrapper.add(minePercentageLabel);
-		minePercentageWrapper.add(minePercentage);
-		
-		
+		JPanel lengthInput = createNumberInput("Seitenlänge", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
+		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
 		
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
@@ -67,11 +43,14 @@ public class CustomDifficulty extends JPanel {
 			MwGUI.showPanel("menu");
 		});
 
-		wrapper.add(lengthWrapper);
-		wrapper.add(minePercentageWrapper);
-
+		wrapper.add(lengthInput);
+		wrapper.add(minePercentageInput);
 		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// adds vertical padding between elements
 		wrapper.add(buttons);
+
+		// using BorderLayout to group content at the top (GPT's idea)
+		this.setLayout(new BorderLayout());
+		this.add(wrapper, BorderLayout.NORTH);
 	}
 
 	/**
@@ -79,7 +58,7 @@ public class CustomDifficulty extends JPanel {
 	 * @param label label to display next to the input
 	 * @param numberModel model to use for the input (initialValue, min, max, stepSize)
 	 */
-	private void addNumberInput(String label, SpinnerNumberModel numberModel) {
+	private JPanel createNumberInput(String label, SpinnerNumberModel numberModel) {
 		JPanel inputWrapper = new JPanel();
 		inputWrapper.setLayout(new FlowLayout());
 
@@ -90,6 +69,6 @@ public class CustomDifficulty extends JPanel {
 		inputWrapper.add(inputLabel);
 		inputWrapper.add(numberInput);
 		
-		wrapper.add(numberInput);
+		return inputWrapper;
 	}
 }
