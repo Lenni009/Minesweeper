@@ -1,28 +1,30 @@
 package minesweeper;
 
+import minesweeper.model.MwData;
 import minesweeper.view.MainMenu;
+import minesweeper.view.MineField;
 import minesweeper.view.MwGUI;
   
   public class Minesweeper {
-  
-	  // private MwData model;
-	  // private MwGUI view;
 	  
-	  public Minesweeper() {
+	  private MwData model;
+	  private MineField mineField;
 	  
-		  // model = new MwData(8,7);
-		  // view = new MwGUI(model);
+	  public Minesweeper(int sideLength, int bombs) {
+		  // TODO: reuse same class instance to avoid memory leaks and other issues with still drawn UI panels
+		  model = new MwData(sideLength, bombs);
+		  mineField = new MineField(model);
+		  
+		  MwGUI.addPanel(mineField, "game");
+		  MwGUI.showPanel("game");
 	  }
 	  
 	  public static void main(String[] args) {
-		  MwGUI view = new MwGUI();
+		  new MwGUI();
 		  MainMenu mainMenu = new MainMenu();
 	  
 		  MwGUI.addPanel(mainMenu, "menu");
 		  MwGUI.showPanel("menu");
-
-		  // Minesweeper controller = new Minesweeper();
-		  // controller.view.setVisible(true);
 	}
 }
  

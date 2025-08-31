@@ -12,6 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
+import minesweeper.Minesweeper;
+
 public class CustomDifficulty extends JPanel {
 
 	public CustomDifficulty() {
@@ -31,21 +33,19 @@ public class CustomDifficulty extends JPanel {
 
 		// copied from https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 		buttons.add(backButton);
-		buttons.add(Box.createRigidArea(new Dimension(10, 0)));	// adds padding between buttons
+		buttons.add(Box.createRigidArea(new Dimension(10, 0)));	// add padding between buttons
 		buttons.add(playButton);
 		// end of copy
 		
+		// TODO: dynamically calculate bomb count
 		playButton.addActionListener(e -> {
-			MwGUI.showPanel("game");
+			new Minesweeper(20, 100);	
 		});
-
-		backButton.addActionListener(e -> {
-			MwGUI.showPanel("menu");
-		});
+		backButton.addActionListener(e -> MwGUI.showPanel("menu"));
 
 		wrapper.add(lengthInput);
 		wrapper.add(minePercentageInput);
-		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// adds vertical padding between elements
+		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// add vertical padding between elements
 		wrapper.add(buttons);
 
 		// using BorderLayout to group content at the top (GPT's idea)
