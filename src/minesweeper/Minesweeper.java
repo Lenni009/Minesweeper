@@ -7,6 +7,7 @@ import minesweeper.view.MsGUI;
   
   public class Minesweeper {
 	  
+	  private static MsGUI view;
 	  private MsData model;
 	  private MineField mineField;
 	  
@@ -15,16 +16,16 @@ import minesweeper.view.MsGUI;
 		  model = new MsData(sideLength, bombs);
 		  mineField = new MineField(model);
 		  
-		  MsGUI.addPanel(mineField, "game");
-		  MsGUI.showPanel("game");
+		  view.addPanel(mineField, "game");
+		  view.showPanel("game");
 	  }
 	  
 	  public static void main(String[] args) {
-		  new MsGUI();
+		  view = MsGUI.getInstance();
 		  MainMenu mainMenu = new MainMenu();
 	  
-		  MsGUI.addPanel(mainMenu, "menu");
-		  MsGUI.showPanel("menu");
+		  view.addPanel(mainMenu, "menu");
+		  view.showPanel("menu");
 	}
 }
  
