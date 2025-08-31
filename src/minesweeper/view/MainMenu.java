@@ -34,7 +34,7 @@ public class MainMenu extends JPanel {
 	}
 
 	private JButton generatePlayButton(int sideLength, int mines) {
-		JButton playButton = new JButton(sideLength + " x " + sideLength + " (" + mines + ")");
+		JButton playButton = new JButton(sideLength + " x " + sideLength + " (" + mines + " Minen)");
 		playButton.addActionListener(e -> new Minesweeper(sideLength, mines));
 		return playButton;
 	}
