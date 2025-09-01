@@ -1,6 +1,8 @@
 package minesweeper.view;
 
 import java.awt.CardLayout;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -10,21 +12,23 @@ import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import minesweeper.utils.Logger;
+
 public class MsGUI extends JFrame {
 	static MsGUI instance;
-	
+
 	static CardLayout cardLayout = new CardLayout();
-    static JPanel cardPanel = new JPanel(cardLayout);
-    
+	static JPanel cardPanel = new JPanel(cardLayout);
+	private Map<String, JPanel> panels = new HashMap<>();
     static JLabel statusLabel;
 
-    private MsGUI() {
-			this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+	private MsGUI() {
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
-			// JFrame config
-			this.setSize(600, 600);
-			this.setLocation(300, 300);
-			this.setTitle("Minesweeper");
+		// JFrame config
+		this.setSize(600, 600);
+		this.setLocation(300, 300);
+		this.setTitle("Minesweeper");
 
 			// TODO: extract menubar to make more dynamic
 			// Menu
@@ -36,7 +40,7 @@ public class MsGUI extends JFrame {
 			JSeparator sep = new JSeparator();
 			statusLabel = new JLabel("");
 
-			exit.addActionListener(e -> System.exit(0));
+		exit.addActionListener(e -> System.exit(0));
 
 			// assign everything
 			menuBar.add(fileMenu);
@@ -46,27 +50,46 @@ public class MsGUI extends JFrame {
 			menuBar.add(sep);
 			menuBar.add(statusLabel);
 
-			// add to window
-			this.setJMenuBar(menuBar);
+		// add to window
+		this.setJMenuBar(menuBar);
 
-			this.add(cardPanel);
+		this.add(cardPanel);
 
-			this.setVisible(true);
-    }
-    
-    // in case someone asks: this is the singleton pattern!
-    public static MsGUI getInstance() {
-        if(instance == null) {
-        	instance = new MsGUI();
-        }
-        return instance;
-    }
-    
-    public void addPanel(JPanel panel, String identifier) {
-    	cardPanel.add(panel, identifier);
-    }
+		this.setVisible(true);
+	}
 
-    public void showPanel(String identifier) {
-    	cardLayout.show(cardPanel, identifier);
-    }
+	// in case someone asks: this is the singleton pattern!
+	public static MsGUI getInstance() {
+		if (instance == null) {
+			instance = new MsGUI();
+		}
+		return instance;
+	}
+
+	public void addPanel(JPanel panel, String identifier) {
+		if (panels.containsKey(identifier)) {
+			Logger.error("Panel Key already exists!");
+		}
+
+		cardPanel.add(panel, identifier);
+		panels.put(identifier, panel);
+	}
+
+	public void showPanel(String identifier) {
+		cardLayout.show(cardPanel, identifier);
+	}
+
+	public void removePanel(String identifier) {
+		if (!panels.containsKey(identifier)) {
+			Logger.error("Panel Key doesn't exist!");
+		}
+
+		JPanel panelToRemove = panels.get(identifier);
+		if (panelToRemove == null) {
+			return;
+		}
+
+		cardPanel.remove(panelToRemove);
+		panels.remove(identifier);
+	}
 }
