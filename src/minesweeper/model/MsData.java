@@ -87,7 +87,7 @@ public class MsData {
 			}
 		}
 		Logger.info("" + counterMines);
-		getField(posX, posY).setBombNeighbourCount(counterMines);
+		getField(posX, posY).setMineNeighbourCount(counterMines);
 	}
 
 	/**

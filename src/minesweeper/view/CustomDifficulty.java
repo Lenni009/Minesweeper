@@ -54,7 +54,7 @@ public class CustomDifficulty extends JPanel {
 				// if larger than maximum, set maximum
 				minePercentageModel.setValue(maxMinePercentage);
 			} else {
-				// if in allowed range, set to value that corresponds to previous exact bomb
+				// if in allowed range, set to value that corresponds to previous exact mine
 				// count
 				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength,
 						minePercentage);
@@ -65,7 +65,8 @@ public class CustomDifficulty extends JPanel {
 		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
 		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
-		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage, 1);
+		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
+				1);
 		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
 
 		minePercentageSpinner.addChangeListener(e -> {
@@ -90,7 +91,7 @@ public class CustomDifficulty extends JPanel {
 
 		playButton.addActionListener(e -> {
 			int mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
-			
+
 			Minesweeper.getInstance().startGame(sideLength, mineCount);
 		});
 		backButton.addActionListener(e -> {

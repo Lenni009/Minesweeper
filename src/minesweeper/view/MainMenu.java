@@ -17,10 +17,9 @@ public class MainMenu extends JPanel {
 		GridLayout menuGrid = new GridLayout(2, 2);
 		this.setLayout(menuGrid);
 
-		// TODO: make proper bomb/field ratios
 		JButton easy = generatePlayButton(8, 10);
-		JButton medium = generatePlayButton(13, 40);
-		JButton hard = generatePlayButton(20, 100);
+		JButton medium = generatePlayButton(13, 25);
+		JButton hard = generatePlayButton(20, 40);
 
 		JButton custom = new JButton("Benutzerdefiniert");
 		custom.addActionListener(e -> {
