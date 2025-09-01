@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -19,6 +20,7 @@ public class MsGUI extends JFrame {
 	static CardLayout cardLayout = new CardLayout();
 	static JPanel cardPanel = new JPanel(cardLayout);
 	private Map<String, JPanel> panels = new HashMap<>();
+    static JLabel statusLabel;
 
 	private MsGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -28,27 +30,25 @@ public class MsGUI extends JFrame {
 		this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
 
-		// TODO: extract menubar to make more dynamic
-		// Menu
-		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem exit = new JMenuItem("Beenden");
-		JMenu onlineMenu = new JMenu("Online");
-		JMenu helpMenu = new JMenu("Hilfe");
-		JSeparator sep = new JSeparator();
-		// TODO: get this working again
-		// JLabel flagsLabel = new JLabel("Platzierte Flaggen: "+data.placedFlags+" /
-		// "+data.amountOfMines);
+			// TODO: extract menubar to make more dynamic
+			// Menu
+			JMenuBar menuBar = new JMenuBar();
+			JMenu fileMenu = new JMenu("Datei");
+			JMenuItem exit = new JMenuItem("Beenden");
+			JMenu onlineMenu = new JMenu("Online");
+			JMenu helpMenu = new JMenu("Hilfe");
+			JSeparator sep = new JSeparator();
+			statusLabel = new JLabel("");
 
 		exit.addActionListener(e -> System.exit(0));
 
-		// assign everything
-		menuBar.add(fileMenu);
-		menuBar.add(onlineMenu);
-		menuBar.add(helpMenu);
-		fileMenu.add(exit);
-		menuBar.add(sep);
-		// menuBar.add(flagsLabel);
+			// assign everything
+			menuBar.add(fileMenu);
+			menuBar.add(onlineMenu);
+			menuBar.add(helpMenu);
+			fileMenu.add(exit);
+			menuBar.add(sep);
+			menuBar.add(statusLabel);
 
 		// add to window
 		this.setJMenuBar(menuBar);
