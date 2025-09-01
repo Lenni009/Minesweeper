@@ -11,15 +11,18 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
+import javax.swing.SwingUtilities;
 
 import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
+import minesweeper.utils.Logger;
 
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
 	private int sideLength = 10; // setting initial value
 	private int minePercentage;
+	private int mineCount;
 
 	private SpinnerNumberModel lengthModel;
 	private SpinnerNumberModel minePercentageModel;
@@ -51,13 +54,14 @@ public class CustomDifficulty extends JPanel {
 				// if smaller than minimum, set to minimum
 				minePercentageModel.setValue(minMinePercentage);
 			} else if (minePercentage > maxMinePercentage) {
-				// if larger than maximum, set maximum
+				// if larger than maximum, set to maximum
 				minePercentageModel.setValue(maxMinePercentage);
 			} else {
 				// if in allowed range, set to value that corresponds to previous exact mine
 				// count
-				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength,
-						minePercentage);
+				// FIXME: this doesn't seem to work properly (should be 41 for sideLength 11)
+				// there's a race condition. The minePercentageSpinner changeListener is executed before the code here.
+				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength, mineCount);
 				minePercentageModel.setValue(newMinePercentage);
 			}
 		});
@@ -65,13 +69,16 @@ public class CustomDifficulty extends JPanel {
 		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
 		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
+		mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
 		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
 				1);
 		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
 
 		minePercentageSpinner.addChangeListener(e -> {
 			// copied like above in changeListener
+			System.out.println("percentage");
 			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
+			mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
 		});
 
 		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
@@ -90,8 +97,6 @@ public class CustomDifficulty extends JPanel {
 		// end of copy
 
 		playButton.addActionListener(e -> {
-			int mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
-
 			Minesweeper.getInstance().startGame(sideLength, mineCount);
 		});
 		backButton.addActionListener(e -> {
