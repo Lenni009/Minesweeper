@@ -20,7 +20,7 @@ public class MineField extends JPanel {
 	private boolean isFirstClick = true;
 
 	private JButton[][] buttons;
-	
+
 	public MineField(MsData model) {
 		this.data = model;
 
@@ -40,8 +40,8 @@ public class MineField extends JPanel {
 				buttons[x][y] = button;
 			}
 		}
-		
-		MsGUI.statusLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+
+		MsGUI.statusLabel.setText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
 	}
 
 	/**
@@ -83,16 +83,16 @@ public class MineField extends JPanel {
 		Flag flag = Flag.NOFLAG;
 		String text = "";
 
-		if (field.getFlagged() == Flag.NOFLAG) { // es war keine Flag gesetzt
+		if (field.getFlagged() == Flag.NOFLAG) { // there's no flag set
 			if (data.placedFlags < data.amountOfMines) {
 				data.placedFlags++;
 				text = "/ ! \\";
 				flag = Flag.FLAGGED;
-			} else { // keine Flaggen mehr uebrig, platziere stattdessen "?"
+			} else { // no flags left, put "?" instead
 				text = "/ ? \\";
 				flag = Flag.QUESTIONMARK;
 			}
-		} else if (field.getFlagged() == Flag.FLAGGED) { // flag war bereits gesetzt
+		} else if (field.getFlagged() == Flag.FLAGGED) { // flag was already set
 			text = "/ ? \\";
 			flag = Flag.QUESTIONMARK;
 			data.placedFlags--;
@@ -101,8 +101,7 @@ public class MineField extends JPanel {
 		field.setText(text);
 		field.setFlagged(flag);
 
-		// TODO: get this working again (currently duplicated variable in MsGUI)
-		MsGUI.statusLabel.setText("Platzierte Flaggen: "+data.placedFlags+" / "+data.amountOfMines);
+		MsGUI.statusLabel.setText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
 		button.setText(field.getText());
 
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);
@@ -114,7 +113,7 @@ public class MineField extends JPanel {
 	 * @param button the clicked JButton
 	 * @param field  the corresponding Field
 	 */
-	private void leftclickEvent(JButton button, Field field) { // TODO auslagern in Data
+	private void leftclickEvent(JButton button, Field field) {
 
 		AutoRevealer ar = new AutoRevealer(data);
 
@@ -153,9 +152,9 @@ public class MineField extends JPanel {
 
 			changedButton.setText(changedField.getText());
 			changedButton.setEnabled(false);
-			// [0] ist nicht der gesuchte Listener (sondern
+			// [0] is not the wanted listener (but
 			// javax.swing.plaf.basic.BasicButtonListener)
-			// [1] ist der gesuchte Listener
+			// [1] is the wanted listener
 			changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
 		}
 	}

@@ -30,7 +30,7 @@ public class MineDistributor {
 		int initX = initField.getPosX();
 		int initY = initField.getPosY();
 		
-		// initiale field with all 8 neighbours
+		// initiate field with all 8 neighbours
 		int[][] freeFields = {
 				{initX-1,initY-1},{initX-1,initY},{initX-1,initY+1},
 				{initX,initY-1},{initX,initY},{initX,initY+1},
@@ -47,7 +47,7 @@ public class MineDistributor {
 	}
 
 	/**
-	 * Checks wether a mine can be placed at generated coords.
+	 * Checks whether a mine can be placed at generated coords.
 	 * @param randomX randomly generated X-Coord
 	 * @param randomY randomly generated Y-Coord
 	 * @param freeFields coords of the initially clicked field and its neighbours

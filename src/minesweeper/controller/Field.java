@@ -40,7 +40,7 @@ public class Field {
 		this.posX = x;
 		this.posY = y;
 		
-		// bei init ist kein Feld eine mine, damit beim STart des Spiels das erste Aufdecken immer erfolgreich ist
+		// initially, no field is a mine so the initial reveal of a field is always successful when starting the game
 		isMine = false;
 		
 		flagged = Flag.NOFLAG;

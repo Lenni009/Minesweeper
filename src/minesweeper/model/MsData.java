@@ -29,14 +29,14 @@ public class MsData {
 	}
 
 	/**
-	 * Generate Minefield by given Length
+	 * Generate Minefield with given Length
 	 * 
-	 * @param fieldLen Length of one site
+	 * @param sideLength Length of one site
 	 */
-	public void generateMinefield(int fieldLen) {
+	public void generateMinefield(int sideLength) {
 		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
-		for (int x = 0; x < (fieldLen); ++x) {
-			for (int y = 0; y < (fieldLen); ++y) {
+		for (int x = 0; x < (sideLength); ++x) {
+			for (int y = 0; y < (sideLength); ++y) {
 				Field field = new Field(x, y);
 				minefield[x][y] = field;
 			}
@@ -64,7 +64,7 @@ public class MsData {
 	}
 
 	/**
-	 * Count how many neighbours are mines and store result in BombNeighbourCount of
+	 * Count how many neighbours are mines and store result in MineNeighbourCount of
 	 * Field-Obj
 	 * 
 	 * @param posX X-Choord of the Field
@@ -91,7 +91,7 @@ public class MsData {
 	}
 
 	/**
-	 * Returns True, if Position i is valid
+	 * Returns true if position is valid
 	 * 
 	 * @param neighbourPos the 2D Array
 	 * @param position     the Position
