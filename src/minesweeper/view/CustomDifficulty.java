@@ -60,7 +60,8 @@ public class CustomDifficulty extends JPanel {
 				// if in allowed range, set to value that corresponds to previous exact mine
 				// count
 				// FIXME: this doesn't seem to work properly (should be 41 for sideLength 11)
-				// there's a race condition. The minePercentageSpinner changeListener is executed before the code here.
+				// there's a race condition. The minePercentageSpinner changeListener is
+				// executed before the code here.
 				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength, mineCount);
 				minePercentageModel.setValue(newMinePercentage);
 			}
