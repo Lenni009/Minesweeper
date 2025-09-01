@@ -6,13 +6,13 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
-public class BombDistributor {
+public class MineDistributor {
 
 	private MsData data;
 	
 	private Field initField;
 		
-	public BombDistributor(MsData model, Field initField) {
+	public MineDistributor(MsData model, Field initField) {
 		this.data = model;
 		this.initField = initField;
 	}
@@ -47,7 +47,7 @@ public class BombDistributor {
 	}
 
 	/**
-	 * Checks wether a bomb can be placed at generated coords.
+	 * Checks wether a mine can be placed at generated coords.
 	 * @param randomX randomly generated X-Coord
 	 * @param randomY randomly generated Y-Coord
 	 * @param freeFields coords of the initially clicked field and its neighbours

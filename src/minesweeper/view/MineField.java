@@ -5,7 +5,7 @@ import javax.swing.*;
 
 import minesweeper.controller.Flag;
 import minesweeper.controller.AutoRevealer;
-import minesweeper.controller.BombDistributor;
+import minesweeper.controller.MineDistributor;
 import minesweeper.controller.Field;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
@@ -124,10 +124,10 @@ public class MineField extends JPanel {
 			return;
 		}
 
-		// distribute bombs after initial click
+		// distribute mines after initial click
 		if (isFirstClick) {
 			isFirstClick = false;
-			BombDistributor bd = new BombDistributor(data, field);
+			MineDistributor bd = new MineDistributor(data, field);
 			bd.distributeMines();
 		}
 

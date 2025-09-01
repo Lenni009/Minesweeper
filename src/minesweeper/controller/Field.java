@@ -3,32 +3,32 @@ package minesweeper.controller;
 public class Field {
 		
 	/**
-	 * true: ist eine Bombe
-	 * false: ist keine Bombe
+	 * true: is a mine
+	 * false: is not a mine
 	 */
 	private boolean isMine;
 	
 	/**
-	 * NOFLAG = keine Flagge
-	 * FLAGGED = Flagge gesetzt
-	 * QUESTIONMARK = unsicher
+	 * NOFLAG = no flag
+	 * FLAGGED = flag set
+	 * QUESTIONMARK = not sure
 	 */
 	private Flag flagged;
 	
 	/**
-	 * Anzahl Nachbarn, die Bomben sind
+	 * amount of neighbours that are mines
 	 */
-	private int bombNeighbourCount;
+	private int mineNeighbourCount;
 
 	// TODO better name
 	/**
-	 * true: kann noch geklickt werden -> zeige flagged
-	 * false: aufgedeckt -> zeige Zahl (oder tot lol)
+	 * true: can still be clicked -> show flagged
+	 * false: uncovered -> show number (or death lol)
 	 */
 	private boolean isClickable;
 
 	/**
-	 * ID der Mine, wird aus MsData heraus generiert
+	 * ID of the mine, is generated from MsData
 	 */
 	private int posX;
 	private int posY;
@@ -45,7 +45,7 @@ public class Field {
 		
 		flagged = Flag.NOFLAG;
 		
-		bombNeighbourCount = 0;	
+		mineNeighbourCount = 0;	
 		
 		caption = "";
 		
@@ -68,8 +68,8 @@ public class Field {
 		this.flagged = flagged;
 	}
 
-	public int getBombNeighbourCount() {
-		return bombNeighbourCount;
+	public int getMineNeighbourCount() {
+		return mineNeighbourCount;
 	}
 	
 	public int getPosX() {
@@ -79,22 +79,22 @@ public class Field {
 		return posY;
 	}
 
-	public void setBombNeighbourCount(int bombNeighbourCount) {
-		this.bombNeighbourCount = bombNeighbourCount;
+	public void setMineNeighbourCount(int mineNeighbourCount) {
+		this.mineNeighbourCount = mineNeighbourCount;
 	}
 	
 	public void setText(String text) {
-		// zeigt feld zahl oder flagging?
+		// does field show number of flag?
 		if (this.isClickable) {
 			this.caption = text;			
 		}
-		else if (bombNeighbourCount == 0) {
+		else if (mineNeighbourCount == 0) {
 				this.caption = "";
 		}
 		else {
-			this.caption = String.valueOf(bombNeighbourCount);				
+			this.caption = String.valueOf(mineNeighbourCount);				
 		}
-		// TODO: wenn linksclick zu bumm führt sollte nicht bombNeighbourCount gezeigt werden, sondern eine rote Bombe
+		// TODO: if left click leads to boom, mineNeighbourCount should not be shown, but a red mine
 	}
 	
 	public String getText() {

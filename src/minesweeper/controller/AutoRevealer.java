@@ -17,7 +17,7 @@ public class AutoRevealer {
 				
 		Set<Field> changedFields = new HashSet<Field>();
 
-		// early return, if field is a bomb or is already revealed
+		// early return, if field is a mine or is already revealed
 		if (field.isMine() || !field.isClickable()) {
 			return changedFields;
 		}
@@ -28,7 +28,7 @@ public class AutoRevealer {
 		// reveal field
 		field.setClickable(false);
 		data.countMineNeighbours(fieldX,fieldY);
-		field.setText(String.valueOf(field.getBombNeighbourCount()));
+		field.setText(String.valueOf(field.getMineNeighbourCount()));
 		
 		int[][] neighbours = {
 				{fieldX-1, fieldY-1},{fieldX-1, fieldY},{fieldX-1, fieldY+1}, // above
@@ -36,7 +36,7 @@ public class AutoRevealer {
 				{fieldX+1, fieldY-1},{fieldX+1, fieldY},{fieldX+1, fieldY+1}}; // under
 				
 		// if field has 0 Bomb as neighbours call reveal for direct neigbours
-		if (field.getBombNeighbourCount() == 0) {
+		if (field.getMineNeighbourCount() == 0) {
 			for (int[] fieldXY : neighbours) {
 				updateField(changedFields, fieldXY);
 			}
