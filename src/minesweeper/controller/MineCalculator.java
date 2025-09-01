@@ -4,7 +4,7 @@ package minesweeper.controller;
 public abstract class MineCalculator {
 	public static int getMineCount(int sideLength, int bombPercentage) {
 		int allFields = sideLength * sideLength;
-		int bombCount = Math.round(allFields * (bombPercentage / 100));
+		int bombCount = (int) Math.round(allFields * divideIntegers(bombPercentage, 100));
 		return bombCount;
 	}
 
@@ -26,7 +26,7 @@ public abstract class MineCalculator {
 		int targetBombPercentage = (int) Math.round(divideIntegers(targetBombCount, allFields) * 100);
 		return targetBombPercentage;
 	}
-	
+
 	// can't be bothered to write that ugly type cast everywhere, so I'm just
 	// extracting it out into this method
 	private static double divideIntegers(int a, int b) {
