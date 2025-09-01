@@ -13,13 +13,17 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
-import minesweeper.model.CustomGameVariable;
+import minesweeper.controller.BombCalculator;
+import minesweeper.utils.Logger;
 
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
-	private CustomGameVariable bombPercentage = new CustomGameVariable();
-	private CustomGameVariable sideLength = new CustomGameVariable();
+	private JSpinner lengthSpinner;
+	private JSpinner minePercentageSpinner;
+
+	private SpinnerNumberModel lengthModel;
+	private SpinnerNumberModel minePercentageModel;
 
 	private CustomDifficulty() {
 
@@ -27,10 +31,33 @@ public class CustomDifficulty extends JPanel {
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
 		wrapper.setLayout(settingsLayout);
 
-		// TODO: do proper limit calculations
-		JPanel lengthInput = createNumberInput("Seitenlänge", sideLength, new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
-		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", bombPercentage,
-				new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
+		// min size: 4*4
+		// max size: 20*20
+		lengthModel = new SpinnerNumberModel(10, 4, 20, 1);
+		lengthSpinner = new JSpinner(lengthModel);
+
+		lengthSpinner.addChangeListener(evt -> {
+			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
+			int sideLength = ((Number) lengthSpinner.getValue()).intValue();
+			// end of copy
+
+			int minBombPercentage = BombCalculator.getMinBombPercentage(sideLength);
+			int maxBombPercentage = BombCalculator.getMaxBombPercentage(sideLength);
+
+			minePercentageModel.setMinimum(minBombPercentage);
+			minePercentageModel.setMaximum(maxBombPercentage);
+			int value = (maxBombPercentage - minBombPercentage) / 2;
+			minePercentageModel.setValue(value);
+
+			
+			//minePercentageSpinner.setModel(minePercentageModel);
+		});
+
+		minePercentageModel = new SpinnerNumberModel(50, 0, 100, 1);
+		minePercentageSpinner = new JSpinner(minePercentageModel);
+
+		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
+		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", minePercentageSpinner);
 
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
@@ -66,30 +93,17 @@ public class CustomDifficulty extends JPanel {
 	/**
 	 * generates a number input with label, wrapped in a JPanel
 	 * 
-	 * @param label       label to display next to the input
-	 * @param numberModel model to use for the input (initialValue, min, max,
-	 *                    stepSize)
+	 * @param label   label to display next to the input
+	 * @param spinner spinner with model, actionlisteners etc. already attached
 	 */
-	private JPanel createNumberInput(String label, CustomGameVariable model, SpinnerNumberModel numberModel) {
+	private JPanel createNumberInput(String label, JSpinner spinner) {
 		JPanel inputWrapper = new JPanel();
 		inputWrapper.setLayout(new FlowLayout());
 
 		JLabel inputLabel = new JLabel(label);
 
-		JSpinner numberInput = new JSpinner(numberModel);
-
-		numberInput.addChangeListener(evt -> {
-			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
-			int value = ((Number) numberInput.getValue()).intValue();
-			// end of copy
-
-			model.setValue(value);
-			
-			// TODO: in here, we somehow need to add logic to do numberInput.setModel(model)
-		});
-
 		inputWrapper.add(inputLabel);
-		inputWrapper.add(numberInput);
+		inputWrapper.add(spinner);
 
 		return inputWrapper;
 	}
