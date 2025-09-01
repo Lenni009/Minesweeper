@@ -23,10 +23,10 @@ public class Minesweeper {
 		return instance;
 	}
 
-	public void startGame(int sideLength, int bombs) {
+	public void startGame(int sideLength, int mines) {
 		view.removePanel("game");
 
-		model = new MsData(sideLength, bombs);
+		model = new MsData(sideLength, mines);
 		mineField = new MineField(model);
 
 		view.addPanel(mineField, "game");

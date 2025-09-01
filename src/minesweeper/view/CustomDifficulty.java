@@ -13,14 +13,13 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
-import minesweeper.controller.BombCalculator;
-import minesweeper.utils.Logger;
+import minesweeper.controller.MineCalculator;
 
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
-	private JSpinner lengthSpinner;
-	private JSpinner minePercentageSpinner;
+	private int sideLength;
+	private int minePercentage;
 
 	private SpinnerNumberModel lengthModel;
 	private SpinnerNumberModel minePercentageModel;
@@ -33,28 +32,47 @@ public class CustomDifficulty extends JPanel {
 
 		// min size: 4*4
 		// max size: 20*20
-		lengthModel = new SpinnerNumberModel(10, 4, 20, 1);
-		lengthSpinner = new JSpinner(lengthModel);
+		int initialSideLength = 10;
+		lengthModel = new SpinnerNumberModel(initialSideLength, 4, 20, 1);
+		JSpinner lengthSpinner = new JSpinner(lengthModel);
 
-		lengthSpinner.addChangeListener(evt -> {
+		lengthSpinner.addChangeListener(e -> {
 			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
-			int sideLength = ((Number) lengthSpinner.getValue()).intValue();
+			sideLength = ((Number) lengthSpinner.getValue()).intValue();
 			// end of copy
 
-			int minBombPercentage = BombCalculator.getMinBombPercentage(sideLength);
-			int maxBombPercentage = BombCalculator.getMaxBombPercentage(sideLength);
+			// extract this into the controller
+			int minMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
+			int maxMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
 
-			minePercentageModel.setMinimum(minBombPercentage);
-			minePercentageModel.setMaximum(maxBombPercentage);
-			int value = (maxBombPercentage - minBombPercentage) / 2;
-			minePercentageModel.setValue(value);
+			minePercentageModel.setMinimum(minMinePercentage);
+			minePercentageModel.setMaximum(maxMinePercentage);
 
-			
-			//minePercentageSpinner.setModel(minePercentageModel);
+			if (minePercentage < minMinePercentage) {
+				// if smaller than minimum, set to minimum
+				minePercentageModel.setValue(minMinePercentage);
+			} else if (minePercentage > maxMinePercentage) {
+				// if larger than maximum, set maximum
+				minePercentageModel.setValue(maxMinePercentage);
+			} else {
+				// if in allowed range, set to value that corresponds to previous exact bomb
+				// count
+				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength,
+						minePercentage);
+				minePercentageModel.setValue(newMinePercentage);
+			}
 		});
 
-		minePercentageModel = new SpinnerNumberModel(50, 0, 100, 1);
-		minePercentageSpinner = new JSpinner(minePercentageModel);
+		int minInitialMines = MineCalculator.getMinMinePercentage(initialSideLength);
+		int maxInitialMines = MineCalculator.getMaxMinePercentage(initialSideLength);
+		int initialValue = (maxInitialMines - minInitialMines) / 2;
+		minePercentageModel = new SpinnerNumberModel(initialValue, minInitialMines, maxInitialMines, 1);
+		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
+
+		minePercentageSpinner.addChangeListener(e -> {
+			// copied like above in changeListener
+			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
+		});
 
 		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
 		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", minePercentageSpinner);
@@ -71,9 +89,10 @@ public class CustomDifficulty extends JPanel {
 		buttons.add(playButton);
 		// end of copy
 
-		// TODO: dynamically calculate bomb count
 		playButton.addActionListener(e -> {
-			Minesweeper.getInstance().startGame(20, 100);
+			int mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
+
+			Minesweeper.getInstance().startGame(sideLength, mineCount);
 		});
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
