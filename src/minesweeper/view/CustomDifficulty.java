@@ -25,6 +25,7 @@ public class CustomDifficulty extends JPanel {
 	private int mineCount;
 
 	private SpinnerNumberModel minePercentageModel;
+	private JLabel mineCountDisplay = new JLabel();
 
 	private CustomDifficulty() {
 
@@ -69,6 +70,7 @@ public class CustomDifficulty extends JPanel {
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
 		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
 		mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+		setMineCountLabel(mineCount);
 		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
 				1);
 		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
@@ -77,10 +79,13 @@ public class CustomDifficulty extends JPanel {
 			// copied like above in changeListener
 			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
 			mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+			setMineCountLabel(mineCount);
 		});
 
 		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
 		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", minePercentageSpinner);
+
+		minePercentageInput.add(mineCountDisplay);
 
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
@@ -138,4 +143,7 @@ public class CustomDifficulty extends JPanel {
 		return instance;
 	}
 
+	private void setMineCountLabel(int mineCount) {
+		mineCountDisplay.setText("(" + mineCount + " Minen)");
+	}
 }
