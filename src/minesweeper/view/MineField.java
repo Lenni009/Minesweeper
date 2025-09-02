@@ -39,7 +39,7 @@ public class MineField extends JPanel {
 			}
 		}
 
-		MsGUI.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
 	}
 
 	/**
@@ -101,7 +101,7 @@ public class MineField extends JPanel {
 		field.setText(text);
 		field.setFlagged(flag);
 
-		MsGUI.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
 		button.setText(field.getText());
 
 		Logger.info("# platzierte Flaggen: " + data.placedFlags);

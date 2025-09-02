@@ -1,29 +1,21 @@
 package minesweeper.view;
 
 import java.awt.CardLayout;
-import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
 import javax.swing.JFrame;
-import javax.swing.JLabel;
-import javax.swing.JMenu;
 import javax.swing.JMenuBar;
-import javax.swing.JMenuItem;
-import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JSeparator;
 
-import minesweeper.Minesweeper;
 import minesweeper.utils.Logger;
 
 public class MsGUI extends JFrame {
-	static MsGUI instance;
+	private static MsGUI instance;
 
 	private CardLayout cardLayout = new CardLayout();
 	private JPanel cardPanel = new JPanel(cardLayout);
 	private Map<String, JPanel> panels = new HashMap<>();
-	private JLabel statusLabel;
 
 	private MsGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
@@ -33,58 +25,14 @@ public class MsGUI extends JFrame {
 		this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
 
-		// TODO: extract menubar to make more dynamic
-		// Menu
-		JMenuBar menuBar = new JMenuBar();
-		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem exit = new JMenuItem("Beenden", KeyEvent.VK_B);
-		JMenu gameMenu = new JMenu("Spiel");
-		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
-		JMenuItem mainmenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
-		JMenu onlineMenu = new JMenu("Online");
-		JMenu helpMenu = new JMenu("Hilfe");
-		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
-		JSeparator sep = new JSeparator();
-		statusLabel = new JLabel("");
-
-		exit.addActionListener(e -> System.exit(0));
-
-		rules.addActionListener(e -> showHelpDialog());
+		JMenuBar menuBar = MenuBar.getInstance();
 		
-		mainmenu.addActionListener(e -> {
-			MsGUI view = MsGUI.getInstance();
-			view.showPanel("menu");
-		});
-		
-		restart.addActionListener(e -> {
-			Minesweeper ms = Minesweeper.getInstance();
-			ms.startGame(ms.getSideLength(), ms.getMines());
-		});
-
-		// assign everything
-		menuBar.add(fileMenu);
-		menuBar.add(gameMenu);
-		menuBar.add(onlineMenu);
-		menuBar.add(helpMenu);
-		fileMenu.add(exit);
-		gameMenu.add(restart);
-		gameMenu.add(mainmenu);
-		helpMenu.add(rules);
-		menuBar.add(sep);
-		menuBar.add(statusLabel);
-
 		// add to window
 		this.setJMenuBar(menuBar);
 
 		this.add(cardPanel);
 
 		this.setVisible(true);
-	}
-
-	private void showHelpDialog() {
-		// The Text describing the ruleset was created by ChatGPT
-		String infoText = "So wird gespielt:\nMinesweeper ist ein Logikspiel, bei dem der Spieler auf einem Raster Felder aufdeckt, ohne dabei Minen zu treffen.\nZiel ist es, alle sicheren Felder aufzudecken.\nBeim Anklicken eines Feldes zeigt eine Zahl an, wie viele Minen sich in den angrenzenden Feldern befinden.\nMit dieser Information kann der Spieler Rückschlüsse auf die Position der Minen ziehen.\nMinen können durch einen Richtsklick mit einer Flagge markiert werden.\nDas Spiel ist gewonnen, wenn alle nicht-minenhaltigen Felder aufgedeckt sind, und verloren, sobald eine Mine angeklickt wird.";
-		JOptionPane.showMessageDialog(null, infoText, "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
 	}
 
 	// in case someone asks: this is the singleton pattern!
@@ -122,7 +70,4 @@ public class MsGUI extends JFrame {
 		panels.remove(identifier);
 	}
 
-	public void setStatusText(String text) {
-		statusLabel.setText(text);
-	}
 }
