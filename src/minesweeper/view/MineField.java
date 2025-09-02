@@ -136,6 +136,8 @@ public class MineField extends JPanel {
 		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
+
+			MenuBar.getInstance().stopTimer();
 			revealMap(button, field);
 
 			new EndScreen();

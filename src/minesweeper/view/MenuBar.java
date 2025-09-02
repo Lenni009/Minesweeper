@@ -54,7 +54,7 @@ public class MenuBar extends JMenuBar {
 		helpMenu.add(rules);
 		this.add(sep);
 		this.add(statusLabel);
-		this.add( Box.createHorizontalStrut( 10 ) );
+		this.add(Box.createHorizontalStrut(10));
 		this.add(elapsedTimeLabel);
 
 		hideGameMenu(); // initially hide game menu
@@ -71,15 +71,15 @@ public class MenuBar extends JMenuBar {
 	public void setStatusText(String text) {
 		statusLabel.setText(text);
 	}
-	
+
 	public void startTimer() {
 		timer.startTimer();
 	}
-	
+
 	public void stopTimer() {
 		timer.stopTimer();
 	}
-	
+
 	public String getTime() {
 		return timer.getTime();
 	}
