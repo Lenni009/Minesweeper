@@ -30,14 +30,12 @@ public class MineField extends JPanel {
 
 		buttons = new JButton[data.fieldLen][data.fieldLen];
 
-		for (int x = 0; x < data.fieldLen; ++x) {
-			final int posX = x;
-			for (int y = 0; y < data.fieldLen; ++y) {
-				final int posY = y;
+		for (int posX = 0; posX < data.fieldLen; posX++) {
+			for (int posY = 0; posY < data.fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
 				add(button);
-				buttons[x][y] = button;
+				buttons[posX][posY] = button;
 			}
 		}
 
@@ -56,19 +54,21 @@ public class MineField extends JPanel {
 		return new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if (button.isEnabled()) {
-					Field field = data.getField(posX, posY);
-
-					if (SwingUtilities.isLeftMouseButton(e)) {
-						leftclickEvent(button, field);
-						Logger.info("links");
-					}
-					if (SwingUtilities.isRightMouseButton(e)) {
-						rightclickEvent(button, field);
-						Logger.info("rechts");
-					}
-					Logger.info(field.getFlagged().toString());
+				if (!button.isEnabled()) {
+					return;
 				}
+
+				Field field = data.getField(posX, posY);
+
+				if (SwingUtilities.isLeftMouseButton(e)) {
+					leftclickEvent(button, field);
+					Logger.info("links");
+				}
+				if (SwingUtilities.isRightMouseButton(e)) {
+					rightclickEvent(button, field);
+					Logger.info("rechts");
+				}
+				Logger.info(field.getFlagged().toString());
 			}
 		};
 	}
