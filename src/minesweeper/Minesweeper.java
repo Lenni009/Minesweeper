@@ -11,6 +11,9 @@ public class Minesweeper {
 	private static Minesweeper instance;
 	private MsData model;
 	private MineField mineField;
+	
+	private int sideLength;
+	private int mines;
 
 	private Minesweeper() {
 	}
@@ -24,6 +27,9 @@ public class Minesweeper {
 	}
 
 	public void startGame(int sideLength, int mines) {
+		this.sideLength = sideLength;
+		this.mines = mines;
+		
 		view.removePanel("game");
 
 		model = new MsData(sideLength, mines);
@@ -39,5 +45,13 @@ public class Minesweeper {
 
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");
+	}
+
+	public int getSideLength() {
+		return sideLength;
+	}
+
+	public int getMines() {
+		return mines;
 	}
 }
