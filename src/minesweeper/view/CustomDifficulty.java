@@ -17,14 +17,13 @@ import minesweeper.controller.MineCalculator;
 
 public class CustomDifficulty extends JPanel {
 
-	// TODO: should this be in the view? Or is it better to put this into model?
 	private static CustomDifficulty instance;
 
+	// TODO: should this be in the view? Or is it better to put this into model?
 	private int sideLength = 10; // setting initial value
 	private int minePercentage;
 	private int mineCount;
 
-	private SpinnerNumberModel lengthModel;
 	private SpinnerNumberModel minePercentageModel;
 
 	private CustomDifficulty() {
@@ -35,7 +34,7 @@ public class CustomDifficulty extends JPanel {
 
 		// min size: 4*4
 		// max size: 20*20
-		lengthModel = new SpinnerNumberModel(sideLength, 4, 20, 1);
+		SpinnerNumberModel lengthModel = new SpinnerNumberModel(sideLength, 4, 20, 1);
 		JSpinner lengthSpinner = new JSpinner(lengthModel);
 
 		lengthSpinner.addChangeListener(e -> {
@@ -50,21 +49,19 @@ public class CustomDifficulty extends JPanel {
 			minePercentageModel.setMinimum(minMinePercentage);
 			minePercentageModel.setMaximum(maxMinePercentage);
 
+			// function pauses here to execute the actionListener on minePercentageSpinner
+			// first (or runs on second thread, in any case, we cannot be sure that the
+			// following code runs before that other listener)
+
+			// handle potential out of bounds scenarios
+			// do nothing if value is within allowed range, because race condition makes it
+			// hard to get proper spinner values (see comment above)
 			if (minePercentage < minMinePercentage) {
 				// if smaller than minimum, set to minimum
 				minePercentageModel.setValue(minMinePercentage);
 			} else if (minePercentage > maxMinePercentage) {
 				// if larger than maximum, set to maximum
 				minePercentageModel.setValue(maxMinePercentage);
-			} else {
-				// if in allowed range, set to value that corresponds to previous exact mine
-				// count
-				// FIXME: this doesn't seem to work properly (should be 41 for sideLength 11)
-				// there's a race condition. The minePercentageSpinner changeListener is
-				// executed before the code here.
-				int newMinePercentage = (int) Math
-						.round(MineCalculator.getMinePercentageForSpecificMineCount(mineCount, sideLength));
-				minePercentageModel.setValue(newMinePercentage);
 			}
 		});
 
@@ -78,7 +75,6 @@ public class CustomDifficulty extends JPanel {
 
 		minePercentageSpinner.addChangeListener(e -> {
 			// copied like above in changeListener
-			System.out.println("percentage");
 			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
 			mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
 		});
