@@ -54,6 +54,7 @@ public class EndScreen extends JDialog {
 
 		String elapsedTime = MenuBar.getInstance().getTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
+		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
 
 		// TODO: Bestenliste
 
