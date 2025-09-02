@@ -1,6 +1,7 @@
 package minesweeper.view;
 
 import java.awt.CardLayout;
+import java.awt.event.KeyEvent;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -36,20 +37,19 @@ public class MsGUI extends JFrame {
 		// Menu
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("Datei");
-		JMenuItem exit = new JMenuItem("Beenden");
+		JMenuItem exit = new JMenuItem("Beenden", KeyEvent.VK_B);
 		JMenu gameMenu = new JMenu("Spiel");
-		JMenuItem restart = new JMenuItem("Neustart");
-		JMenuItem mainmenu = new JMenuItem("Hauptmenü");
+		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
+		JMenuItem mainmenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
 		JMenu onlineMenu = new JMenu("Online");
 		JMenu helpMenu = new JMenu("Hilfe");
+		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
 
 		exit.addActionListener(e -> System.exit(0));
 
-		// TODO: [Optional] add Shortcut with function keys or Alt+KEY
-		// help.setMnemonic(KeyEvent.VK_H);
-		helpMenu.addActionListener(e -> showHelpDialog());
+		rules.addActionListener(e -> showHelpDialog());
 		
 		mainmenu.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
@@ -69,6 +69,7 @@ public class MsGUI extends JFrame {
 		fileMenu.add(exit);
 		gameMenu.add(restart);
 		gameMenu.add(mainmenu);
+		helpMenu.add(rules);
 		menuBar.add(sep);
 		menuBar.add(statusLabel);
 
