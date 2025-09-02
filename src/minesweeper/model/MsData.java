@@ -35,8 +35,8 @@ public class MsData {
 	 */
 	public void generateMinefield(int sideLength) {
 		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
-		for (int x = 0; x < (sideLength); ++x) {
-			for (int y = 0; y < (sideLength); ++y) {
+		for (int x = 0; x < sideLength; x++) {
+			for (int y = 0; y < sideLength; y++) {
 				Field field = new Field(x, y);
 				minefield[x][y] = field;
 			}
@@ -81,7 +81,7 @@ public class MsData {
 
 		int counterMines = 0;
 
-		for (int i = 0; i < 8; i++) {
+		for (int i = 0; i < neighbourPos.length; i++) {
 			if (isValidNeighbourPos(neighbourPos, i) && getField(neighbourPos[i][0], neighbourPos[i][1]).isMine()) {
 				counterMines++;
 			}
@@ -95,7 +95,7 @@ public class MsData {
 	 * 
 	 * @param neighbourPos the 2D Array
 	 * @param position     the Position
-	 * @return True, if valid, else instead
+	 * @return true if valid, false otherwise
 	 */
 	private boolean isValidNeighbourPos(int[][] neighbourPos, int position) {
 		return neighbourPos[position][0] >= 0 && neighbourPos[position][0] < fieldLen && neighbourPos[position][1] >= 0
