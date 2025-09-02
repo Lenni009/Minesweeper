@@ -128,12 +128,14 @@ public class MineField extends JPanel {
 			isFirstClick = false;
 			MineDistributor bd = new MineDistributor(data, field);
 			bd.distributeMines();
+			MenuBar.getInstance().startTimer();
 		}
 
 		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
-			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
+			MenuBar.getInstance().stopTimer();
+			JOptionPane.showMessageDialog(null, "You Dead\n"+MenuBar.getInstance().getTime(), "GAME OVER", JOptionPane.WARNING_MESSAGE);
 		}
 
 		// reveal field
