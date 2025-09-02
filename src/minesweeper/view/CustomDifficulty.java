@@ -11,16 +11,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
-import javax.swing.SwingUtilities;
 
 import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
-import minesweeper.utils.Logger;
 
 public class CustomDifficulty extends JPanel {
 
 	// TODO: should this be in the view? Or is it better to put this into model?
 	private static CustomDifficulty instance;
+
 	private int sideLength = 10; // setting initial value
 	private int minePercentage;
 	private int mineCount;
@@ -135,6 +134,7 @@ public class CustomDifficulty extends JPanel {
 		return inputWrapper;
 	}
 
+	// singleton :3
 	public static CustomDifficulty getInstance() {
 		if (instance == null) {
 			instance = new CustomDifficulty();
