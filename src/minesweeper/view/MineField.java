@@ -1,5 +1,6 @@
 package minesweeper.view;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.GridLayout;
 import javax.swing.*;
 
@@ -133,7 +134,12 @@ public class MineField extends JPanel {
 		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
-			JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER", JOptionPane.WARNING_MESSAGE);
+
+			// ModalityType.APPLICATION_MODAL copied from
+			// https://stackoverflow.com/questions/33855315/java-block-a-main-with-a-jdialog
+			JDialog dialog = new EndScreen();
+			// JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER",
+			// JOptionPane.WARNING_MESSAGE);
 		}
 
 		// reveal field
