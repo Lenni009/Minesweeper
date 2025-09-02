@@ -36,7 +36,7 @@ public class MenuBar extends JMenuBar {
 
 		mainmenu.addActionListener(e -> {
 			Minesweeper ms = Minesweeper.getInstance();
-			ms.endGame();
+			ms.backToMainMenu();
 		});
 
 		restart.addActionListener(e -> {
@@ -72,7 +72,7 @@ public class MenuBar extends JMenuBar {
 	}
 
 	private void showHelpDialog() {
-		// The Text describing the ruleset was created by ChatGPT
+		// The text describing the ruleset was created by ChatGPT
 		String infoText = "So wird gespielt:\nMinesweeper ist ein Logikspiel, bei dem der Spieler auf einem Raster Felder aufdeckt, ohne dabei Minen zu treffen.\nZiel ist es, alle sicheren Felder aufzudecken.\nBeim Anklicken eines Feldes zeigt eine Zahl an, wie viele Minen sich in den angrenzenden Feldern befinden.\nMit dieser Information kann der Spieler Rückschlüsse auf die Position der Minen ziehen.\nMinen können durch einen Richtsklick mit einer Flagge markiert werden.\nDas Spiel ist gewonnen, wenn alle nicht-minenhaltigen Felder aufgedeckt sind, und verloren, sobald eine Mine angeklickt wird.";
 		JOptionPane.showMessageDialog(null, infoText, "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
 	}
