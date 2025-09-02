@@ -2,6 +2,7 @@ package minesweeper.view;
 
 import java.awt.event.KeyEvent;
 
+import javax.swing.Box;
 import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
@@ -10,12 +11,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import minesweeper.Minesweeper;
+import minesweeper.controller.ElapsedTime;
 
 public class MenuBar extends JMenuBar {
 
 	private static MenuBar instance;
 	private JLabel statusLabel;
+	private JLabel elapsedTimeLabel;
 	private JMenu gameMenu;
+	private ElapsedTime timer;
 
 	private MenuBar() {
 		// Menu
@@ -29,6 +33,8 @@ public class MenuBar extends JMenuBar {
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
+		elapsedTimeLabel = new JLabel("");
+		timer = new ElapsedTime(elapsedTimeLabel);
 
 		exit.addActionListener(e -> System.exit(0));
 
@@ -48,6 +54,8 @@ public class MenuBar extends JMenuBar {
 		helpMenu.add(rules);
 		this.add(sep);
 		this.add(statusLabel);
+		this.add( Box.createHorizontalStrut( 10 ) );
+		this.add(elapsedTimeLabel);
 
 		hideGameMenu(); // initially hide game menu
 	}
@@ -62,6 +70,18 @@ public class MenuBar extends JMenuBar {
 
 	public void setStatusText(String text) {
 		statusLabel.setText(text);
+	}
+	
+	public void startTimer() {
+		timer.startTimer();
+	}
+	
+	public void stopTimer() {
+		timer.stopTimer();
+	}
+	
+	public String getTime() {
+		return timer.getTime();
 	}
 
 	private void showHelpDialog() {

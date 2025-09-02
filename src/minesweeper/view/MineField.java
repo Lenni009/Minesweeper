@@ -130,6 +130,7 @@ public class MineField extends JPanel {
 			isFirstClick = false;
 			MineDistributor bd = new MineDistributor(data, field);
 			bd.distributeMines();
+			MenuBar.getInstance().startTimer();
 		}
 
 		// if mine is revealed the game ends
