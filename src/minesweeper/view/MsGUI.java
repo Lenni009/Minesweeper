@@ -88,10 +88,6 @@ public class MsGUI extends JFrame {
         return instance;
     }
     
-    public void addPanel(JPanel panel, String identifier) {
-    	cardPanel.add(panel, identifier);
-    }
-
 	public void addPanel(JPanel panel, String identifier) {
 		if (panels.containsKey(identifier)) {
 			Logger.error("Panel Key already exists!");
