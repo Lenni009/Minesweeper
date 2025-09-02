@@ -58,7 +58,7 @@ public class MsGUI extends JFrame {
 		
 		restart.addActionListener(e -> {
 			Minesweeper ms = Minesweeper.getInstance();
-			ms.startGame(ms.getSideLength(), ms.getBombs());
+			ms.startGame(ms.getSideLength(), ms.getMines());
 		});
 
 		// assign everything

@@ -13,7 +13,7 @@ public class Minesweeper {
 	private MineField mineField;
 	
 	private int sideLength;
-	private int bombs;
+	private int mines;
 
 	private Minesweeper() {
 	}
@@ -28,7 +28,7 @@ public class Minesweeper {
 
 	public void startGame(int sideLength, int mines) {
 		this.sideLength = sideLength;
-		this.bombs = mines;
+		this.mines = mines;
 		
 		view.removePanel("game");
 
@@ -51,7 +51,7 @@ public class Minesweeper {
 		return sideLength;
 	}
 
-	public int getBombs() {
-		return bombs;
+	public int getMines() {
+		return mines;
 	}
 }
