@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 
+import minesweeper.Minesweeper;
 import minesweeper.utils.Logger;
 
 public class MsGUI extends JFrame {
@@ -36,6 +37,9 @@ public class MsGUI extends JFrame {
 		JMenuBar menuBar = new JMenuBar();
 		JMenu fileMenu = new JMenu("Datei");
 		JMenuItem exit = new JMenuItem("Beenden");
+		JMenu gameMenu = new JMenu("Spiel");
+		JMenuItem restart = new JMenuItem("Neustart");
+		JMenuItem mainmenu = new JMenuItem("Hauptmenü");
 		JMenu onlineMenu = new JMenu("Online");
 		JMenu helpMenu = new JMenu("Hilfe");
 		JSeparator sep = new JSeparator();
@@ -46,12 +50,25 @@ public class MsGUI extends JFrame {
 		// TODO: [Optional] add Shortcut with function keys or Alt+KEY
 		// help.setMnemonic(KeyEvent.VK_H);
 		helpMenu.addActionListener(e -> showHelpDialog());
+		
+		mainmenu.addActionListener(e -> {
+			MsGUI view = MsGUI.getInstance();
+			view.showPanel("menu");
+		});
+		
+		restart.addActionListener(e -> {
+			Minesweeper ms = Minesweeper.getInstance();
+			ms.startGame(ms.getSideLength(), ms.getBombs());
+		});
 
 		// assign everything
 		menuBar.add(fileMenu);
+		menuBar.add(gameMenu);
 		menuBar.add(onlineMenu);
 		menuBar.add(helpMenu);
 		fileMenu.add(exit);
+		gameMenu.add(restart);
+		gameMenu.add(mainmenu);
 		menuBar.add(sep);
 		menuBar.add(statusLabel);
 
