@@ -1,5 +1,6 @@
 package minesweeper.view;
 
+import java.awt.Dialog.ModalityType;
 import java.awt.GridLayout;
 import javax.swing.*;
 
@@ -11,6 +12,7 @@ import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
 
 import java.awt.event.*;
+import java.util.HashSet;
 import java.util.Set;
 
 public class MineField extends JPanel {
@@ -134,8 +136,11 @@ public class MineField extends JPanel {
 		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
+
 			MenuBar.getInstance().stopTimer();
-			JOptionPane.showMessageDialog(null, "You Dead\n"+MenuBar.getInstance().getTime(), "GAME OVER", JOptionPane.WARNING_MESSAGE);
+			revealMap(button, field);
+
+			new EndScreen();
 		}
 
 		// reveal field
@@ -143,6 +148,50 @@ public class MineField extends JPanel {
 			Set<Field> revealedFields = ar.revealField(field);
 			updateButtonsGUI(revealedFields);
 		}
+	}
+
+	private void revealMap(JButton button, Field field) {
+		// TODO: use colors -> Related to Issue #4
+		
+		// Placeholders:
+		// D ... dark background
+		// R ... red background
+		// B ... color the bomb red
+		
+		Set<Field> changedFields = new HashSet<Field>();
+		
+		for (Field[] fieldX : data.getMinefield()) {
+			for (Field fieldY : fieldX) {
+				// it was no mine, but was flagged
+				if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
+					fieldY.setText("R");
+					changedFields.add(fieldY);
+				}
+				// it was not a mine, but was flagged with "?"
+				else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+					// nothing to do, but the documentation in the issue described this case
+					
+					// optional: falsly "?"-flagged fields could also be marked red:
+					// fieldY.setText("R");
+					// changedFields.add(fieldY);
+				}
+				// it was a mine and got flagged with "?" -> counts
+				else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+					fieldY.setText("D");
+					changedFields.add(fieldY);
+				}
+				// it was a mine and got flagged with "!"
+				else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
+					fieldY.setText("D");
+					changedFields.add(fieldY);
+				}
+			}
+		}
+		
+		field.setText("B"); // Placeholder to mark clicked bomb
+		changedFields.add(field);
+		
+		updateButtonsGUI(changedFields);
 	}
 
 	private void updateButtonsGUI(Set<Field> revealedFields) {
