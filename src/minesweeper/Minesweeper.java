@@ -2,6 +2,7 @@ package minesweeper;
 
 import minesweeper.model.MsData;
 import minesweeper.view.MainMenu;
+import minesweeper.view.MenuBar;
 import minesweeper.view.MineField;
 import minesweeper.view.MsGUI;
 
@@ -11,7 +12,7 @@ public class Minesweeper {
 	private static Minesweeper instance;
 	private MsData model;
 	private MineField mineField;
-	
+
 	private int sideLength;
 	private int mines;
 
@@ -29,7 +30,7 @@ public class Minesweeper {
 	public void startGame(int sideLength, int mines) {
 		this.sideLength = sideLength;
 		this.mines = mines;
-		
+
 		view.removePanel("game");
 
 		model = new MsData(sideLength, mines);
@@ -37,6 +38,15 @@ public class Minesweeper {
 
 		view.addPanel(mineField, "game");
 		view.showPanel("game");
+
+		MenuBar.getInstance().showGameMenu();
+	}
+
+	public void endGame() {
+		view.showPanel("menu");
+		MenuBar menuBar = MenuBar.getInstance();
+		menuBar.setStatusText("");
+		menuBar.hideGameMenu();
 	}
 
 	public static void main(String[] args) {
