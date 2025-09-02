@@ -10,14 +10,14 @@ public abstract class MineCalculator {
 
 	public static int getMinMinePercentage(int sideLength) {
 		int minMineCount = 1;
-		int minMinePercentage = (int) Math.ceil(getMinePercentageForSpecificMineCount(sideLength, minMineCount));
+		int minMinePercentage = (int) Math.ceil(getMinePercentageForSpecificMineCount(minMineCount, sideLength));
 		return minMinePercentage;
 	}
 
 	public static int getMaxMinePercentage(int sideLength) {
 		int allFields = sideLength * sideLength;
 		int maxMineCount = allFields - 10;
-		int maxMinePercentage = (int) Math.floor(getMinePercentageForSpecificMineCount(sideLength, maxMineCount));
+		int maxMinePercentage = (int) Math.floor(getMinePercentageForSpecificMineCount(maxMineCount, sideLength));
 		return maxMinePercentage;
 	}
 
