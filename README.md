@@ -26,6 +26,12 @@ gegeben. Wer am schnellsten ist, gewinnt.
 - Java 11
 - Keine externen Bibliotheken
 
+## Coding Stil
+
+- Das Projekt nutzt die Model-View-Controller Architektur
+- Im Code wird die englische Sprache verwendet, auch für Kommentare
+- Zum Formatieren sollte die Formatierungsoption in Eclipse genutzt werden (Ctrl + Shift + F)
+
 ## Git Workflow
 
 Wir nutzen [Trunk-based Development](https://www.atlassian.com/continuous-delivery/continuous-integration/trunk-based-development).
@@ -53,6 +59,6 @@ Wir nutzen [Trunk-based Development](https://www.atlassian.com/continuous-delive
   - Sonst kann in der linken Seitenleiste über "Code" -> "Branches" eine Merge Request für den entsprechenden Branch erstellt werden
 - Aus Zeitgründen machen wir keine Code Reviews. Alle Mitarbeitenden sind für ihre eigene Code Qualität verantwortlich.
   - Es kann auch ein Issue erstellt werden, mit dem Hinweis, dass etwas nochmal überarbeitet werden muss
-  - Im Code kann auch ein Kommentar mit `// TODO: ` hinterlassen werden
+  - Im Code kann auch ein Kommentar mit `// TODO: ` oder `// FIXME: ` hinterlassen werden
 - Wenn die CI Pipeline erfolgreich durchgelaufen ist, kann der Branch gemerged werden
   - Der Prozess kann auch mit dem "Set to auto-merge" Button automatisiert werden

@@ -13,34 +13,89 @@ import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
+import minesweeper.controller.MineCalculator;
 
 public class CustomDifficulty extends JPanel {
 
-	public CustomDifficulty() {
+	private static CustomDifficulty instance;
+
+	// TODO: should this be in the view? Or is it better to put this into model?
+	private int sideLength = 10; // setting initial value
+	private int minePercentage;
+	private int mineCount;
+
+	private SpinnerNumberModel minePercentageModel;
+
+	private CustomDifficulty() {
 
 		JPanel wrapper = new JPanel();
 		BoxLayout settingsLayout = new BoxLayout(wrapper, BoxLayout.Y_AXIS);
 		wrapper.setLayout(settingsLayout);
 
-		// TODO: do proper limit calculations
-		JPanel lengthInput = createNumberInput("Seitenlänge", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
-		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", new SpinnerNumberModel(5.0, 0.0, 9.0, 1.0));
-		
+		// min size: 4*4
+		// max size: 20*20
+		SpinnerNumberModel lengthModel = new SpinnerNumberModel(sideLength, 4, 20, 1);
+		JSpinner lengthSpinner = new JSpinner(lengthModel);
+
+		lengthSpinner.addChangeListener(e -> {
+			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
+			sideLength = ((Number) lengthSpinner.getValue()).intValue();
+			// end of copy
+
+			// extract this into the controller
+			int minMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
+			int maxMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
+
+			minePercentageModel.setMinimum(minMinePercentage);
+			minePercentageModel.setMaximum(maxMinePercentage);
+
+			// function pauses here to execute the actionListener on minePercentageSpinner
+			// first (or runs on second thread, in any case, we cannot be sure that the
+			// following code runs before that other listener)
+
+			// handle potential out of bounds scenarios
+			// do nothing if value is within allowed range, because race condition makes it
+			// hard to get proper spinner values (see comment above)
+			if (minePercentage < minMinePercentage) {
+				// if smaller than minimum, set to minimum
+				minePercentageModel.setValue(minMinePercentage);
+			} else if (minePercentage > maxMinePercentage) {
+				// if larger than maximum, set to maximum
+				minePercentageModel.setValue(maxMinePercentage);
+			}
+		});
+
+		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
+		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
+		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
+		mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
+				1);
+		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
+
+		minePercentageSpinner.addChangeListener(e -> {
+			// copied like above in changeListener
+			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
+			mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+		});
+
+		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
+		JPanel minePercentageInput = createNumberInput("Anteil Minen (%)", minePercentageSpinner);
+
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
-		
+
 		JButton playButton = new JButton("Spielen");
 		JButton backButton = new JButton("Zurück");
 
 		// copied from https://docs.oracle.com/javase/tutorial/uiswing/layout/box.html
 		buttons.add(backButton);
-		buttons.add(Box.createRigidArea(new Dimension(10, 0)));	// add padding between buttons
+		buttons.add(Box.createRigidArea(new Dimension(10, 0))); // add padding between buttons
 		buttons.add(playButton);
 		// end of copy
-		
-		// TODO: dynamically calculate bomb count
+
 		playButton.addActionListener(e -> {
-			new Minesweeper(20, 100);	
+			Minesweeper.getInstance().startGame(sideLength, mineCount);
 		});
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
@@ -49,7 +104,7 @@ public class CustomDifficulty extends JPanel {
 
 		wrapper.add(lengthInput);
 		wrapper.add(minePercentageInput);
-		wrapper.add(Box.createRigidArea(new Dimension(0, 10)));	// add vertical padding between elements
+		wrapper.add(Box.createRigidArea(new Dimension(0, 10))); // add vertical padding between elements
 		wrapper.add(buttons);
 
 		// using BorderLayout to group content at the top (GPT's idea)
@@ -59,20 +114,28 @@ public class CustomDifficulty extends JPanel {
 
 	/**
 	 * generates a number input with label, wrapped in a JPanel
-	 * @param label label to display next to the input
-	 * @param numberModel model to use for the input (initialValue, min, max, stepSize)
+	 * 
+	 * @param label   label to display next to the input
+	 * @param spinner spinner with model, actionlisteners etc. already attached
 	 */
-	private JPanel createNumberInput(String label, SpinnerNumberModel numberModel) {
+	private JPanel createNumberInput(String label, JSpinner spinner) {
 		JPanel inputWrapper = new JPanel();
 		inputWrapper.setLayout(new FlowLayout());
 
 		JLabel inputLabel = new JLabel(label);
 
-		JSpinner numberInput = new JSpinner(numberModel);
-
 		inputWrapper.add(inputLabel);
-		inputWrapper.add(numberInput);
-		
+		inputWrapper.add(spinner);
+
 		return inputWrapper;
 	}
+
+	// singleton :3
+	public static CustomDifficulty getInstance() {
+		if (instance == null) {
+			instance = new CustomDifficulty();
+		}
+		return instance;
+	}
+
 }
