@@ -17,11 +17,11 @@ import minesweeper.utils.Logger;
 public class MsGUI extends JFrame {
 	static MsGUI instance;
 
-	static CardLayout cardLayout = new CardLayout();
-	static JPanel cardPanel = new JPanel(cardLayout);
+	private CardLayout cardLayout = new CardLayout();
+	private JPanel cardPanel = new JPanel(cardLayout);
 	private Map<String, JPanel> panels = new HashMap<>();
-	static JLabel statusLabel;
-
+	private JLabel statusLabel;
+	
 	private MsGUI() {
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -91,5 +91,9 @@ public class MsGUI extends JFrame {
 
 		cardPanel.remove(panelToRemove);
 		panels.remove(identifier);
+	}
+	
+	public void setStatusText(String text) {
+		statusLabel.setText(text);
 	}
 }
