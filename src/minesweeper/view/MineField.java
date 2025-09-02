@@ -1,6 +1,5 @@
 package minesweeper.view;
 
-import java.awt.Dialog.ModalityType;
 import java.awt.GridLayout;
 import javax.swing.*;
 
