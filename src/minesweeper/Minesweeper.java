@@ -42,7 +42,7 @@ public class Minesweeper {
 		MenuBar.getInstance().showGameMenu();
 	}
 
-	public void endGame() {
+	public void backToMainMenu() {
 		view.showPanel("menu");
 		MenuBar menuBar = MenuBar.getInstance();
 		menuBar.setStatusText("");

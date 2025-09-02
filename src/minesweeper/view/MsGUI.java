@@ -26,7 +26,7 @@ public class MsGUI extends JFrame {
 		this.setTitle("Minesweeper");
 
 		JMenuBar menuBar = MenuBar.getInstance();
-		
+
 		// add to window
 		this.setJMenuBar(menuBar);
 
