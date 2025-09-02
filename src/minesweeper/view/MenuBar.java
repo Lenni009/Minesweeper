@@ -15,12 +15,13 @@ public class MenuBar extends JMenuBar {
 
 	private static MenuBar instance;
 	private JLabel statusLabel;
+	private JMenu gameMenu;
 
 	private MenuBar() {
 		// Menu
 		JMenu fileMenu = new JMenu("Datei");
 		JMenuItem exit = new JMenuItem("Beenden", KeyEvent.VK_B);
-		JMenu gameMenu = new JMenu("Spiel");
+		gameMenu = new JMenu("Spiel");
 		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
 		JMenuItem mainmenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
 		JMenu onlineMenu = new JMenu("Online");
@@ -34,9 +35,8 @@ public class MenuBar extends JMenuBar {
 		rules.addActionListener(e -> showHelpDialog());
 
 		mainmenu.addActionListener(e -> {
-			MsGUI view = MsGUI.getInstance();
-			view.showPanel("menu");
-			setStatusText("");
+			Minesweeper ms = Minesweeper.getInstance();
+			ms.endGame();
 		});
 
 		restart.addActionListener(e -> {
@@ -55,6 +55,8 @@ public class MenuBar extends JMenuBar {
 		helpMenu.add(rules);
 		this.add(sep);
 		this.add(statusLabel);
+
+		hideGameMenu(); // initially hide game menu
 	}
 
 	// singleton <grin>
@@ -73,6 +75,14 @@ public class MenuBar extends JMenuBar {
 		// The Text describing the ruleset was created by ChatGPT
 		String infoText = "So wird gespielt:\nMinesweeper ist ein Logikspiel, bei dem der Spieler auf einem Raster Felder aufdeckt, ohne dabei Minen zu treffen.\nZiel ist es, alle sicheren Felder aufzudecken.\nBeim Anklicken eines Feldes zeigt eine Zahl an, wie viele Minen sich in den angrenzenden Feldern befinden.\nMit dieser Information kann der Spieler Rückschlüsse auf die Position der Minen ziehen.\nMinen können durch einen Richtsklick mit einer Flagge markiert werden.\nDas Spiel ist gewonnen, wenn alle nicht-minenhaltigen Felder aufgedeckt sind, und verloren, sobald eine Mine angeklickt wird.";
 		JOptionPane.showMessageDialog(null, infoText, "Minesweeper", JOptionPane.INFORMATION_MESSAGE);
+	}
+
+	public void showGameMenu() {
+		gameMenu.setVisible(true);
+	}
+
+	public void hideGameMenu() {
+		gameMenu.setVisible(false);
 	}
 
 }
