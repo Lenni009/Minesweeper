@@ -49,19 +49,15 @@ public class Minesweeper {
 		menuBar.hideGameMenu();
 	}
 
+	public void restartGame() {
+		startGame(sideLength, mines);
+	}
+
 	public static void main(String[] args) {
 		view = MsGUI.getInstance();
 		MainMenu mainMenu = MainMenu.getInstance();
 
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");
-	}
-
-	public int getSideLength() {
-		return sideLength;
-	}
-
-	public int getMines() {
-		return mines;
 	}
 }

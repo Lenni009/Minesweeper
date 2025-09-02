@@ -135,11 +135,7 @@ public class MineField extends JPanel {
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
 
-			// ModalityType.APPLICATION_MODAL copied from
-			// https://stackoverflow.com/questions/33855315/java-block-a-main-with-a-jdialog
-			JDialog dialog = new EndScreen();
-			// JOptionPane.showMessageDialog(null, "You Dead", "GAME OVER",
-			// JOptionPane.WARNING_MESSAGE);
+			new EndScreen();
 		}
 
 		// reveal field

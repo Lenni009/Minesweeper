@@ -23,7 +23,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem exit = new JMenuItem("Beenden", KeyEvent.VK_B);
 		gameMenu = new JMenu("Spiel");
 		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
-		JMenuItem mainmenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
+		JMenuItem mainMenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
 		JMenu onlineMenu = new JMenu("Online");
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
@@ -34,15 +34,8 @@ public class MenuBar extends JMenuBar {
 
 		rules.addActionListener(e -> showHelpDialog());
 
-		mainmenu.addActionListener(e -> {
-			Minesweeper ms = Minesweeper.getInstance();
-			ms.backToMainMenu();
-		});
-
-		restart.addActionListener(e -> {
-			Minesweeper ms = Minesweeper.getInstance();
-			ms.startGame(ms.getSideLength(), ms.getMines());
-		});
+		mainMenu.addActionListener(e -> Minesweeper.getInstance().backToMainMenu());
+		restart.addActionListener(e -> Minesweeper.getInstance().restartGame());
 
 		// assign everything
 		this.add(fileMenu);
@@ -51,7 +44,7 @@ public class MenuBar extends JMenuBar {
 		this.add(helpMenu);
 		fileMenu.add(exit);
 		gameMenu.add(restart);
-		gameMenu.add(mainmenu);
+		gameMenu.add(mainMenu);
 		helpMenu.add(rules);
 		this.add(sep);
 		this.add(statusLabel);
