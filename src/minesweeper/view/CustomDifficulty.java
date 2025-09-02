@@ -19,6 +19,7 @@ import minesweeper.utils.Logger;
 
 public class CustomDifficulty extends JPanel {
 
+	// TODO: should this be in the view? Or is it better to put this into model?
 	private static CustomDifficulty instance;
 	private int sideLength = 10; // setting initial value
 	private int minePercentage;
@@ -62,7 +63,8 @@ public class CustomDifficulty extends JPanel {
 				// FIXME: this doesn't seem to work properly (should be 41 for sideLength 11)
 				// there's a race condition. The minePercentageSpinner changeListener is
 				// executed before the code here.
-				int newMinePercentage = MineCalculator.getMinePercentageForSpecificMineCount(sideLength, mineCount);
+				int newMinePercentage = (int) Math
+						.round(MineCalculator.getMinePercentageForSpecificMineCount(mineCount, sideLength));
 				minePercentageModel.setValue(newMinePercentage);
 			}
 		});
@@ -70,7 +72,7 @@ public class CustomDifficulty extends JPanel {
 		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
 		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
-		mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
+		mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
 		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
 				1);
 		JSpinner minePercentageSpinner = new JSpinner(minePercentageModel);
@@ -79,7 +81,7 @@ public class CustomDifficulty extends JPanel {
 			// copied like above in changeListener
 			System.out.println("percentage");
 			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
-			mineCount = MineCalculator.getMineCount(sideLength, minePercentage);
+			mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
 		});
 
 		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);

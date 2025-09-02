@@ -2,7 +2,7 @@ package minesweeper.controller;
 
 // abstract means that this class cannot be instantiated, but it can still be inherited from
 public abstract class MineCalculator {
-	public static int getMineCount(int sideLength, int minePercentage) {
+	public static int getMineCount(int minePercentage, int sideLength) {
 		int allFields = sideLength * sideLength;
 		int mineCount = (int) Math.round(allFields * divideIntegers(minePercentage, 100));
 		return mineCount;
@@ -10,20 +10,20 @@ public abstract class MineCalculator {
 
 	public static int getMinMinePercentage(int sideLength) {
 		int minMineCount = 1;
-		int minMinePercentage = getMinePercentageForSpecificMineCount(sideLength, minMineCount);
+		int minMinePercentage = (int) Math.ceil(getMinePercentageForSpecificMineCount(sideLength, minMineCount));
 		return minMinePercentage;
 	}
 
 	public static int getMaxMinePercentage(int sideLength) {
 		int allFields = sideLength * sideLength;
 		int maxMineCount = allFields - 10;
-		int maxMinePercentage = getMinePercentageForSpecificMineCount(sideLength, maxMineCount);
+		int maxMinePercentage = (int) Math.floor(getMinePercentageForSpecificMineCount(sideLength, maxMineCount));
 		return maxMinePercentage;
 	}
 
-	public static int getMinePercentageForSpecificMineCount(int sideLength, int targetMineCount) {
+	public static double getMinePercentageForSpecificMineCount(int targetMineCount, int sideLength) {
 		int allFields = sideLength * sideLength;
-		int targetMinePercentage = (int) Math.round(divideIntegers(targetMineCount, allFields) * 100);
+		double targetMinePercentage = divideIntegers(targetMineCount, allFields) * 100;
 		return targetMinePercentage;
 	}
 
