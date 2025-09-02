@@ -19,11 +19,11 @@ public class ElapsedTime {
     private TimerTask task = new TimerTask() {
         @Override
         public void run() {
-        	++seconds;
+        	seconds++;
         	if (seconds >= 60) {
         		seconds = 0;
         		// this will lead to funny problems, if minutes get > 60
-        		++minutes;
+        		minutes++;
         	}
         	label.setText(getTime());
         }
@@ -40,8 +40,8 @@ public class ElapsedTime {
     }
     
     public String getTime() {
-    	String minutesString = "" + minutes;
-    	String secondsString = "" + seconds;
+    	String minutesString = Integer.toString(minutes);
+    	String secondsString = Integer.toString(seconds);
 
     	if (minutes <= 9) {
     		minutesString = "0" + minutes;
