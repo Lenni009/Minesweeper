@@ -11,7 +11,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
 import minesweeper.Minesweeper;
-import minesweeper.controller.ElapsedTime;
+import minesweeper.controller.GameTimer;
 
 public class MenuBar extends JMenuBar {
 
@@ -19,7 +19,7 @@ public class MenuBar extends JMenuBar {
 	private JLabel statusLabel;
 	private JLabel elapsedTimeLabel;
 	private JMenu gameMenu;
-	private ElapsedTime timer;
+	private GameTimer timer;
 
 	private MenuBar() {
 		// Menu
@@ -34,7 +34,7 @@ public class MenuBar extends JMenuBar {
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
 		elapsedTimeLabel = new JLabel("");
-		timer = new ElapsedTime(elapsedTimeLabel);
+		timer = new GameTimer(elapsedTimeLabel);
 
 		exit.addActionListener(e -> System.exit(0));
 
