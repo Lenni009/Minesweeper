@@ -17,7 +17,7 @@ public class MenuBar extends JMenuBar {
 
 	private static MenuBar instance;
 	private JLabel statusLabel;
-	private JLabel elapsedTimeLabel;
+	private GameTimerLabel gameTimerLabel;
 	private JMenu gameMenu;
 	private GameTimer timer;
 
@@ -33,7 +33,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
-		elapsedTimeLabel = new JLabel("");
+		gameTimerLabel = GameTimerLabel.getInstance();
 		timer = GameTimer.getInstance();
 
 		exit.addActionListener(e -> System.exit(0));
@@ -55,7 +55,7 @@ public class MenuBar extends JMenuBar {
 		this.add(sep);
 		this.add(statusLabel);
 		this.add(Box.createHorizontalStrut(10));
-		this.add(elapsedTimeLabel);
+		this.add(gameTimerLabel);
 
 		hideGameMenu(); // initially hide game menu
 	}
@@ -70,18 +70,6 @@ public class MenuBar extends JMenuBar {
 
 	public void setStatusText(String text) {
 		statusLabel.setText(text);
-	}
-
-	public void startTimer() {
-		timer.startTimer();
-	}
-
-	public void stopTimer() {
-		timer.stopTimer();
-	}
-
-	public String getTime() {
-		return timer.getTime();
 	}
 
 	private void showHelpDialog() {

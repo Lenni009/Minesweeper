@@ -1,8 +1,10 @@
 package minesweeper.controller;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 import minesweeper.model.GameTimerTask;
+import minesweeper.view.GameTimerLabel;
 
 // based on https://www.javaspring.net/java_util/mastering_the_java_timer_scheduleatfixedrate_method/
 public class GameTimer {
@@ -22,9 +24,9 @@ public class GameTimer {
 		return instance;
 	}
 
-	public void startTimer() {
+	public void startTimer(GameTimerLabel label) {
 		stopTimer();
-		task = new GameTimerTask();
+		task = new GameTimerTask(label);
 		timer.scheduleAtFixedRate(task, 0, 1000);
 	}
 

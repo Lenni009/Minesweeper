@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 import javax.swing.*;
 
 import minesweeper.controller.Flag;
+import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
 import minesweeper.controller.Field;
@@ -129,14 +130,14 @@ public class MineField extends JPanel {
 			isFirstClick = false;
 			MineDistributor mineDistributor = new MineDistributor(data, field);
 			mineDistributor.distributeMines();
-			MenuBar.getInstance().startTimer();
+			GameTimer.getInstance().startTimer(GameTimerLabel.getInstance());
 		}
 
 		// if mine is revealed the game ends
 		if (field.isMine()) {
 			Logger.info("BOOOOOOOM");
 
-			MenuBar.getInstance().stopTimer();
+			GameTimer.getInstance().stopTimer();
 			revealMap(field);
 
 			new EndScreen();
