@@ -151,23 +151,23 @@ public class MineField extends JPanel {
 
 	private void revealMap(Field field) {
 		// TODO: use colors -> Related to Issue #4
-		
+
 		// Placeholders:
 		// D ... dark background
 		// R ... red background
 		// B ... color the bomb red
-		
+
 		Set<Field> changedFields = new HashSet<Field>();
-		
+
 		for (Field[] fieldX : data.getMinefield()) {
 			for (Field fieldY : fieldX) {
 				revealMines(changedFields, fieldY);
 			}
 		}
-		
+
 		field.setText("B"); // Placeholder to mark clicked bomb
 		changedFields.add(field);
-		
+
 		updateButtonsGUI(changedFields);
 	}
 
@@ -180,7 +180,7 @@ public class MineField extends JPanel {
 		// it was not a mine, but was flagged with "?"
 		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
 			// nothing to do, but the documentation in the issue described this case
-			
+
 			// optional: falsly "?"-flagged fields could also be marked red:
 			// fieldY.setText("R");
 			// changedFields.add(fieldY);
