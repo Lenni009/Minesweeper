@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 
 import minesweeper.utils.Logger;
 
+@SuppressWarnings("serial")
 public class MsGUI extends JFrame {
 	private static MsGUI instance;
 

@@ -1,7 +1,6 @@
 package minesweeper.controller;
 
 import java.util.Timer;
-import java.util.TimerTask;
 
 import minesweeper.model.GameTimerTask;
 import minesweeper.view.GameTimerLabel;

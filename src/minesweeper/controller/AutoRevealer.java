@@ -8,9 +8,11 @@ import minesweeper.model.MsData;
 public class AutoRevealer {
 
 	private MsData data;
+	public RevealChecker revealChecker;
 
 	public AutoRevealer(MsData model) {
 		this.data = model;
+		revealChecker = new RevealChecker(data);
 	}
 
 	public Set<Field> revealField(Field field) {
@@ -29,6 +31,8 @@ public class AutoRevealer {
 		else if (field.getFlagged() == Flag.QUESTIONMARK){
 			field.setFlagged(Flag.NOFLAG);
 		}
+
+		revealChecker.incrementRevealedFields();
 
 		int fieldX = field.getPosX();
 		int fieldY = field.getPosY();

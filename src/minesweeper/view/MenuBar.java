@@ -13,14 +13,14 @@ import javax.swing.JSeparator;
 import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 
+@SuppressWarnings("serial")
 public class MenuBar extends JMenuBar {
 
 	private static MenuBar instance;
 	private JLabel statusLabel;
 	private GameTimerLabel gameTimerLabel;
 	private JMenu gameMenu;
-	private GameTimer timer;
-
+	
 	private MenuBar() {
 		// Menu
 		JMenu fileMenu = new JMenu("Datei");
@@ -34,7 +34,7 @@ public class MenuBar extends JMenuBar {
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
 		gameTimerLabel = GameTimerLabel.getInstance();
-		timer = GameTimer.getInstance();
+		GameTimer.getInstance();
 
 		exit.addActionListener(e -> System.exit(0));
 

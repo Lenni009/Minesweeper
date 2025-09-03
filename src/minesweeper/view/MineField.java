@@ -15,6 +15,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("serial")
 public class MineField extends JPanel {
 
 	private MsData data;
@@ -23,8 +24,11 @@ public class MineField extends JPanel {
 
 	private JButton[][] buttons;
 
+	private AutoRevealer autoRevealer;
+	
 	public MineField(MsData model) {
 		this.data = model;
+		autoRevealer = new AutoRevealer(data);
 
 		this.setLayout(new GridLayout(data.fieldLen, data.fieldLen));
 
@@ -117,8 +121,6 @@ public class MineField extends JPanel {
 	 */
 	private void leftclickEvent(JButton button, Field field) {
 
-		AutoRevealer ar = new AutoRevealer(data);
-
 		// prevent leftclick: FLAGGED fields will not be revealed
 		if (field.getFlagged() == Flag.FLAGGED) {
 			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
@@ -141,14 +143,31 @@ public class MineField extends JPanel {
 			GameTimer.getInstance().stopTimer();
 			revealMap(field);
 
-			new EndScreen();
+			new EndScreen(false);
 		}
 
 		// reveal field
 		else {
-			Set<Field> revealedFields = ar.revealField(field);
+			revealField(field);
+		}
+	}
+
+	private void revealField(Field field) {
+		Set<Field> revealedFields = autoRevealer.revealField(field);
+		
+		if (!autoRevealer.revealChecker.isGameOver()) {
 			updateButtonsGUI(revealedFields);
 			MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+		}
+		else {
+			
+			// Flag all mines, if game is won
+			revealedFields.addAll(autoRevealer.revealChecker.revealMap());
+			updateButtonsGUI(revealedFields);			
+			
+			GameTimer.getInstance().stopTimer();
+			
+			new EndScreen(true);
 		}
 	}
 
@@ -184,7 +203,7 @@ public class MineField extends JPanel {
 		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
 			// nothing to do, but the documentation in the issue described this case
 
-			// optional: falsly "?"-flagged fields could also be marked red:
+			// optional: falsely "?"-flagged fields could also be marked red:
 			// fieldY.setText("R");
 			// changedFields.add(fieldY);
 		}
@@ -209,10 +228,9 @@ public class MineField extends JPanel {
 
 			changedButton.setText(changedField.getText());
 			changedButton.setEnabled(false);
-			// [0] is not the wanted listener (but
-			// javax.swing.plaf.basic.BasicButtonListener)
-			// [1] is the wanted listener
-			changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
+			for (ActionListener listener : changedButton.getActionListeners()) {
+				changedButton.removeActionListener(listener);
+			}
 		}
 	}
 }

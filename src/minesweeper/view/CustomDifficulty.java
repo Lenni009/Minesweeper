@@ -15,6 +15,7 @@ import javax.swing.SpinnerNumberModel;
 import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
 
+@SuppressWarnings("serial")
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
