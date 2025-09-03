@@ -14,18 +14,7 @@ public class GameTimer {
 	private boolean isTimerActive = false;
 
 	private Timer timer = new Timer();
-	private TimerTask task = new TimerTask() {
-		@Override
-		public void run() {
-			seconds++;
-			if (seconds >= 60) {
-				seconds = 0;
-				// this will lead to funny problems, if minutes get > 60
-				minutes++;
-			}
-			label.setText(getTime());
-		}
-	};
+	private TimerTask task;
 
 	public GameTimer(JLabel label) {
 		this.label = label;
@@ -37,15 +26,15 @@ public class GameTimer {
 		}
 		seconds = 0;
 		minutes = 0;
+		task = new GameTimerTask();
 		timer.scheduleAtFixedRate(task, 0, 1000);
 		isTimerActive = true;
 	}
 
 	public void stopTimer() {
-		task.cancel();
-		timer.cancel();
+		if (task != null) task.cancel();
+		timer.purge();
 		label.setText("");
-		isTimerActive = false;
 	}
 
 	public String getTime() {
@@ -61,5 +50,19 @@ public class GameTimer {
 
 		return "Zeit: " + minutesString + ":" + secondsString;
 	}
+	
+	
+	private class GameTimerTask extends TimerTask {
+		@Override
+		public void run() {
+			seconds++;
+			if (seconds >= 60) {
+				seconds = 0;
+				// this will lead to funny problems, if minutes get > 60
+				minutes++;
+			}
+			label.setText(getTime());
+		}
+	};
 
 }
