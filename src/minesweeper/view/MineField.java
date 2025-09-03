@@ -23,8 +23,11 @@ public class MineField extends JPanel {
 
 	private JButton[][] buttons;
 
+	AutoRevealer autoRevealer;
+	
 	public MineField(MsData model) {
 		this.data = model;
+		autoRevealer = new AutoRevealer(data);
 
 		this.setLayout(new GridLayout(data.fieldLen, data.fieldLen));
 
@@ -117,8 +120,6 @@ public class MineField extends JPanel {
 	 */
 	private void leftclickEvent(JButton button, Field field) {
 
-		AutoRevealer ar = new AutoRevealer(data);
-
 		// prevent leftclick: FLAGGED fields will not be revealed
 		if (field.getFlagged() == Flag.FLAGGED) {
 			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
@@ -146,7 +147,7 @@ public class MineField extends JPanel {
 
 		// reveal field
 		else {
-			Set<Field> revealedFields = ar.revealField(field);
+			Set<Field> revealedFields = autoRevealer.revealField(field);
 			updateButtonsGUI(revealedFields);
 		}
 	}

@@ -8,9 +8,11 @@ import minesweeper.model.MsData;
 public class AutoRevealer {
 
 	private MsData data;
+	private RevealChecker revealChecker;
 
 	public AutoRevealer(MsData model) {
 		this.data = model;
+		revealChecker = new RevealChecker(data);
 	}
 
 	public Set<Field> revealField(Field field) {
@@ -21,6 +23,8 @@ public class AutoRevealer {
 		if (field.isMine() || !field.isClickable()) {
 			return changedFields;
 		}
+
+		revealChecker.incrementRevealedFields();
 
 		int fieldX = field.getPosX();
 		int fieldY = field.getPosY();
