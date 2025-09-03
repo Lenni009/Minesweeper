@@ -148,6 +148,7 @@ public class MineField extends JPanel {
 		else {
 			Set<Field> revealedFields = ar.revealField(field);
 			updateButtonsGUI(revealedFields);
+			MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
 		}
 	}
 
