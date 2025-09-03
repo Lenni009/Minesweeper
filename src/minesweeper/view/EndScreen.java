@@ -1,6 +1,8 @@
 package minesweeper.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Point;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -22,6 +24,14 @@ public class EndScreen extends JDialog {
 		this.setModalityType(ModalityType.APPLICATION_MODAL); // make game window un-interactable
 		this.setTitle("Gewonnen|Verloren (Spiel zuende?)"); // TODO: proper title
 		this.setSize(100, 100);
+		MsGUI gui = MsGUI.getInstance();
+		Dimension size = gui.getSize();
+		Point location = gui.getLocation();
+		int xAxis = size.width/2 + location.x - this.getSize().width/2;
+		int yAxis = size.height/2 + location.y - this.getSize().height/2;
+		
+		this.setLocation(xAxis, yAxis);
+		//this.setLocation();
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// copied from
