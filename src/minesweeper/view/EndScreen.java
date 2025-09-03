@@ -11,6 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import minesweeper.Minesweeper;
+import minesweeper.controller.GameTimer;
 
 public class EndScreen extends JDialog {
 
@@ -52,7 +53,7 @@ public class EndScreen extends JDialog {
 			this.setVisible(false);
 		});
 
-		String elapsedTime = MenuBar.getInstance().getTime();
+		String elapsedTime = GameTimer.getInstance().getTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
 		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
 
