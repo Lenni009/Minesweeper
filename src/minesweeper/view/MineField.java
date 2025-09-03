@@ -143,7 +143,7 @@ public class MineField extends JPanel {
 			GameTimer.getInstance().stopTimer();
 			revealMap(field);
 
-			new EndScreen();
+			new EndScreen(false);
 		}
 
 		// reveal field
@@ -166,7 +166,7 @@ public class MineField extends JPanel {
 			
 			GameTimer.getInstance().stopTimer();
 			
-			new EndScreen();
+			new EndScreen(true);
 		}
 	}
 
