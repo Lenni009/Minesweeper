@@ -20,5 +20,12 @@ public class GameTimerLabel extends JLabel {
 	public void setText(String text) {
 		super.setText(text);
 	}
+	
+	public void hideTime() {
+		this.setVisible(false);
+	}
 
+	public void showTime() {
+		this.setVisible(true);
+	}
 }

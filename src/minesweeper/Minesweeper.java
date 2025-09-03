@@ -1,6 +1,8 @@
 package minesweeper;
 
+import minesweeper.controller.GameTimer;
 import minesweeper.model.MsData;
+import minesweeper.view.GameTimerLabel;
 import minesweeper.view.MainMenu;
 import minesweeper.view.MenuBar;
 import minesweeper.view.MineField;
@@ -39,18 +41,26 @@ public class Minesweeper {
 		view.addPanel(mineField, "game");
 		view.showPanel("game");
 
+		GameTimerLabel.getInstance().showTime();
 		MenuBar.getInstance().showGameMenu();
 	}
+	
+	public void endGame() {
+		GameTimer.getInstance().stopTimer();
+		GameTimerLabel.getInstance().hideTime();
+	}
 
+	public void restartGame() {
+		endGame();
+		startGame(sideLength, mines);
+	}
+	
 	public void backToMainMenu() {
+		endGame();
 		view.showPanel("menu");
 		MenuBar menuBar = MenuBar.getInstance();
 		menuBar.setStatusText("");
 		menuBar.hideGameMenu();
-	}
-
-	public void restartGame() {
-		startGame(sideLength, mines);
 	}
 
 	public static void main(String[] args) {
