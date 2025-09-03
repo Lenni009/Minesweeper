@@ -26,7 +26,8 @@ public class GameTimer {
 	}
 
 	public void stopTimer() {
-		if (task != null) task.cancel();
+		if (task != null)
+			task.cancel();
 		timer.purge();
 		label.setText("");
 	}
@@ -44,8 +45,7 @@ public class GameTimer {
 
 		return "Zeit: " + minutesString + ":" + secondsString;
 	}
-	
-	
+
 	private class GameTimerTask extends TimerTask {
 		@Override
 		public void run() {

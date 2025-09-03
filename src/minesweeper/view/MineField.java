@@ -127,8 +127,8 @@ public class MineField extends JPanel {
 		// distribute mines after initial click
 		if (isFirstClick) {
 			isFirstClick = false;
-			MineDistributor bd = new MineDistributor(data, field);
-			bd.distributeMines();
+			MineDistributor mineDistributor = new MineDistributor(data, field);
+			mineDistributor.distributeMines();
 			MenuBar.getInstance().startTimer();
 		}
 
