@@ -11,8 +11,6 @@ public class GameTimer {
 	private int seconds = 0;
 	private int minutes = 0;
 
-	private boolean isTimerActive = false;
-
 	private Timer timer = new Timer();
 	private TimerTask task;
 
@@ -21,14 +19,10 @@ public class GameTimer {
 	}
 
 	public void startTimer() {
-		if (isTimerActive) {
-			// do something ffs
-		}
 		seconds = 0;
 		minutes = 0;
 		task = new GameTimerTask();
 		timer.scheduleAtFixedRate(task, 0, 1000);
-		isTimerActive = true;
 	}
 
 	public void stopTimer() {
