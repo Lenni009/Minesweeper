@@ -21,6 +21,14 @@ public class AutoRevealer {
 		if (field.isMine() || !field.isClickable()) {
 			return changedFields;
 		}
+		
+		if (field.getFlagged() == Flag.FLAGGED) {
+			data.placedFlags--;
+			field.setFlagged(Flag.NOFLAG);
+		}
+		else if (field.getFlagged() == Flag.QUESTIONMARK){
+			field.setFlagged(Flag.NOFLAG);
+		}
 
 		int fieldX = field.getPosX();
 		int fieldY = field.getPosY();
