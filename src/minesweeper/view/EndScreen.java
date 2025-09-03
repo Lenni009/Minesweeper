@@ -16,6 +16,8 @@ import minesweeper.controller.GameTimer;
 public class EndScreen extends JDialog {
 
 	public EndScreen() {
+		Minesweeper minesweeper = Minesweeper.getInstance();
+		
 		// set up dialog frame
 		this.setModalityType(ModalityType.APPLICATION_MODAL); // make game window un-interactable
 		this.setTitle("Gewonnen|Verloren (Spiel zuende?)"); // TODO: proper title
@@ -28,7 +30,7 @@ public class EndScreen extends JDialog {
 
 			@Override
 			public void windowClosing(WindowEvent e) {
-				Minesweeper.getInstance().backToMainMenu();
+				minesweeper.backToMainMenu();
 			}
 		};
 		this.addWindowListener(exitListener);
@@ -45,11 +47,11 @@ public class EndScreen extends JDialog {
 		restart.setAlignmentX(Component.CENTER_ALIGNMENT);
 
 		mainMenu.addActionListener(e -> {
-			Minesweeper.getInstance().backToMainMenu();
+			minesweeper.backToMainMenu();
 			this.setVisible(false);
 		});
 		restart.addActionListener(e -> {
-			Minesweeper.getInstance().restartGame();
+			minesweeper.restartGame();
 			this.setVisible(false);
 		});
 
@@ -66,5 +68,7 @@ public class EndScreen extends JDialog {
 		this.add(wrapper);
 
 		this.setVisible(true);
+		
+		minesweeper.endGame();
 	}
 }
