@@ -34,7 +34,7 @@ public class MenuBar extends JMenuBar {
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
 		elapsedTimeLabel = new JLabel("");
-		timer = new GameTimer(elapsedTimeLabel);
+		timer = GameTimer.getInstance();
 
 		exit.addActionListener(e -> System.exit(0));
 

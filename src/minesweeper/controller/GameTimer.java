@@ -2,19 +2,24 @@ package minesweeper.controller;
 
 import java.util.Timer;
 
-import javax.swing.JLabel;
-
 import minesweeper.model.GameTimerTask;
 
 // based on https://www.javaspring.net/java_util/mastering_the_java_timer_scheduleatfixedrate_method/
 public class GameTimer {
-	private final JLabel label;
+	private static GameTimer instance;
 
 	private Timer timer = new Timer();
 	private GameTimerTask task;
 
-	public GameTimer(JLabel label) {
-		this.label = label;
+	private GameTimer() {
+	}
+
+	// singleton hehe
+	public static GameTimer getInstance() {
+		if (instance == null) {
+			instance = new GameTimer();
+		}
+		return instance;
 	}
 
 	public void startTimer() {
@@ -28,7 +33,6 @@ public class GameTimer {
 			task.cancel();
 		}
 		timer.purge();
-		label.setText("");
 	}
 
 	public String getTime() {
