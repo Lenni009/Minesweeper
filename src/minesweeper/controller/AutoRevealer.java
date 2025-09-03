@@ -8,7 +8,7 @@ import minesweeper.model.MsData;
 public class AutoRevealer {
 
 	private MsData data;
-	private RevealChecker revealChecker;
+	public RevealChecker revealChecker;
 
 	public AutoRevealer(MsData model) {
 		this.data = model;

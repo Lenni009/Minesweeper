@@ -1,29 +1,48 @@
 package minesweeper.controller;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
-import minesweeper.view.EndScreen;
 
 public class RevealChecker {
+	
+	private MsData data;
 
 	private int revealedFields = 0;
 	private int amountOfNormalFields;
 
 	public RevealChecker(MsData model) {
-		amountOfNormalFields = model.fieldLen * model.fieldLen - model.amountOfMines;
+		this.data = model;
+		amountOfNormalFields = data.fieldLen * data.fieldLen - data.amountOfMines;
 	}
 
 	public void incrementRevealedFields() {
 		revealedFields++;
 		Logger.info("revealed fields: " + revealedFields);
-		if (!isGameOver())
-			return;
-
-		new EndScreen();
 	}
 
-	private boolean isGameOver() {
+	public boolean isGameOver() {
 		return amountOfNormalFields == revealedFields;
+	}
+	
+	public Set<Field> revealMap() {
+		// TODO: use colors -> Related to Issue #4
+
+		Set<Field> changedFields = new HashSet<Field>();
+
+		// TODO: refactor clean code bla
+		for (Field[] fieldX : data.getMinefield()) {
+			for (Field fieldY : fieldX) {
+				if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
+					fieldY.setText("/ ! \\");
+					fieldY.setFlagged(Flag.FLAGGED);
+				}
+				changedFields.add(fieldY);
+			}
+		}
+		return changedFields;
 	}
 
 }

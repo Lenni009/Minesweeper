@@ -5,6 +5,7 @@ import javax.swing.*;
 
 import minesweeper.controller.Flag;
 import minesweeper.controller.GameTimer;
+import minesweeper.Minesweeper;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
 import minesweeper.controller.Field;
@@ -23,7 +24,7 @@ public class MineField extends JPanel {
 
 	private JButton[][] buttons;
 
-	AutoRevealer autoRevealer;
+	private AutoRevealer autoRevealer;
 	
 	public MineField(MsData model) {
 		this.data = model;
@@ -148,7 +149,20 @@ public class MineField extends JPanel {
 		// reveal field
 		else {
 			Set<Field> revealedFields = autoRevealer.revealField(field);
-			updateButtonsGUI(revealedFields);
+			
+			if (!autoRevealer.revealChecker.isGameOver()) {
+				updateButtonsGUI(revealedFields);
+			}
+			else {
+				
+				// Flag all mines, if game is won
+				revealedFields.addAll(autoRevealer.revealChecker.revealMap());
+				updateButtonsGUI(revealedFields);			
+				
+				Minesweeper.getInstance().endGame();
+				
+				new EndScreen();
+			}
 		}
 	}
 
@@ -212,7 +226,10 @@ public class MineField extends JPanel {
 			// [0] is not the wanted listener (but
 			// javax.swing.plaf.basic.BasicButtonListener)
 			// [1] is the wanted listener
-			changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
+			for (ActionListener listener : changedButton.getActionListeners()) {
+				changedButton.removeActionListener(listener);
+			}
+			// changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
 		}
 	}
 }
