@@ -138,7 +138,7 @@ public class MineField extends JPanel {
 			Logger.info("BOOOOOOOM");
 
 			MenuBar.getInstance().stopTimer();
-			revealMap(button, field);
+			revealMap(field);
 
 			new EndScreen();
 		}
@@ -150,7 +150,7 @@ public class MineField extends JPanel {
 		}
 	}
 
-	private void revealMap(JButton button, Field field) {
+	private void revealMap(Field field) {
 		// TODO: use colors -> Related to Issue #4
 		
 		// Placeholders:
@@ -162,29 +162,7 @@ public class MineField extends JPanel {
 		
 		for (Field[] fieldX : data.getMinefield()) {
 			for (Field fieldY : fieldX) {
-				// it was no mine, but was flagged
-				if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
-					fieldY.setText("R");
-					changedFields.add(fieldY);
-				}
-				// it was not a mine, but was flagged with "?"
-				else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-					// nothing to do, but the documentation in the issue described this case
-					
-					// optional: falsly "?"-flagged fields could also be marked red:
-					// fieldY.setText("R");
-					// changedFields.add(fieldY);
-				}
-				// it was a mine and got flagged with "?" -> counts
-				else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-					fieldY.setText("D");
-					changedFields.add(fieldY);
-				}
-				// it was a mine and got flagged with "!"
-				else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-					fieldY.setText("D");
-					changedFields.add(fieldY);
-				}
+				revealMines(changedFields, fieldY);
 			}
 		}
 		
@@ -192,6 +170,32 @@ public class MineField extends JPanel {
 		changedFields.add(field);
 		
 		updateButtonsGUI(changedFields);
+	}
+
+	private void revealMines(Set<Field> changedFields, Field fieldY) {
+		// it was no mine, but was flagged
+		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
+			fieldY.setText("R");
+			changedFields.add(fieldY);
+		}
+		// it was not a mine, but was flagged with "?"
+		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+			// nothing to do, but the documentation in the issue described this case
+			
+			// optional: falsly "?"-flagged fields could also be marked red:
+			// fieldY.setText("R");
+			// changedFields.add(fieldY);
+		}
+		// it was a mine and got flagged with "?" -> counts
+		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+			fieldY.setText("D");
+			changedFields.add(fieldY);
+		}
+		// it was a mine and got flagged with "!"
+		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
+			fieldY.setText("D");
+			changedFields.add(fieldY);
+		}
 	}
 
 	private void updateButtonsGUI(Set<Field> revealedFields) {
