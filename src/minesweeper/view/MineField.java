@@ -130,6 +130,7 @@ public class MineField extends JPanel {
 			isFirstClick = false;
 			MineDistributor mineDistributor = new MineDistributor(data, field);
 			mineDistributor.distributeMines();
+			GameTimerLabel.getInstance().showTime();
 			GameTimer.getInstance().startTimer(GameTimerLabel.getInstance());
 		}
 

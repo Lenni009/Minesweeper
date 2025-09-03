@@ -41,7 +41,6 @@ public class Minesweeper {
 		view.addPanel(mineField, "game");
 		view.showPanel("game");
 
-		GameTimerLabel.getInstance().showTime();
 		MenuBar.getInstance().showGameMenu();
 	}
 	
