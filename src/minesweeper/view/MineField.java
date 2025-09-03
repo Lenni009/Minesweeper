@@ -5,7 +5,6 @@ import javax.swing.*;
 
 import minesweeper.controller.Flag;
 import minesweeper.controller.GameTimer;
-import minesweeper.Minesweeper;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
 import minesweeper.controller.Field;
@@ -16,6 +15,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
+@SuppressWarnings("serial")
 public class MineField extends JPanel {
 
 	private MsData data;

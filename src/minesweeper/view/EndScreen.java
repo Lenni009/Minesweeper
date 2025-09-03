@@ -15,6 +15,7 @@ import javax.swing.JPanel;
 import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 
+@SuppressWarnings("serial")
 public class EndScreen extends JDialog {
 
 	public EndScreen() {
@@ -22,16 +23,18 @@ public class EndScreen extends JDialog {
 		
 		// set up dialog frame
 		this.setModalityType(ModalityType.APPLICATION_MODAL); // make game window un-interactable
-		this.setTitle("Gewonnen|Verloren (Spiel zuende?)"); // TODO: proper title
-		this.setSize(100, 100);
+		this.setTitle("Spiel zuende");
+		this.setSize(300, 300);
+		
 		MsGUI gui = MsGUI.getInstance();
+		
 		Dimension size = gui.getSize();
 		Point location = gui.getLocation();
 		int xAxis = size.width/2 + location.x - this.getSize().width/2;
 		int yAxis = size.height/2 + location.y - this.getSize().height/2;
 		
 		this.setLocation(xAxis, yAxis);
-		//this.setLocation();
+
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
 		// copied from
