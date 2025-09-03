@@ -148,21 +148,25 @@ public class MineField extends JPanel {
 
 		// reveal field
 		else {
-			Set<Field> revealedFields = autoRevealer.revealField(field);
+			revealField(field);
+		}
+	}
+
+	private void revealField(Field field) {
+		Set<Field> revealedFields = autoRevealer.revealField(field);
+		
+		if (!autoRevealer.revealChecker.isGameOver()) {
+			updateButtonsGUI(revealedFields);
+		}
+		else {
 			
-			if (!autoRevealer.revealChecker.isGameOver()) {
-				updateButtonsGUI(revealedFields);
-			}
-			else {
-				
-				// Flag all mines, if game is won
-				revealedFields.addAll(autoRevealer.revealChecker.revealMap());
-				updateButtonsGUI(revealedFields);			
-				
-				Minesweeper.getInstance().endGame();
-				
-				new EndScreen();
-			}
+			// Flag all mines, if game is won
+			revealedFields.addAll(autoRevealer.revealChecker.revealMap());
+			updateButtonsGUI(revealedFields);			
+			
+			GameTimer.getInstance().stopTimer();
+			
+			new EndScreen();
 		}
 	}
 
@@ -223,13 +227,9 @@ public class MineField extends JPanel {
 
 			changedButton.setText(changedField.getText());
 			changedButton.setEnabled(false);
-			// [0] is not the wanted listener (but
-			// javax.swing.plaf.basic.BasicButtonListener)
-			// [1] is the wanted listener
 			for (ActionListener listener : changedButton.getActionListeners()) {
 				changedButton.removeActionListener(listener);
 			}
-			// changedButton.removeMouseListener(changedButton.getMouseListeners()[1]);
 		}
 	}
 }

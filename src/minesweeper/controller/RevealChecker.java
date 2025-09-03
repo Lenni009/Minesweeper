@@ -32,17 +32,20 @@ public class RevealChecker {
 
 		Set<Field> changedFields = new HashSet<Field>();
 
-		// TODO: refactor clean code bla
 		for (Field[] fieldX : data.getMinefield()) {
 			for (Field fieldY : fieldX) {
-				if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-					fieldY.setText("/ ! \\");
-					fieldY.setFlagged(Flag.FLAGGED);
-				}
-				changedFields.add(fieldY);
+				checkAndSetFlags(changedFields, fieldY);
 			}
 		}
 		return changedFields;
+	}
+
+	private void checkAndSetFlags(Set<Field> changedFields, Field fieldY) {
+		if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
+			fieldY.setText("/ ! \\");
+			fieldY.setFlagged(Flag.FLAGGED);
+		}
+		changedFields.add(fieldY);
 	}
 
 }
