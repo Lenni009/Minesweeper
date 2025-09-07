@@ -1,6 +1,5 @@
 package minesweeper.view;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
 
@@ -232,7 +231,7 @@ public class MineField extends JPanel {
 			JButton changedButton = buttons[posX][posY];
 
 			changedButton.setText(changedField.getText());
-			changedButton.setBackground(changedField.getBackgroundColor().getColor());
+			changedButton.setBackground(changedField.getBackgroundColor());
 			changedButton.setEnabled(false);
 			for (ActionListener listener : changedButton.getActionListeners()) {
 				changedButton.removeActionListener(listener);

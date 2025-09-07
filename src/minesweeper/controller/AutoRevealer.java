@@ -1,5 +1,6 @@
 package minesweeper.controller;
 
+import java.awt.Color;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -40,14 +41,21 @@ public class AutoRevealer {
 		// reveal field
 		field.setClickable(false);
 		data.countMineNeighbours(fieldX, fieldY);
-		field.setText(String.valueOf(field.getMineNeighbourCount()));
+		int mineNeighborCount = field.getMineNeighbourCount();
+		if (mineNeighborCount > 0) {
+			// scaling between 0x80 (orange) and 0xFF (yellow)
+			int greenValue = 0xFF - (mineNeighborCount - 1) * 18;
+			Color backgroundColor = new Color(0xFF, greenValue, 0);
+			field.setBackgroundColor(backgroundColor);
+		}
+		field.setText(String.valueOf(mineNeighborCount));
 
 		int[][] neighbours = { { fieldX - 1, fieldY - 1 }, { fieldX - 1, fieldY }, { fieldX - 1, fieldY + 1 }, // above
 				{ fieldX, fieldY - 1 }, { fieldX, fieldY + 1 }, // left & right
 				{ fieldX + 1, fieldY - 1 }, { fieldX + 1, fieldY }, { fieldX + 1, fieldY + 1 } }; // under
 
 		// if field has 0 mines as neighbours call reveal for direct neighbours
-		if (field.getMineNeighbourCount() == 0) {
+		if (mineNeighborCount == 0) {
 			for (int[] fieldXY : neighbours) {
 				updateField(changedFields, fieldXY);
 			}
