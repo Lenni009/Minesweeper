@@ -198,6 +198,7 @@ public class MineField extends JPanel {
 		}
 		// it was not a mine, but was flagged with "?"
 		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+			// TODO: clean this up
 			// nothing to do, but the documentation in the issue described this case
 
 			// optional: falsely "?"-flagged fields could also be marked red:
