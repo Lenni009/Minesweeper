@@ -1,7 +1,7 @@
 package minesweeper.enums;
 
 public enum FieldLabel {
-	UNLABELLED(""), BOMB("*"), FLAG("/ ! \\"), MAYBEFLAG("/ ? \\");
+	UNLABELLED(""), MINE("o"), EXPLOSION("*"), FLAG("/ ! \\"), MAYBEFLAG("/ ? \\");
 
 	final String label;
 

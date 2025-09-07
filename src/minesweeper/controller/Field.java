@@ -124,7 +124,7 @@ public class Field {
 	public void setBackgroundColor(FieldColor backgroundColor) {
 		setBackgroundColor(backgroundColor.getColor());
 	}
-	
+
 	public void setBackgroundColor(Color backgroundColor) {
 		this.backgroundColor = backgroundColor;
 	}

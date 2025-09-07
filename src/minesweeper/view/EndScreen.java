@@ -29,6 +29,7 @@ public class EndScreen extends JDialog {
 
 		MsGUI gui = MsGUI.getInstance();
 
+		// position dialog in the middle of game window
 		Dimension size = gui.getSize();
 		Point location = gui.getLocation();
 		int xAxis = size.width / 2 + location.x - this.getSize().width / 2;
@@ -82,7 +83,7 @@ public class EndScreen extends JDialog {
 		String winningStatusText = isWon ? "Gewonnen!" : "Verloren.";
 		JLabel winningStatusDisplay = new JLabel(winningStatusText);
 		winningStatusDisplay.setAlignmentX(CENTER_ALIGNMENT);
-		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000);
+		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000); // isWon ? green : red
 		winningStatusDisplay.setForeground(winningStatusColor);
 
 		// TODO: Bestenliste

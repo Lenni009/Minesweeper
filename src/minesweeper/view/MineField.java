@@ -1,5 +1,6 @@
 package minesweeper.view;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
 
@@ -173,13 +174,6 @@ public class MineField extends JPanel {
 	}
 
 	private void revealMap(Field field) {
-		// TODO: use colors -> Related to Issue #4
-
-		// Placeholders:
-		// D ... dark background
-		// R ... red background
-		// B ... color the bomb red
-
 		Set<Field> changedFields = new HashSet<Field>();
 
 		for (Field[] fieldX : data.getMinefield()) {
@@ -188,7 +182,9 @@ public class MineField extends JPanel {
 			}
 		}
 
-		field.setText("B"); // Placeholder to mark clicked bomb
+		field.setText(FieldLabel.EXPLOSION.toString());
+		field.setBackgroundColor(FieldColor.LIGHTRED);
+
 		changedFields.add(field);
 
 		updateButtonsGUI(changedFields);
@@ -197,7 +193,6 @@ public class MineField extends JPanel {
 	private void revealMines(Set<Field> changedFields, Field fieldY) {
 		// it was no mine, but was flagged
 		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
-			fieldY.setText("R");
 			fieldY.setBackgroundColor(FieldColor.RED);
 			changedFields.add(fieldY);
 		}
@@ -206,18 +201,17 @@ public class MineField extends JPanel {
 			// nothing to do, but the documentation in the issue described this case
 
 			// optional: falsely "?"-flagged fields could also be marked red:
-			// fieldY.setText("R");
 			// fieldY.setBackgroundColor(FieldColor.RED);
 			// changedFields.add(fieldY);
 		}
-		// it was a mine and got flagged with "?" -> counts
+		// it was a mine and got flagged with "?" -> counts, field doesn't change
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-			fieldY.setText("D");
-			changedFields.add(fieldY);
+			// fieldY.setText(FieldLabel.MINE.toString());
+			// changedFields.add(fieldY);
 		}
 		// it was a mine and was not flagged
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-			fieldY.setText("D");
+			fieldY.setText(FieldLabel.MINE.toString());
 			fieldY.setBackgroundColor(FieldColor.LIGHTGREY);
 			changedFields.add(fieldY);
 		}
