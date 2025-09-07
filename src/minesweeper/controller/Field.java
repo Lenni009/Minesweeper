@@ -1,5 +1,7 @@
 package minesweeper.controller;
 
+import minesweeper.enums.FieldColor;
+import minesweeper.enums.FieldLabel;
 import minesweeper.enums.Flag;
 
 public class Field {
@@ -32,7 +34,11 @@ public class Field {
 	private int posX;
 	private int posY;
 
-	public String caption;
+	// text to display
+	private String caption;
+
+	// backgroundcolor
+	private FieldColor backgroundColor;
 
 	public Field(int x, int y) {
 
@@ -47,9 +53,11 @@ public class Field {
 
 		mineNeighbourCount = 0;
 
-		caption = "";
+		caption = FieldLabel.UNLABELLED.toString();
 
 		isClickable = true;
+
+		setBackgroundColor(FieldColor.WHITE);
 	}
 
 	public boolean isMine() {
@@ -109,4 +117,11 @@ public class Field {
 		this.isClickable = isClickable;
 	}
 
+	public FieldColor getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(FieldColor backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
 }

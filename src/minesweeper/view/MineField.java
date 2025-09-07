@@ -1,11 +1,13 @@
 package minesweeper.view;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
 
 import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
+import minesweeper.enums.FieldColor;
 import minesweeper.enums.FieldLabel;
 import minesweeper.enums.Flag;
 import minesweeper.controller.Field;
@@ -197,6 +199,7 @@ public class MineField extends JPanel {
 		// it was no mine, but was flagged
 		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
 			fieldY.setText("R");
+			fieldY.setBackgroundColor(FieldColor.RED);
 			changedFields.add(fieldY);
 		}
 		// it was not a mine, but was flagged with "?"
@@ -205,6 +208,7 @@ public class MineField extends JPanel {
 
 			// optional: falsely "?"-flagged fields could also be marked red:
 			// fieldY.setText("R");
+			// fieldY.setBackgroundColor(FieldColor.RED);
 			// changedFields.add(fieldY);
 		}
 		// it was a mine and got flagged with "?" -> counts
@@ -212,9 +216,10 @@ public class MineField extends JPanel {
 			fieldY.setText("D");
 			changedFields.add(fieldY);
 		}
-		// it was a mine and got flagged with "!"
+		// it was a mine and was not flagged
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
 			fieldY.setText("D");
+			fieldY.setBackgroundColor(FieldColor.LIGHTGREY);
 			changedFields.add(fieldY);
 		}
 	}
@@ -227,6 +232,7 @@ public class MineField extends JPanel {
 			JButton changedButton = buttons[posX][posY];
 
 			changedButton.setText(changedField.getText());
+			changedButton.setBackground(changedField.getBackgroundColor().getColor());
 			changedButton.setEnabled(false);
 			for (ActionListener listener : changedButton.getActionListeners()) {
 				changedButton.removeActionListener(listener);
