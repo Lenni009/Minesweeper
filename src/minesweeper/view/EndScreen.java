@@ -86,13 +86,17 @@ public class EndScreen extends JDialog {
 		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000); // isWon ? green : red
 		winningStatusDisplay.setForeground(winningStatusColor);
 
-		// TODO: Bestenliste
-		// new Bestenliste().setVisible(isWon);
+		LeaderBoard leaderBoard = new LeaderBoard();
 
 		wrapper.add(winningStatusDisplay);
 		wrapper.add(timeDisplay);
 
 		wrapper.add(buttons);
+
+		// TODO: set "true" to "isWon"
+		if (true) {
+			wrapper.add(leaderBoard);
+		}
 
 		this.add(wrapper);
 
