@@ -20,7 +20,7 @@ public class MenuBar extends JMenuBar {
 	private JLabel statusLabel;
 	private GameTimerLabel gameTimerLabel;
 	private JMenu gameMenu;
-	
+
 	private MenuBar() {
 		// Menu
 		JMenu fileMenu = new JMenu("Datei");
@@ -28,7 +28,7 @@ public class MenuBar extends JMenuBar {
 		gameMenu = new JMenu("Spiel");
 		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
 		JMenuItem mainMenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
-		//JMenu onlineMenu = new JMenu("Online");
+		// JMenu onlineMenu = new JMenu("Online");
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();
@@ -46,7 +46,7 @@ public class MenuBar extends JMenuBar {
 		// assign everything
 		this.add(fileMenu);
 		this.add(gameMenu);
-		//this.add(onlineMenu);
+		// this.add(onlineMenu);
 		this.add(helpMenu);
 		fileMenu.add(exit);
 		gameMenu.add(restart);

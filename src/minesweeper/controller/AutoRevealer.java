@@ -3,6 +3,7 @@ package minesweeper.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import minesweeper.enums.Flag;
 import minesweeper.model.MsData;
 
 public class AutoRevealer {
@@ -23,12 +24,11 @@ public class AutoRevealer {
 		if (field.isMine() || !field.isClickable()) {
 			return changedFields;
 		}
-		
+
 		if (field.getFlagged() == Flag.FLAGGED) {
 			data.placedFlags--;
 			field.setFlagged(Flag.NOFLAG);
-		}
-		else if (field.getFlagged() == Flag.QUESTIONMARK){
+		} else if (field.getFlagged() == Flag.QUESTIONMARK) {
 			field.setFlagged(Flag.NOFLAG);
 		}
 

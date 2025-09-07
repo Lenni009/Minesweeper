@@ -3,10 +3,11 @@ package minesweeper.view;
 import java.awt.GridLayout;
 import javax.swing.*;
 
-import minesweeper.controller.Flag;
 import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
+import minesweeper.enums.FieldLabel;
+import minesweeper.enums.Flag;
 import minesweeper.controller.Field;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
@@ -25,7 +26,7 @@ public class MineField extends JPanel {
 	private JButton[][] buttons;
 
 	private AutoRevealer autoRevealer;
-	
+
 	public MineField(MsData model) {
 		this.data = model;
 		autoRevealer = new AutoRevealer(data);
@@ -87,24 +88,24 @@ public class MineField extends JPanel {
 	 */
 	private void rightclickEvent(JButton button, Field field) {
 		Flag flag = Flag.NOFLAG;
-		String text = "";
+		FieldLabel label = FieldLabel.UNLABELLED;
 
 		if (field.getFlagged() == Flag.NOFLAG) { // there's no flag set
 			if (data.placedFlags < data.amountOfMines) {
 				data.placedFlags++;
-				text = "/ ! \\";
+				label = FieldLabel.FLAG;
 				flag = Flag.FLAGGED;
 			} else { // no flags left, put "?" instead
-				text = "/ ? \\";
+				label = FieldLabel.MAYBEFLAG;
 				flag = Flag.QUESTIONMARK;
 			}
 		} else if (field.getFlagged() == Flag.FLAGGED) { // flag was already set
-			text = "/ ? \\";
+			label = FieldLabel.MAYBEFLAG;
 			flag = Flag.QUESTIONMARK;
 			data.placedFlags--;
 		}
 
-		field.setText(text);
+		field.setText(label.toString());
 		field.setFlagged(flag);
 
 		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
@@ -154,19 +155,18 @@ public class MineField extends JPanel {
 
 	private void revealField(Field field) {
 		Set<Field> revealedFields = autoRevealer.revealField(field);
-		
+
 		if (!autoRevealer.revealChecker.isGameOver()) {
 			updateButtonsGUI(revealedFields);
 			MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
-		}
-		else {
-			
+		} else {
+
 			// Flag all mines, if game is won
 			revealedFields.addAll(autoRevealer.revealChecker.revealMap());
-			updateButtonsGUI(revealedFields);			
-			
+			updateButtonsGUI(revealedFields);
+
 			GameTimer.getInstance().stopTimer();
-			
+
 			new EndScreen(true);
 		}
 	}

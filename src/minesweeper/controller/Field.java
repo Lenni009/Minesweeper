@@ -1,5 +1,7 @@
 package minesweeper.controller;
 
+import minesweeper.enums.Flag;
+
 public class Field {
 
 	/**

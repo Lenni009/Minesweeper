@@ -21,19 +21,19 @@ public class EndScreen extends JDialog {
 
 	public EndScreen(boolean isWon) {
 		Minesweeper minesweeper = Minesweeper.getInstance();
-		
+
 		// set up dialog frame
 		this.setModalityType(ModalityType.APPLICATION_MODAL); // make game window un-interactable
 		this.setTitle("Spiel zuende");
 		this.setSize(300, 300);
-		
+
 		MsGUI gui = MsGUI.getInstance();
-		
+
 		Dimension size = gui.getSize();
 		Point location = gui.getLocation();
-		int xAxis = size.width/2 + location.x - this.getSize().width/2;
-		int yAxis = size.height/2 + location.y - this.getSize().height/2;
-		
+		int xAxis = size.width / 2 + location.x - this.getSize().width / 2;
+		int yAxis = size.height / 2 + location.y - this.getSize().height / 2;
+
 		this.setLocation(xAxis, yAxis);
 
 		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -56,7 +56,7 @@ public class EndScreen extends JDialog {
 
 		JButton mainMenu = new JButton("Hauptmenü");
 		JButton restart = new JButton("Nochmal");
-		
+
 		JPanel buttons = new JPanel();
 		buttons.setLayout(new BoxLayout(buttons, BoxLayout.X_AXIS));
 
@@ -78,25 +78,25 @@ public class EndScreen extends JDialog {
 		String elapsedTime = GameTimer.getInstance().getTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
 		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
-		
+
 		String winningStatusText = isWon ? "Gewonnen!" : "Verloren.";
 		JLabel winningStatusDisplay = new JLabel(winningStatusText);
 		winningStatusDisplay.setAlignmentX(CENTER_ALIGNMENT);
-		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000); 
+		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000);
 		winningStatusDisplay.setForeground(winningStatusColor);
-		
+
 		// TODO: Bestenliste
 		// new Bestenliste().setVisible(isWon);
 
 		wrapper.add(winningStatusDisplay);
 		wrapper.add(timeDisplay);
-		
+
 		wrapper.add(buttons);
-		
+
 		this.add(wrapper);
 
 		this.setVisible(true);
-		
+
 		minesweeper.endGame();
 	}
 }
