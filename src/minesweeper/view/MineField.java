@@ -1,6 +1,5 @@
 package minesweeper.view;
 
-import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
 
@@ -18,7 +17,6 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
-@SuppressWarnings("serial")
 public class MineField extends JPanel {
 
 	private MsData data;

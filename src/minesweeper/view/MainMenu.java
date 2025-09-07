@@ -7,7 +7,6 @@ import javax.swing.JPanel;
 
 import minesweeper.Minesweeper;
 
-@SuppressWarnings("serial")
 public class MainMenu extends JPanel {
 
 	private static MainMenu instance;

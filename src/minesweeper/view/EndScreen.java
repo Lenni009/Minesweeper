@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 
-@SuppressWarnings("serial")
 public class EndScreen extends JDialog {
 
 	public EndScreen(boolean isWon) {
