@@ -5,11 +5,9 @@ import minesweeper.utils.Logger;
 
 public class MsData {
 
-	public final int fieldLen;
-
-	public final int amountOfMines;
-
-	public int placedFlags = 0;
+	private final int fieldLen;
+	private final int amountOfMines;
+	private int placedFlags = 0;
 
 	/**
 	 * Mine[x][y] with x .. Row y .. Column
@@ -102,4 +100,19 @@ public class MsData {
 				&& neighbourPos[position][1] < fieldLen;
 	}
 
+	public int getFieldLen() {
+		return fieldLen;
+	}
+
+	public int getAmountOfMines() {
+		return amountOfMines;
+	}
+
+	public int getPlacedFlags() {
+		return placedFlags;
+	}
+
+	public void setPlacedFlags(int placedFlags) {
+		this.placedFlags = placedFlags;
+	}
 }

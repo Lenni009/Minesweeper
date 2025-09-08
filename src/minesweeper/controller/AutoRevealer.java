@@ -27,7 +27,8 @@ public class AutoRevealer {
 		}
 
 		if (field.getFlagged() == Flag.FLAGGED) {
-			data.placedFlags--;
+			// maintaining single source of truth
+			data.setPlacedFlags(data.getPlacedFlags() - 1);
 			field.setFlagged(Flag.NOFLAG);
 		} else if (field.getFlagged() == Flag.QUESTIONMARK) {
 			field.setFlagged(Flag.NOFLAG);
@@ -74,7 +75,8 @@ public class AutoRevealer {
 	}
 
 	private boolean isValidPosition(int posX, int posY) {
-		return (0 <= posX && posX < data.fieldLen && 0 <= posY && posY < data.fieldLen);
+		int fieldLen = data.getFieldLen();
+		return (0 <= posX && posX < fieldLen && 0 <= posY && posY < fieldLen);
 	}
 
 }

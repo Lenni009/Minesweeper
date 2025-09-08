@@ -31,14 +31,16 @@ public class MineField extends JPanel {
 		this.data = model;
 		autoRevealer = new AutoRevealer(data);
 
-		this.setLayout(new GridLayout(data.fieldLen, data.fieldLen));
+		int fieldLen = data.getFieldLen();
 
-		data.generateMinefield(data.fieldLen);
+		this.setLayout(new GridLayout(fieldLen, fieldLen));
 
-		buttons = new JButton[data.fieldLen][data.fieldLen];
+		data.generateMinefield(fieldLen);
 
-		for (int posX = 0; posX < data.fieldLen; posX++) {
-			for (int posY = 0; posY < data.fieldLen; posY++) {
+		buttons = new JButton[fieldLen][fieldLen];
+
+		for (int posX = 0; posX < fieldLen; posX++) {
+			for (int posY = 0; posY < fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
 				add(button);
@@ -46,7 +48,8 @@ public class MineField extends JPanel {
 			}
 		}
 
-		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+		MenuBar.getInstance()
+				.setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + data.getAmountOfMines());
 	}
 
 	/**
@@ -90,9 +93,12 @@ public class MineField extends JPanel {
 		Flag flag = Flag.NOFLAG;
 		FieldLabel label = FieldLabel.UNLABELLED;
 
+		int amountOfMines = data.getAmountOfMines();
+
 		if (field.getFlagged() == Flag.NOFLAG) { // there's no flag set
-			if (data.placedFlags < data.amountOfMines) {
-				data.placedFlags++;
+			if (data.getPlacedFlags() < amountOfMines) {
+				// calling the getter inside the setter to maintain a single source of truth
+				data.setPlacedFlags(data.getPlacedFlags() + 1);
 				label = FieldLabel.FLAG;
 				flag = Flag.FLAGGED;
 			} else { // no flags left, put "?" instead
@@ -102,16 +108,16 @@ public class MineField extends JPanel {
 		} else if (field.getFlagged() == Flag.FLAGGED) { // flag was already set
 			label = FieldLabel.MAYBEFLAG;
 			flag = Flag.QUESTIONMARK;
-			data.placedFlags--;
+			data.setPlacedFlags(data.getPlacedFlags() - 1);
 		}
 
 		field.setText(label.toString());
 		field.setFlagged(flag);
 
-		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + amountOfMines);
 		button.setText(field.getText());
 
-		Logger.info("# platzierte Flaggen: " + data.placedFlags);
+		Logger.info("# platzierte Flaggen: " + data.getPlacedFlags());
 	}
 
 	/**
@@ -158,7 +164,8 @@ public class MineField extends JPanel {
 
 		if (!autoRevealer.revealChecker.isGameOver()) {
 			updateButtonsGUI(revealedFields);
-			MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
+			MenuBar.getInstance()
+					.setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + data.getAmountOfMines());
 		} else {
 
 			// Flag all mines, if game is won

@@ -17,7 +17,8 @@ public class RevealChecker {
 
 	public RevealChecker(MsData model) {
 		this.data = model;
-		amountOfNormalFields = data.fieldLen * data.fieldLen - data.amountOfMines;
+		int fieldLen = data.getFieldLen();
+		amountOfNormalFields = fieldLen * fieldLen - data.getAmountOfMines();
 	}
 
 	public void incrementRevealedFields() {

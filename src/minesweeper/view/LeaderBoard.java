@@ -9,8 +9,10 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
+import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 import minesweeper.model.LeaderBoardData;
+import minesweeper.model.MsData;
 
 public class LeaderBoard extends JPanel {
 
@@ -62,6 +64,11 @@ public class LeaderBoard extends JPanel {
 				tableModel.removeRow(editableRow);
 				String[] newTableRow = { elapsedTime, userName };
 				tableModel.addTableRow(newTableRow);
+
+				MsData model = Minesweeper.getInstance().getModel();
+				int fieldLen = model.getFieldLen();
+				int amountOfMines = model.getAmountOfMines();
+				tableModel.export(fieldLen, amountOfMines);
 			}
 
 			// these must be here, otherwise Java complains about unimplemented methods

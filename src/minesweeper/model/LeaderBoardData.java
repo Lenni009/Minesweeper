@@ -6,13 +6,18 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
+import minesweeper.controller.CsvWriter;
+import minesweeper.controller.FileCreator;
+
 public class LeaderBoardData extends DefaultTableModel {
 
+	private String[] columnNames;
 	private List<String[]> tableData = new ArrayList<>();
 	private int lastRowIndex;
 
-	public LeaderBoardData(Object[] columnNames, int rowCount) {
+	public LeaderBoardData(String[] columnNames, int rowCount) {
 		super(columnNames, rowCount);
+		this.columnNames = columnNames;
 	}
 
 	// GPT generated
@@ -32,19 +37,46 @@ public class LeaderBoardData extends DefaultTableModel {
 		tableData.sort(Comparator.comparing(arr -> arr[0])); // comparison function by GPT
 
 		lastRowIndex = tableData.indexOf(row);
+		transferDataToModel();
+	}
 
-		this.setRowCount(0);
-
-		for (int i = 0; i < tableData.size(); i++) {
-
-			String[] rowData = tableData.get(i);
-			String[] tableRow = { Integer.toString(i + 1), rowData[0], rowData[1] };
-
-			this.addRow(tableRow);
-		}
+	public void removeTableRow(int index) {
+		tableData.remove(index);
+		transferDataToModel();
 	}
 
 	public int getLastRowIndex() {
 		return lastRowIndex;
+	}
+
+	private void transferDataToModel() {
+		// remove all rows from the model so we have no old data
+		this.setRowCount(0);
+
+		List<String[]> rankTableData = addRanksToData(tableData);
+
+		// add all rows back from our own data
+		for (String[] tableRow : rankTableData) {
+			this.addRow(tableRow);
+		}
+
+	}
+
+	private List<String[]> addRanksToData(List<String[]> data) {
+		List<String[]> rankData = new ArrayList<>();
+		for (int i = 0; i < data.size(); i++) {
+			String[] rowData = data.get(i);
+			String[] tableRow = { Integer.toString(i + 1), rowData[0], rowData[1] };
+			rankData.add(tableRow);
+		}
+		return rankData;
+	}
+
+	public void export(int sideLength, int mineCount) {
+		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
+		List<String[]> rankTableData = addRanksToData(tableData);
+		String csvData = CsvWriter.createCsv(columnNames, rankTableData);
+
+		FileCreator.writeFile(filePath, csvData);
 	}
 }
