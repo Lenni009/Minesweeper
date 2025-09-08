@@ -1,29 +1,27 @@
 package minesweeper.view;
 
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JTextField;
+import javax.swing.JScrollPane;
+import javax.swing.JTable;
 
 public class LeaderBoard extends JPanel {
 
 	public LeaderBoard() {
 
-		this.setLayout(new GridLayout(0, 3));
-		JLabel rankLabel = new JLabel("Platzierung");
-		JLabel timeLabel = new JLabel("Zeit");
-		JLabel nameLabel = new JLabel("Name");
-		JTextField input = new JTextField();
+		// copied from
+		// https://www.paes.eit.htwk-leipzig.de/Java-Insel/javainsel_15_024.htm#Rxx365java150240400054F1F02A10D
+		String rowData[][] = { { "Japan", "245", "idk" }, { "USA", "240", "" }, { "Italien", "220", "" },
+				{ "Spanien", "217", "" } };
 
-		JLabel userRankLabel = new JLabel("1");
-		JLabel userTimeLabel = new JLabel("10:00");
+		String columnNames[] = { "Platzierung", "Zeit", "Name" };
+		// end of copy
 
-		this.add(rankLabel);
-		this.add(timeLabel);
-		this.add(nameLabel);
-		this.add(userRankLabel);
-		this.add(userTimeLabel);
-		this.add(input);
+		// copied from GPT
+		JTable table = new JTable(rowData, columnNames);
+		table.setRowHeight(30); // Set row height
+		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		// end of copy
+
+		this.add(new JScrollPane(table));
 	}
 }
