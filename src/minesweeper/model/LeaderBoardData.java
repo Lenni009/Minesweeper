@@ -1,11 +1,8 @@
 package minesweeper.model;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import javax.swing.table.DefaultTableModel;
 
@@ -39,7 +36,7 @@ public class LeaderBoardData extends DefaultTableModel {
 		for (int i = 0; i < tableData.size(); i++) {
 
 			String[] rowData = tableData.get(i);
-			String[] tableRow = { Integer.toString(i + 1), row[0], rowData[1] };
+			String[] tableRow = { Integer.toString(i + 1), rowData[0], rowData[1] };
 
 			this.addRow(tableRow);
 		}
