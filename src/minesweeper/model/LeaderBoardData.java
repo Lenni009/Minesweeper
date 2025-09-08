@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import minesweeper.controller.CsvHandler;
 import minesweeper.controller.FileCreator;
 import minesweeper.controller.FileReader;
+import minesweeper.utils.Logger;
 
 public class LeaderBoardData extends DefaultTableModel {
 
@@ -51,20 +52,15 @@ public class LeaderBoardData extends DefaultTableModel {
 	}
 
 	private void transferDataToModel() {
-		transferDataToModel(false);
-	}
-
-	private void transferDataToModel(boolean ranksExistInData) {
 		// remove all rows from the model so we have no old data
 		this.setRowCount(0);
 
-		List<String[]> rankTableData = ranksExistInData ? tableData : addRanksToData(tableData);
+		List<String[]> rankTableData = addRanksToData(tableData);
 
 		// add all rows back from our own data
 		for (String[] tableRow : rankTableData) {
 			this.addRow(tableRow);
 		}
-
 	}
 
 	private List<String[]> addRanksToData(List<String[]> data) {
@@ -79,8 +75,9 @@ public class LeaderBoardData extends DefaultTableModel {
 
 	public void exportData(int sideLength, int mineCount) {
 		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
-		List<String[]> rankTableData = addRanksToData(tableData);
-		String csvData = CsvHandler.createCsv(columnNames, rankTableData);
+		String[] columnNamesWithoutRank = { columnNames[1], columnNames[2] };
+		Logger.logArray(tableData);
+		String csvData = CsvHandler.createCsv(columnNamesWithoutRank, tableData);
 
 		FileCreator.writeFile(filePath, csvData);
 	}
@@ -88,7 +85,9 @@ public class LeaderBoardData extends DefaultTableModel {
 	public void importData(int sideLength, int mineCount) {
 		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
 		List<String> rows = FileReader.readFile(filePath);
+		if (rows == null)
+			return;
 		tableData = CsvHandler.parseCsv(rows);
-		transferDataToModel(true);
+		transferDataToModel();
 	}
 }

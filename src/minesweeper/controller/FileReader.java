@@ -6,6 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
+import minesweeper.utils.Logger;
+
 public class FileReader {
 
 	public static List<String> readFile(String filePath) {
@@ -20,7 +22,7 @@ public class FileReader {
 			}
 			myReader.close();
 		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+			Logger.error(e.getMessage());
 		}
 		// end of copy
 		return rows;

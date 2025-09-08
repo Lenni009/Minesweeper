@@ -5,6 +5,8 @@ import java.util.List;
 
 public class CsvHandler {
 
+	private static final int amountOfFieldsToParse = 2;
+	
 	public static String createCsv(String[] header, List<String[]> data) {
 		String sep = "sep=,";
 		String headerString = concatArray(header);
@@ -45,7 +47,8 @@ public class CsvHandler {
 		// starting at 2 because we ignore the first two rows (separator and header)
 		for (int i = 2; i < rows.size(); i++) {
 			String row = rows.get(i);
-			String[] rowArr = row.split(",", 3);
+			// the 2 means that we only create an array with 2 items
+			String[] rowArr = row.split(",", amountOfFieldsToParse);
 			String[] unescapedRow = unescapeCsv(rowArr);
 			csvRows.add(unescapedRow);
 		}
@@ -54,7 +57,7 @@ public class CsvHandler {
 	}
 
 	private static String[] unescapeCsv(String[] row) {
-		String[] resultList = new String[3];
+		String[] resultList = new String[amountOfFieldsToParse];
 		for (int i = 0; i < row.length; i++) {
 			String item = row[i];
 			String result = "";
