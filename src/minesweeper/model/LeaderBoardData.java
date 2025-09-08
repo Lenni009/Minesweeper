@@ -9,7 +9,6 @@ import javax.swing.table.DefaultTableModel;
 import minesweeper.controller.CsvHandler;
 import minesweeper.controller.FileCreator;
 import minesweeper.controller.FileReader;
-import minesweeper.utils.Logger;
 
 public class LeaderBoardData extends DefaultTableModel {
 
@@ -76,7 +75,6 @@ public class LeaderBoardData extends DefaultTableModel {
 	public void exportData(int sideLength, int mineCount) {
 		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
 		String[] columnNamesWithoutRank = { columnNames[1], columnNames[2] };
-		Logger.logArray(tableData);
 		String csvData = CsvHandler.createCsv(columnNamesWithoutRank, tableData);
 
 		FileCreator.writeFile(filePath, csvData);
