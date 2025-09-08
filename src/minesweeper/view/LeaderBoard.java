@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
+import javax.swing.event.AncestorEvent;
+import javax.swing.event.AncestorListener;
 
 import minesweeper.controller.GameTimer;
 import minesweeper.model.LeaderBoardData;
@@ -37,10 +39,11 @@ public class LeaderBoard extends JPanel {
 
 		this.add(new JScrollPane(table)); // we need a scrollplane, otherwise the header isn't shown
 
+		int editableRow = tableModel.getLastRowIndex();
+		int lastCol = table.getColumnCount() - 1;
+
 		// copied from GPT
 		SwingUtilities.invokeLater(() -> {
-			int editableRow = tableModel.getLastRowIndex();
-			int lastCol = table.getColumnCount() - 1;
 			table.editCellAt(editableRow, lastCol);
 			Component editor = table.getEditorComponent();
 			if (editor != null) {
@@ -48,5 +51,26 @@ public class LeaderBoard extends JPanel {
 			}
 		});
 		// end of copy
+
+		// listen for events on the parent
+		this.addAncestorListener(new AncestorListener() {
+			@Override
+			public void ancestorRemoved(AncestorEvent event) {
+				// TODO: duplicate code with above
+				// forcefully end the editing by providing invalid indices
+				table.editCellAt(-1, -1);
+				String val = tableModel.getValueAt(editableRow, lastCol).toString();
+				System.out.println(val);
+			}
+
+			// these must be here, otherwise Java complains about unimplemented methods
+			@Override
+			public void ancestorAdded(AncestorEvent event) {
+			}
+
+			@Override
+			public void ancestorMoved(AncestorEvent event) {
+			}
+		});
 	}
 }
