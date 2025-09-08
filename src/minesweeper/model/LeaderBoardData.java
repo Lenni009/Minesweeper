@@ -9,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 public class LeaderBoardData extends DefaultTableModel {
 
 	private List<String[]> tableData = new ArrayList<>();
+	private int lastRowIndex;
 
 	public LeaderBoardData(Object[] columnNames, int rowCount) {
 		super(columnNames, rowCount);
@@ -17,8 +18,7 @@ public class LeaderBoardData extends DefaultTableModel {
 	// GPT generated
 	@Override
 	public boolean isCellEditable(int row, int column) {
-		// Only the last cell in the last row is editable
-		return row == getRowCount() - 1 && column == getColumnCount() - 1;
+		return row == lastRowIndex && column == getColumnCount() - 1;
 	};
 	// end of GPT
 
@@ -31,6 +31,8 @@ public class LeaderBoardData extends DefaultTableModel {
 		tableData.add(row);
 		tableData.sort(Comparator.comparing(arr -> arr[0])); // comparison function by GPT
 
+		lastRowIndex = tableData.indexOf(row);
+
 		this.setRowCount(0);
 
 		for (int i = 0; i < tableData.size(); i++) {
@@ -40,5 +42,9 @@ public class LeaderBoardData extends DefaultTableModel {
 
 			this.addRow(tableRow);
 		}
+	}
+
+	public int getLastRowIndex() {
+		return lastRowIndex;
 	}
 }

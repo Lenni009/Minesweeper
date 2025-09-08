@@ -15,7 +15,7 @@ public class LeaderBoard extends JPanel {
 	public LeaderBoard() {
 
 		String elapsedTime = GameTimer.getInstance().getTime();
-		
+
 		String[] dummyData = { "01:00", "idk" }; // TODO: remove this and make dynamic
 		String[] dummyData2 = { elapsedTime, "" }; // TODO: remove this and make dynamic
 
@@ -39,9 +39,9 @@ public class LeaderBoard extends JPanel {
 
 		// copied from GPT
 		SwingUtilities.invokeLater(() -> {
-			int lastRow = table.getRowCount() - 1;
+			int editableRow = tableModel.getLastRowIndex();
 			int lastCol = table.getColumnCount() - 1;
-			table.editCellAt(lastRow, lastCol);
+			table.editCellAt(editableRow, lastCol);
 			Component editor = table.getEditorComponent();
 			if (editor != null) {
 				editor.requestFocusInWindow();
