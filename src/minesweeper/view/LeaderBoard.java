@@ -18,19 +18,19 @@ public class LeaderBoard extends JPanel {
 
 	public LeaderBoard() {
 
+		MsData model = Minesweeper.getInstance().getModel();
+		int fieldLen = model.getFieldLen();
+		int amountOfMines = model.getAmountOfMines();
 		String elapsedTime = GameTimer.getInstance().getTime();
 
-		String[] dummyData = { "01:00", "idk" }; // TODO: remove this and make dynamic
-		String[] dummyData2 = { elapsedTime, "" }; // TODO: remove this and make dynamic
+		String[] userData = { elapsedTime, "" };
 
 		String columnNames[] = { "Platzierung", "Zeit", "Name" };
 
 		LeaderBoardData tableModel = new LeaderBoardData(columnNames, 0);
+		tableModel.importData(fieldLen, amountOfMines);
 
-		// copied from StackOverflow as above
-		tableModel.addTableRow(dummyData);
-		tableModel.addTableRow(dummyData2);
-		// end of copy
+		tableModel.addTableRow(userData);
 
 		// copied from GPT
 		JTable table = new JTable(tableModel);
@@ -65,10 +65,7 @@ public class LeaderBoard extends JPanel {
 				String[] newTableRow = { elapsedTime, userName };
 				tableModel.addTableRow(newTableRow);
 
-				MsData model = Minesweeper.getInstance().getModel();
-				int fieldLen = model.getFieldLen();
-				int amountOfMines = model.getAmountOfMines();
-				tableModel.export(fieldLen, amountOfMines);
+				tableModel.exportData(fieldLen, amountOfMines);
 			}
 
 			// these must be here, otherwise Java complains about unimplemented methods

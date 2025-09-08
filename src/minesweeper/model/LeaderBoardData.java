@@ -6,8 +6,9 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import minesweeper.controller.CsvWriter;
+import minesweeper.controller.CsvHandler;
 import minesweeper.controller.FileCreator;
+import minesweeper.controller.FileReader;
 
 public class LeaderBoardData extends DefaultTableModel {
 
@@ -72,11 +73,18 @@ public class LeaderBoardData extends DefaultTableModel {
 		return rankData;
 	}
 
-	public void export(int sideLength, int mineCount) {
+	public void exportData(int sideLength, int mineCount) {
 		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
 		List<String[]> rankTableData = addRanksToData(tableData);
-		String csvData = CsvWriter.createCsv(columnNames, rankTableData);
+		String csvData = CsvHandler.createCsv(columnNames, rankTableData);
 
 		FileCreator.writeFile(filePath, csvData);
+	}
+
+	public void importData(int sideLength, int mineCount) {
+		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
+		List<String> rows = FileReader.readFile(filePath);
+		tableData = CsvHandler.parseCsv(rows);
+		transferDataToModel();
 	}
 }
