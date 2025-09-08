@@ -61,7 +61,7 @@ public class LeaderBoard extends JPanel {
 				// forcefully end the editing by providing invalid indices
 				table.editCellAt(-1, -1);
 				String userName = tableModel.getValueAt(editableRow, lastCol).toString();
-				tableModel.removeRow(editableRow);
+				tableModel.removeTableRow(editableRow);
 				String[] newTableRow = { elapsedTime, userName };
 				tableModel.addTableRow(newTableRow);
 
