@@ -1,6 +1,7 @@
 package minesweeper.view;
 
 import java.awt.Component;
+import java.awt.Dimension;
 
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -35,8 +36,14 @@ public class LeaderBoard extends JPanel {
 		// copied from GPT
 		JTable table = new JTable(tableModel);
 
-		table.setRowHeight(30); // Set row height
-		table.setPreferredScrollableViewportSize(table.getPreferredSize());
+		int rowHeight = 30;
+		table.setRowHeight(rowHeight); // Set row height
+
+		// fit 5 items at a time
+		int tableHeight = 5 * rowHeight;
+
+		Dimension preferredTableSize = new Dimension(table.getPreferredSize().width, tableHeight);
+		table.setPreferredScrollableViewportSize(preferredTableSize);
 		// end of copy
 
 		this.add(new JScrollPane(table)); // we need a scrollplane, otherwise the header isn't shown
@@ -50,6 +57,7 @@ public class LeaderBoard extends JPanel {
 			Component editor = table.getEditorComponent();
 			if (editor != null) {
 				editor.requestFocusInWindow();
+				table.scrollRectToVisible(table.getCellRect(editableRow, lastCol, true)); // copied from Bing AI GPT (a few hours later)
 			}
 		});
 		// end of copy
