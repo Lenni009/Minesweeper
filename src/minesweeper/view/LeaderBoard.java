@@ -1,8 +1,12 @@
 package minesweeper.view;
 
+import java.awt.GridLayout;
+
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
 public class LeaderBoard extends JPanel {
@@ -27,6 +31,18 @@ public class LeaderBoard extends JPanel {
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		// end of copy
 
+		JPanel currentUserData = new JPanel();
+		currentUserData.setLayout(new GridLayout(1,3));
+		
+		JLabel userRank = new JLabel("1");
+		JLabel userTime = new JLabel("1:00");
+		JTextField userName = new JTextField();
+		
+		currentUserData.add(userRank);
+		currentUserData.add(userTime);
+		currentUserData.add(userName);
+		this.add(currentUserData);
+		
 		this.add(new JScrollPane(table));
 	}
 }
