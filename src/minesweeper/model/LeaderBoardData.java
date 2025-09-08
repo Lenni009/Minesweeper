@@ -51,10 +51,14 @@ public class LeaderBoardData extends DefaultTableModel {
 	}
 
 	private void transferDataToModel() {
+		transferDataToModel(false);
+	}
+
+	private void transferDataToModel(boolean ranksExistInData) {
 		// remove all rows from the model so we have no old data
 		this.setRowCount(0);
 
-		List<String[]> rankTableData = addRanksToData(tableData);
+		List<String[]> rankTableData = ranksExistInData ? tableData : addRanksToData(tableData);
 
 		// add all rows back from our own data
 		for (String[] tableRow : rankTableData) {
@@ -85,6 +89,6 @@ public class LeaderBoardData extends DefaultTableModel {
 		String filePath = sideLength + "x" + sideLength + "_" + mineCount + ".csv";
 		List<String> rows = FileReader.readFile(filePath);
 		tableData = CsvHandler.parseCsv(rows);
-		transferDataToModel();
+		transferDataToModel(true);
 	}
 }
