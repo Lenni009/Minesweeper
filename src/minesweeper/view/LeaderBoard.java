@@ -56,11 +56,12 @@ public class LeaderBoard extends JPanel {
 		this.addAncestorListener(new AncestorListener() {
 			@Override
 			public void ancestorRemoved(AncestorEvent event) {
-				// TODO: duplicate code with above
 				// forcefully end the editing by providing invalid indices
 				table.editCellAt(-1, -1);
-				String val = tableModel.getValueAt(editableRow, lastCol).toString();
-				System.out.println(val);
+				String userName = tableModel.getValueAt(editableRow, lastCol).toString();
+				tableModel.removeRow(editableRow);
+				String[] newTableRow = { elapsedTime, userName };
+				tableModel.addTableRow(newTableRow);
 			}
 
 			// these must be here, otherwise Java complains about unimplemented methods
