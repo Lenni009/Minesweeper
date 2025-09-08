@@ -1,5 +1,7 @@
 package minesweeper.view;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
@@ -7,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 public class LeaderBoard extends JPanel {
@@ -15,10 +19,9 @@ public class LeaderBoard extends JPanel {
 
 		String[] dummyData = { "1", "1:00", "idk" }; // TODO: remove this and make dynamic
 
-		// copied from
-		// https://stackoverflow.com/questions/20526917/load-arraylist-data-into-jtable
 		String columnNames[] = { "Platzierung", "Zeit", "Name" };
 
+		// GPT generated
 		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
 			@Override
 			public boolean isCellEditable(int row, int column) {
@@ -26,27 +29,32 @@ public class LeaderBoard extends JPanel {
 				return row == getRowCount() - 1 && column == getColumnCount() - 1;
 			};
 		};
+		// end of GPT
 
+		// copied from StackOverflow as above
 		tableModel.addRow(dummyData);
 		tableModel.addRow(dummyData);
-		// end copy
+		// end of copy
 
 		// copied from GPT
 		JTable table = new JTable(tableModel);
+
 		table.setRowHeight(30); // Set row height
 		table.setPreferredScrollableViewportSize(table.getPreferredSize());
 		// end of copy
 
-		/*
-		 * JPanel currentUserData = new JPanel(); currentUserData.setLayout(new
-		 * GridLayout(1, 3));
-		 * 
-		 * JLabel userRank = new JLabel("1"); JLabel userTime = new JLabel("1:00");
-		 * JTextField userName = new JTextField(); currentUserData.add(userRank);
-		 * currentUserData.add(userTime); currentUserData.add(userName);
-		 * this.add(currentUserData);
-		 */
+		this.add(new JScrollPane(table)); // we need a scrollplane, otherwise the header isn't shown
 
-		this.add(new JScrollPane(table));
+		// copied from GPT
+		SwingUtilities.invokeLater(() -> {
+			int lastRow = table.getRowCount() - 1;
+			int lastCol = table.getColumnCount() - 1;
+			table.editCellAt(lastRow, lastCol);
+			Component editor = table.getEditorComponent();
+			if (editor != null) {
+				editor.requestFocusInWindow();
+			}
+		});
+		// end of copy
 	}
 }
