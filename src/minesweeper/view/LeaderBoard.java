@@ -1,6 +1,5 @@
 package minesweeper.view;
 
-import java.awt.Color;
 import java.awt.Component;
 
 import javax.swing.JPanel;
@@ -9,27 +8,22 @@ import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
 
+import minesweeper.model.LeaderBoardData;
+
 public class LeaderBoard extends JPanel {
 
 	public LeaderBoard() {
 
-		String[] dummyData = { "1", "1:00", "idk" }; // TODO: remove this and make dynamic
+		String[] dummyData = { "01:00", "idk" }; // TODO: remove this and make dynamic
+		String[] dummyData2 = { "00:59", "idk" }; // TODO: remove this and make dynamic
 
 		String columnNames[] = { "Platzierung", "Zeit", "Name" };
 
-		// GPT generated
-		DefaultTableModel tableModel = new DefaultTableModel(columnNames, 0) {
-			@Override
-			public boolean isCellEditable(int row, int column) {
-				// Only the last cell in the last row is editable
-				return row == getRowCount() - 1 && column == getColumnCount() - 1;
-			};
-		};
-		// end of GPT
+		LeaderBoardData tableModel = new LeaderBoardData(columnNames, 0);
 
 		// copied from StackOverflow as above
-		tableModel.addRow(dummyData);
-		tableModel.addRow(dummyData);
+		tableModel.addTableRow(dummyData);
+		tableModel.addTableRow(dummyData2);
 		// end of copy
 
 		// copied from GPT
