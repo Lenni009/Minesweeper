@@ -68,5 +68,7 @@ public class Minesweeper {
 
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");
+		
+		view.revalidate();
 	}
 }
