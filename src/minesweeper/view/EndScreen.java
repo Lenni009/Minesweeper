@@ -75,7 +75,7 @@ public class EndScreen extends JDialog {
 			this.setVisible(false);
 		});
 
-		String elapsedTime = GameTimer.getInstance().getTime();
+		String elapsedTime = GameTimer.getInstance().getFormattedTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
 		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
 

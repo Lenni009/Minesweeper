@@ -6,16 +6,18 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
-import javax.swing.table.DefaultTableModel;
 
+import minesweeper.controller.GameTimer;
 import minesweeper.model.LeaderBoardData;
 
 public class LeaderBoard extends JPanel {
 
 	public LeaderBoard() {
 
+		String elapsedTime = GameTimer.getInstance().getTime();
+		
 		String[] dummyData = { "01:00", "idk" }; // TODO: remove this and make dynamic
-		String[] dummyData2 = { "00:59", "idk" }; // TODO: remove this and make dynamic
+		String[] dummyData2 = { elapsedTime, "" }; // TODO: remove this and make dynamic
 
 		String columnNames[] = { "Platzierung", "Zeit", "Name" };
 
