@@ -35,8 +35,8 @@ public class Minesweeper {
 		this.sideLength = sideLength;
 		this.mines = mines;
 
-		view.removePanel("game");
-		view.removePanel("pause");
+		view.removePanel(Panel.GAME);
+		view.removePanel(Panel.PAUSE);
 
 		model = new MsData(sideLength, mines);
 		mineField = new MineField(model);
@@ -45,7 +45,9 @@ public class Minesweeper {
 		view.showPanel(Panel.GAME);
 		view.resizeScreen(sideLength);
 
-		MenuBar.getInstance().showGameMenu();
+		MenuBar menuBar = MenuBar.getInstance();
+		menuBar.showGameMenu();
+		menuBar.hidePauseButtons();
 	}
 
 	public void endGame() {
@@ -60,11 +62,15 @@ public class Minesweeper {
 
 		view.addPanel(pauseScreen, Panel.PAUSE);
 		view.showPanel(Panel.PAUSE);
+
+		MenuBar.getInstance().showPauseState();
+
 	}
 
 	public void resumeGame() {
 		view.showPanel(Panel.GAME);
 		GameTimer.getInstance().resumeTimer();
+		MenuBar.getInstance().showPlayingState();
 	}
 
 	public void restartGame() {

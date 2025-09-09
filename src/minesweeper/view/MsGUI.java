@@ -58,7 +58,8 @@ public class MsGUI extends JFrame {
 	public void addPanel(JPanel panel, Panel identifier) {
 		String idString = identifier.toString();
 		if (panels.containsKey(idString)) {
-			Logger.error("Panel Key already exists!");
+			Logger.error("Panel Key " + idString + " already exists!");
+			return;
 		}
 
 		cardPanel.add(panel, idString);
@@ -70,18 +71,16 @@ public class MsGUI extends JFrame {
 		currentlyActivePanel = identifier;
 	}
 
-	public void removePanel(String identifier) {
-		if (!panels.containsKey(identifier)) {
-			Logger.error("Panel Key doesn't exist!");
-		}
-
-		JPanel panelToRemove = panels.get(identifier);
-		if (panelToRemove == null) {
+	public void removePanel(Panel identifier) {
+		String idString = identifier.toString();
+		if (!panels.containsKey(idString)) {
+			Logger.error("Panel Key " + idString + " doesn't exist!");
 			return;
 		}
 
+		JPanel panelToRemove = panels.get(idString);
 		cardPanel.remove(panelToRemove);
-		panels.remove(identifier);
+		panels.remove(idString);
 	}
 
 	public Panel getCurrentlyActivePanel() {

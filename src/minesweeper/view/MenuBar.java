@@ -44,11 +44,9 @@ public class MenuBar extends JMenuBar {
 		rules.addActionListener(e -> showHelpDialog());
 
 		pause.addActionListener(e -> {
-			showPauseState();
 			Minesweeper.getInstance().pauseGame();
 		});
 		resume.addActionListener(e -> {
-			showPlayingState();
 			Minesweeper.getInstance().resumeGame();
 		});
 		mainMenu.addActionListener(e -> Minesweeper.getInstance().backToMainMenu());
@@ -69,7 +67,6 @@ public class MenuBar extends JMenuBar {
 		this.add(Box.createHorizontalStrut(10));
 		this.add(gameTimerLabel);
 
-		hidePauseButtons();
 		hideGameMenu(); // initially hide game menu
 	}
 
@@ -109,7 +106,7 @@ public class MenuBar extends JMenuBar {
 		pause.setVisible(true);
 	}
 
-	private void hidePauseButtons() {
+	public void hidePauseButtons() {
 		resume.setVisible(false);
 		pause.setVisible(false);
 	}
