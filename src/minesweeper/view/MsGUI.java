@@ -2,6 +2,7 @@ package minesweeper.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
+import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -10,9 +11,14 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
 
 public class MsGUI extends JFrame {
+	private static final int _DEFAULT_SCREENSIZE = 600;
+
+	private static final int _MIN_WIDTH_BUTTON = 55;
+
 	private static MsGUI instance;
 
 	private CardLayout cardLayout = new CardLayout();
@@ -72,6 +78,21 @@ public class MsGUI extends JFrame {
 
 		cardPanel.remove(panelToRemove);
 		panels.remove(identifier);
+	}
+	
+	public void resizeScreen() {
+		// standard width is 600 pixel
+		// resizeScreen clamps value, so we can provide an value < _DEFAULT_SCREENSIZE
+		resizeScreen(1);
+	}
+	
+	public void resizeScreen(int FieldLen) {
+		// one Button needs a width of at least 55 pixels
+		int ScreenSize = _MIN_WIDTH_BUTTON * FieldLen;
+		
+		ScreenSize = (int) Clamp.clamp(ScreenSize, _DEFAULT_SCREENSIZE, Toolkit.getDefaultToolkit().getScreenSize().width);
+		
+		MsGUI.getInstance().setSize(ScreenSize, ScreenSize);
 	}
 
 }

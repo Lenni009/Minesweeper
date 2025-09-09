@@ -40,6 +40,7 @@ public class Minesweeper {
 
 		view.addPanel(mineField, "game");
 		view.showPanel("game");
+		view.resizeScreen(sideLength);
 
 		MenuBar.getInstance().showGameMenu();
 	}
@@ -57,6 +58,7 @@ public class Minesweeper {
 	public void backToMainMenu() {
 		endGame();
 		view.showPanel("menu");
+		view.resizeScreen();
 		MenuBar menuBar = MenuBar.getInstance();
 		menuBar.setStatusText("");
 		menuBar.hideGameMenu();
@@ -69,6 +71,7 @@ public class Minesweeper {
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");
 
+		view.resizeScreen();
 		view.revalidate();
 	}
 

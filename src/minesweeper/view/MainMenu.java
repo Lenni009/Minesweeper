@@ -28,6 +28,7 @@ public class MainMenu extends JPanel {
 			customDifficultyView = CustomDifficulty.getInstance();
 			view.addPanel(customDifficultyView, "custom");
 			view.showPanel("custom");
+			view.resizeScreen();
 		});
 
 		this.add(easy);
