@@ -1,5 +1,11 @@
 package minesweeper.controller;
 
+import java.awt.Color;
+
+import minesweeper.enums.FieldColor;
+import minesweeper.enums.FieldLabel;
+import minesweeper.enums.Flag;
+
 public class Field {
 
 	/**
@@ -30,7 +36,11 @@ public class Field {
 	private int posX;
 	private int posY;
 
-	public String caption;
+	// text to display
+	private String caption;
+
+	// backgroundcolor
+	private Color backgroundColor;
 
 	public Field(int x, int y) {
 
@@ -45,9 +55,11 @@ public class Field {
 
 		mineNeighbourCount = 0;
 
-		caption = "";
+		caption = FieldLabel.UNLABELLED.toString();
 
 		isClickable = true;
+
+		setBackgroundColor(FieldColor.WHITE);
 	}
 
 	public boolean isMine() {
@@ -91,8 +103,6 @@ public class Field {
 		} else {
 			this.caption = String.valueOf(mineNeighbourCount);
 		}
-		// TODO: if left click leads to boom, mineNeighbourCount should not be shown,
-		// but a red mine
 	}
 
 	public String getText() {
@@ -107,4 +117,15 @@ public class Field {
 		this.isClickable = isClickable;
 	}
 
+	public Color getBackgroundColor() {
+		return backgroundColor;
+	}
+
+	public void setBackgroundColor(FieldColor backgroundColor) {
+		setBackgroundColor(backgroundColor.getColor());
+	}
+
+	public void setBackgroundColor(Color backgroundColor) {
+		this.backgroundColor = backgroundColor;
+	}
 }

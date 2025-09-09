@@ -1,12 +1,15 @@
 package minesweeper.view;
 
+import java.awt.Color;
 import java.awt.GridLayout;
 import javax.swing.*;
 
-import minesweeper.controller.Flag;
 import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
+import minesweeper.enums.FieldColor;
+import minesweeper.enums.FieldLabel;
+import minesweeper.enums.Flag;
 import minesweeper.controller.Field;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
@@ -25,7 +28,7 @@ public class MineField extends JPanel {
 	private JButton[][] buttons;
 
 	private AutoRevealer autoRevealer;
-	
+
 	public MineField(MsData model) {
 		this.data = model;
 		autoRevealer = new AutoRevealer(data);
@@ -86,24 +89,24 @@ public class MineField extends JPanel {
 	 */
 	private void rightclickEvent(JButton button, Field field) {
 		Flag flag = Flag.NOFLAG;
-		String text = "";
+		FieldLabel label = FieldLabel.UNLABELLED;
 
 		if (field.getFlagged() == Flag.NOFLAG) { // there's no flag set
 			if (data.placedFlags < data.amountOfMines) {
 				data.placedFlags++;
-				text = "/ ! \\";
+				label = FieldLabel.FLAG;
 				flag = Flag.FLAGGED;
 			} else { // no flags left, put "?" instead
-				text = "/ ? \\";
+				label = FieldLabel.MAYBEFLAG;
 				flag = Flag.QUESTIONMARK;
 			}
 		} else if (field.getFlagged() == Flag.FLAGGED) { // flag was already set
-			text = "/ ? \\";
+			label = FieldLabel.MAYBEFLAG;
 			flag = Flag.QUESTIONMARK;
 			data.placedFlags--;
 		}
 
-		field.setText(text);
+		field.setText(label.toString());
 		field.setFlagged(flag);
 
 		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
@@ -153,31 +156,23 @@ public class MineField extends JPanel {
 
 	private void revealField(Field field) {
 		Set<Field> revealedFields = autoRevealer.revealField(field);
-		
+
 		if (!autoRevealer.revealChecker.isGameOver()) {
 			updateButtonsGUI(revealedFields);
 			MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.placedFlags + " / " + data.amountOfMines);
-		}
-		else {
-			
+		} else {
+
 			// Flag all mines, if game is won
 			revealedFields.addAll(autoRevealer.revealChecker.revealMap());
-			updateButtonsGUI(revealedFields);			
-			
+			updateButtonsGUI(revealedFields);
+
 			GameTimer.getInstance().stopTimer();
-			
+
 			new EndScreen(true);
 		}
 	}
 
 	private void revealMap(Field field) {
-		// TODO: use colors -> Related to Issue #4
-
-		// Placeholders:
-		// D ... dark background
-		// R ... red background
-		// B ... color the bomb red
-
 		Set<Field> changedFields = new HashSet<Field>();
 
 		for (Field[] fieldX : data.getMinefield()) {
@@ -186,7 +181,9 @@ public class MineField extends JPanel {
 			}
 		}
 
-		field.setText("B"); // Placeholder to mark clicked bomb
+		field.setText(FieldLabel.EXPLOSION.toString());
+		field.setBackgroundColor(FieldColor.LIGHTRED);
+
 		changedFields.add(field);
 
 		updateButtonsGUI(changedFields);
@@ -195,25 +192,27 @@ public class MineField extends JPanel {
 	private void revealMines(Set<Field> changedFields, Field fieldY) {
 		// it was no mine, but was flagged
 		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
-			fieldY.setText("R");
+			fieldY.setBackgroundColor(FieldColor.RED);
 			changedFields.add(fieldY);
 		}
 		// it was not a mine, but was flagged with "?"
 		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
+			// TODO: clean this up
 			// nothing to do, but the documentation in the issue described this case
 
 			// optional: falsely "?"-flagged fields could also be marked red:
-			// fieldY.setText("R");
+			// fieldY.setBackgroundColor(FieldColor.RED);
 			// changedFields.add(fieldY);
 		}
-		// it was a mine and got flagged with "?" -> counts
+		// it was a mine and got flagged with "?" -> counts, field doesn't change
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-			fieldY.setText("D");
-			changedFields.add(fieldY);
+			// fieldY.setText(FieldLabel.MINE.toString());
+			// changedFields.add(fieldY);
 		}
-		// it was a mine and got flagged with "!"
+		// it was a mine and was not flagged
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-			fieldY.setText("D");
+			fieldY.setText(FieldLabel.MINE.toString());
+			fieldY.setBackgroundColor(FieldColor.LIGHTGREY);
 			changedFields.add(fieldY);
 		}
 	}
@@ -226,6 +225,7 @@ public class MineField extends JPanel {
 			JButton changedButton = buttons[posX][posY];
 
 			changedButton.setText(changedField.getText());
+			changedButton.setBackground(changedField.getBackgroundColor());
 			changedButton.setEnabled(false);
 			for (ActionListener listener : changedButton.getActionListeners()) {
 				changedButton.removeActionListener(listener);

@@ -44,7 +44,7 @@ public class Minesweeper {
 
 		MenuBar.getInstance().showGameMenu();
 	}
-	
+
 	public void endGame() {
 		GameTimer.getInstance().stopTimer();
 		GameTimerLabel.getInstance().hideTime();
@@ -54,7 +54,7 @@ public class Minesweeper {
 		endGame();
 		startGame(sideLength, mines);
 	}
-	
+
 	public void backToMainMenu() {
 		endGame();
 		view.showPanel("menu");

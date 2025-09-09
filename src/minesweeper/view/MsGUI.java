@@ -1,6 +1,7 @@
 package minesweeper.view;
 
 import java.awt.CardLayout;
+import java.awt.Color;
 import java.awt.Toolkit;
 import java.util.HashMap;
 import java.util.Map;
@@ -8,6 +9,7 @@ import java.util.Map;
 import javax.swing.JFrame;
 import javax.swing.JMenuBar;
 import javax.swing.JPanel;
+import javax.swing.UIManager;
 
 import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
@@ -25,12 +27,14 @@ public class MsGUI extends JFrame {
 	private Map<String, JPanel> panels = new HashMap<>();
 
 	private MsGUI() {
-		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
+		// set text colour of disabled buttons to black for better contrast
+		UIManager.put("Button.disabledText", Color.BLACK);
 
 		// JFrame config
 		this.setSize(600, 600);
 		this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
+		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 		JMenuBar menuBar = MenuBar.getInstance();
 

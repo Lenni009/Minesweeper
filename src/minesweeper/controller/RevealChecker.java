@@ -3,11 +3,13 @@ package minesweeper.controller;
 import java.util.HashSet;
 import java.util.Set;
 
+import minesweeper.enums.FieldLabel;
+import minesweeper.enums.Flag;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
 
 public class RevealChecker {
-	
+
 	private MsData data;
 
 	private int revealedFields = 0;
@@ -26,7 +28,7 @@ public class RevealChecker {
 	public boolean isGameOver() {
 		return amountOfNormalFields == revealedFields;
 	}
-	
+
 	public Set<Field> revealMap() {
 		// TODO: use colors -> Related to Issue #4
 
@@ -42,7 +44,7 @@ public class RevealChecker {
 
 	private void checkAndSetFlags(Set<Field> changedFields, Field fieldY) {
 		if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-			fieldY.setText("/ ! \\");
+			fieldY.setText(FieldLabel.FLAG.toString());
 			fieldY.setFlagged(Flag.FLAGGED);
 		}
 		changedFields.add(fieldY);
