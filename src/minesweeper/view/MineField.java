@@ -11,6 +11,7 @@ import minesweeper.enums.FieldLabel;
 import minesweeper.enums.Flag;
 import minesweeper.controller.Field;
 import minesweeper.model.MsData;
+import minesweeper.utils.LoadFont;
 import minesweeper.utils.Logger;
 
 import java.awt.event.*;
@@ -43,6 +44,7 @@ public class MineField extends JPanel {
 			for (int posY = 0; posY < fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
+				button.setFont(LoadFont.getInstance().getFont());
 				add(button);
 				buttons[posX][posY] = button;
 			}
