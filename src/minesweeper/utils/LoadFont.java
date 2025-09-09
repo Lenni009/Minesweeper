@@ -22,7 +22,7 @@ public class LoadFont {
 			// end of copy
 		} catch (FontFormatException | IOException e) {
 			Logger.error(e.getMessage());
-			// Try other font instead
+			// Fallback: try other font instead
 			emojiFont = new Font("Arial", Font.PLAIN, 30);
 		}
 	}
