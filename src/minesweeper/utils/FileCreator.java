@@ -4,7 +4,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-public class FileCreator {
+public abstract class FileCreator {
 
 	public static void writeFile(String filePath, String data) {
 		// copied from

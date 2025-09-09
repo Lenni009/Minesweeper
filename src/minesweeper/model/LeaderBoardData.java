@@ -25,7 +25,7 @@ public class LeaderBoardData extends DefaultTableModel {
 	@Override
 	public boolean isCellEditable(int row, int column) {
 		return row == lastRowIndex && column == getColumnCount() - 1;
-	};
+	}
 	// end of GPT
 
 	/**

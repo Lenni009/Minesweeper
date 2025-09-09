@@ -6,6 +6,7 @@ import javax.swing.*;
 import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
+import minesweeper.controller.RevealChecker;
 import minesweeper.enums.FieldColor;
 import minesweeper.enums.FieldLabel;
 import minesweeper.enums.Flag;
@@ -27,6 +28,9 @@ public class MineField extends JPanel {
 	private JButton[][] buttons;
 
 	private AutoRevealer autoRevealer;
+
+	// SonarQube wanted to have this extracted
+	private String placedFlagsLabelText = "Platzierte Flaggen: ";
 
 	public MineField(MsData model) {
 		this.data = model;
@@ -51,7 +55,7 @@ public class MineField extends JPanel {
 		}
 
 		MenuBar.getInstance()
-				.setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + data.getAmountOfMines());
+				.setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + data.getAmountOfMines());
 	}
 
 	/**
@@ -73,7 +77,7 @@ public class MineField extends JPanel {
 				Field field = data.getField(posX, posY);
 
 				if (SwingUtilities.isLeftMouseButton(e)) {
-					leftclickEvent(button, field);
+					leftclickEvent(field);
 
 				}
 				if (SwingUtilities.isRightMouseButton(e)) {
@@ -114,7 +118,7 @@ public class MineField extends JPanel {
 		field.setText(label.toString());
 		field.setFlagged(flag);
 
-		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + amountOfMines);
+		MenuBar.getInstance().setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + amountOfMines);
 		button.setText(field.getText());
 
 		Logger.info("placed flags: " + data.getPlacedFlags());
@@ -123,10 +127,9 @@ public class MineField extends JPanel {
 	/**
 	 * processes leftclick
 	 * 
-	 * @param button the clicked JButton
-	 * @param field  the corresponding Field
+	 * @param field the field that was clicked
 	 */
-	private void leftclickEvent(JButton button, Field field) {
+	private void leftclickEvent(Field field) {
 
 		// prevent leftclick: FLAGGED fields will not be revealed
 		if (field.getFlagged() == Flag.FLAGGED) {
@@ -163,14 +166,16 @@ public class MineField extends JPanel {
 	private void revealField(Field field) {
 		Set<Field> revealedFields = autoRevealer.revealField(field);
 
-		if (!autoRevealer.revealChecker.isGameOver()) {
+		RevealChecker revealChecker = autoRevealer.getRevealChecker();
+
+		if (!revealChecker.isGameOver()) {
 			updateButtonsGUI(revealedFields);
 			MenuBar.getInstance()
-					.setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + data.getAmountOfMines());
+					.setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + data.getAmountOfMines());
 		} else {
 
 			// Flag all mines, if game is won
-			revealedFields.addAll(autoRevealer.revealChecker.revealMap());
+			revealedFields.addAll(revealChecker.revealMap());
 			updateButtonsGUI(revealedFields);
 
 			GameTimer.getInstance().stopTimer();
@@ -180,7 +185,7 @@ public class MineField extends JPanel {
 	}
 
 	private void revealMap(Field field) {
-		Set<Field> changedFields = new HashSet<Field>();
+		Set<Field> changedFields = new HashSet<>();
 
 		for (Field[] fieldX : data.getMinefield()) {
 			for (Field fieldY : fieldX) {
@@ -196,22 +201,17 @@ public class MineField extends JPanel {
 		updateButtonsGUI(changedFields);
 	}
 
-	private void revealMines(Set<Field> changedFields, Field fieldY) {
+	private void revealMines(Set<Field> changedFields, Field field) {
 		// it was no mine, but was flagged
-		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
-			fieldY.setBackgroundColor(FieldColor.RED);
-			changedFields.add(fieldY);
-		}
-		// it was a mine and got flagged with "?" -> counts, field doesn't change
-		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-			// fieldY.setText(FieldLabel.MINE.toString());
-			// changedFields.add(fieldY);
+		if (!field.isMine() && field.getFlagged() == Flag.FLAGGED) {
+			field.setBackgroundColor(FieldColor.RED);
+			changedFields.add(field);
 		}
 		// it was a mine and was not flagged
-		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-			fieldY.setText(FieldLabel.MINE.toString());
-			fieldY.setBackgroundColor(FieldColor.LIGHTGREY);
-			changedFields.add(fieldY);
+		else if (field.isMine() && field.getFlagged() == Flag.NOFLAG) {
+			field.setText(FieldLabel.MINE.toString());
+			field.setBackgroundColor(FieldColor.LIGHTGREY);
+			changedFields.add(field);
 		}
 	}
 

@@ -4,27 +4,23 @@ package minesweeper.controller;
 public abstract class MineCalculator {
 	public static int getMineCount(int minePercentage, int sideLength) {
 		int allFields = sideLength * sideLength;
-		int mineCount = (int) Math.round(allFields * divideIntegers(minePercentage, 100));
-		return mineCount;
+		return (int) Math.round(allFields * divideIntegers(minePercentage, 100));
 	}
 
 	public static int getMinMinePercentage(int sideLength) {
 		int minMineCount = 1;
-		int minMinePercentage = (int) Math.ceil(getMinePercentageForSpecificMineCount(minMineCount, sideLength));
-		return minMinePercentage;
+		return (int) Math.ceil(getMinePercentageForSpecificMineCount(minMineCount, sideLength));
 	}
 
 	public static int getMaxMinePercentage(int sideLength) {
 		int allFields = sideLength * sideLength;
 		int maxMineCount = allFields - 10;
-		int maxMinePercentage = (int) Math.floor(getMinePercentageForSpecificMineCount(maxMineCount, sideLength));
-		return maxMinePercentage;
+		return (int) Math.floor(getMinePercentageForSpecificMineCount(maxMineCount, sideLength));
 	}
 
 	public static double getMinePercentageForSpecificMineCount(int targetMineCount, int sideLength) {
 		int allFields = sideLength * sideLength;
-		double targetMinePercentage = divideIntegers(targetMineCount, allFields) * 100;
-		return targetMinePercentage;
+		return divideIntegers(targetMineCount, allFields) * 100;
 	}
 
 	// can't be bothered to write that ugly type cast everywhere, so I'm just

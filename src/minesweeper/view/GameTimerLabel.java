@@ -16,11 +16,6 @@ public class GameTimerLabel extends JLabel {
 		return instance;
 	}
 
-	@Override
-	public void setText(String text) {
-		super.setText(text);
-	}
-	
 	public void hideTime() {
 		this.setVisible(false);
 	}

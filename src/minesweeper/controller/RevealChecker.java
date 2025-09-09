@@ -31,7 +31,7 @@ public class RevealChecker {
 	}
 
 	public Set<Field> revealMap() {
-		Set<Field> changedFields = new HashSet<Field>();
+		Set<Field> changedFields = new HashSet<>();
 
 		for (Field[] fieldRow : data.getMinefield()) {
 			for (Field field : fieldRow) {

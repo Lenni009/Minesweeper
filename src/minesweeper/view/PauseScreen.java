@@ -31,9 +31,7 @@ public class PauseScreen extends JPanel {
 
 		JButton resumeButton = new JButton("Fortsetzen");
 		resumeButton.setAlignmentX(CENTER_ALIGNMENT);
-		resumeButton.addActionListener(e -> {
-			Minesweeper.getInstance().resumeGame();
-		});
+		resumeButton.addActionListener(e -> Minesweeper.getInstance().resumeGame());
 
 		wrapper.add(pauseLabel);
 		wrapper.add(Box.createRigidArea(new Dimension(0, 10))); // add vertical padding between elements

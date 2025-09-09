@@ -43,12 +43,8 @@ public class MenuBar extends JMenuBar {
 
 		rules.addActionListener(e -> showHelpDialog());
 
-		pause.addActionListener(e -> {
-			Minesweeper.getInstance().pauseGame();
-		});
-		resume.addActionListener(e -> {
-			Minesweeper.getInstance().resumeGame();
-		});
+		pause.addActionListener(e -> Minesweeper.getInstance().pauseGame());
+		resume.addActionListener(e -> Minesweeper.getInstance().resumeGame());
 		mainMenu.addActionListener(e -> Minesweeper.getInstance().backToMainMenu());
 		restart.addActionListener(e -> Minesweeper.getInstance().restartGame());
 

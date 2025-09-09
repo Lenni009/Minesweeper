@@ -26,7 +26,7 @@ public class LeaderBoard extends JPanel {
 
 		String[] userData = { elapsedTime, "" };
 
-		String columnNames[] = { "Platzierung", "Zeit", "Name" };
+		String[] columnNames = { "Platzierung", "Zeit", "Name" };
 
 		LeaderBoardData tableModel = new LeaderBoardData(columnNames, 0);
 		tableModel.importData(fieldLen, amountOfMines);
@@ -57,7 +57,8 @@ public class LeaderBoard extends JPanel {
 			Component editor = table.getEditorComponent();
 			if (editor != null) {
 				editor.requestFocusInWindow();
-				table.scrollRectToVisible(table.getCellRect(editableRow, lastCol, true)); // copied from Bing AI GPT (a few hours later)
+				table.scrollRectToVisible(table.getCellRect(editableRow, lastCol, true)); // copied from Bing AI GPT (a
+																							// few hours later)
 			}
 		});
 		// end of copy
@@ -76,13 +77,15 @@ public class LeaderBoard extends JPanel {
 				tableModel.exportData(fieldLen, amountOfMines);
 			}
 
-			// these must be here, otherwise Java complains about unimplemented methods
 			@Override
 			public void ancestorAdded(AncestorEvent event) {
+				// these must be here, otherwise Java complains about unimplemented methods
 			}
 
 			@Override
 			public void ancestorMoved(AncestorEvent event) {
+				// these must be here, otherwise Java complains about unimplemented methods
+				// this duplicate comment is to make SonarQube shut up
 			}
 		});
 	}
