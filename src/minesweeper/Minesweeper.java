@@ -1,12 +1,14 @@
 package minesweeper;
 
 import minesweeper.controller.GameTimer;
+import minesweeper.enums.Panel;
 import minesweeper.model.MsData;
 import minesweeper.view.GameTimerLabel;
 import minesweeper.view.MainMenu;
 import minesweeper.view.MenuBar;
 import minesweeper.view.MineField;
 import minesweeper.view.MsGUI;
+import minesweeper.view.PauseScreen;
 
 public class Minesweeper {
 
@@ -33,21 +35,42 @@ public class Minesweeper {
 		this.sideLength = sideLength;
 		this.mines = mines;
 
-		view.removePanel("game");
+		view.removePanel(Panel.GAME);
+		view.removePanel(Panel.PAUSE);
 
 		model = new MsData(sideLength, mines);
 		mineField = new MineField(model);
 
-		view.addPanel(mineField, "game");
-		view.showPanel("game");
+		view.addPanel(mineField, Panel.GAME);
+		view.showPanel(Panel.GAME);
 		view.resizeScreen(sideLength);
 
-		MenuBar.getInstance().showGameMenu();
+		MenuBar menuBar = MenuBar.getInstance();
+		menuBar.showGameMenu();
+		menuBar.hidePauseButtons();
 	}
 
 	public void endGame() {
 		GameTimer.getInstance().stopTimer();
 		GameTimerLabel.getInstance().hideTime();
+	}
+
+	public void pauseGame() {
+		GameTimer.getInstance().pauseTimer();
+
+		PauseScreen pauseScreen = PauseScreen.getInstance();
+
+		view.addPanel(pauseScreen, Panel.PAUSE);
+		view.showPanel(Panel.PAUSE);
+
+		MenuBar.getInstance().showPauseState();
+
+	}
+
+	public void resumeGame() {
+		view.showPanel(Panel.GAME);
+		GameTimer.getInstance().resumeTimer();
+		MenuBar.getInstance().showPlayingState();
 	}
 
 	public void restartGame() {
@@ -57,7 +80,7 @@ public class Minesweeper {
 
 	public void backToMainMenu() {
 		endGame();
-		view.showPanel("menu");
+		view.showPanel(Panel.MENU);
 		view.resizeScreen();
 		MenuBar menuBar = MenuBar.getInstance();
 		menuBar.setStatusText("");
@@ -68,8 +91,8 @@ public class Minesweeper {
 		view = MsGUI.getInstance();
 		MainMenu mainMenu = MainMenu.getInstance();
 
-		view.addPanel(mainMenu, "menu");
-		view.showPanel("menu");
+		view.addPanel(mainMenu, Panel.MENU);
+		view.showPanel(Panel.MENU);
 
 		view.resizeScreen();
 		view.revalidate();

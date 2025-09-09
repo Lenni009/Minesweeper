@@ -20,6 +20,9 @@ public class MenuBar extends JMenuBar {
 	private GameTimerLabel gameTimerLabel;
 	private JMenu gameMenu;
 
+	private JMenuItem pause;
+	private JMenuItem resume;
+
 	private MenuBar() {
 		// Menu
 		JMenu fileMenu = new JMenu("Datei");
@@ -27,7 +30,8 @@ public class MenuBar extends JMenuBar {
 		gameMenu = new JMenu("Spiel");
 		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
 		JMenuItem mainMenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
-		// JMenu onlineMenu = new JMenu("Online");
+		pause = new JMenuItem("Pause", KeyEvent.VK_P);
+		resume = new JMenuItem("Fortfahren", KeyEvent.VK_F);
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();
@@ -39,15 +43,22 @@ public class MenuBar extends JMenuBar {
 
 		rules.addActionListener(e -> showHelpDialog());
 
+		pause.addActionListener(e -> {
+			Minesweeper.getInstance().pauseGame();
+		});
+		resume.addActionListener(e -> {
+			Minesweeper.getInstance().resumeGame();
+		});
 		mainMenu.addActionListener(e -> Minesweeper.getInstance().backToMainMenu());
 		restart.addActionListener(e -> Minesweeper.getInstance().restartGame());
 
 		// assign everything
 		this.add(fileMenu);
 		this.add(gameMenu);
-		// this.add(onlineMenu);
 		this.add(helpMenu);
 		fileMenu.add(exit);
+		gameMenu.add(pause);
+		gameMenu.add(resume);
 		gameMenu.add(restart);
 		gameMenu.add(mainMenu);
 		helpMenu.add(rules);
@@ -85,4 +96,18 @@ public class MenuBar extends JMenuBar {
 		gameMenu.setVisible(false);
 	}
 
+	public void showPauseState() {
+		resume.setVisible(true);
+		pause.setVisible(false);
+	}
+
+	public void showPlayingState() {
+		resume.setVisible(false);
+		pause.setVisible(true);
+	}
+
+	public void hidePauseButtons() {
+		resume.setVisible(false);
+		pause.setVisible(false);
+	}
 }

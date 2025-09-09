@@ -74,7 +74,7 @@ public class MineField extends JPanel {
 
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					leftclickEvent(button, field);
-					
+
 				}
 				if (SwingUtilities.isRightMouseButton(e)) {
 					rightclickEvent(button, field);
@@ -141,6 +141,7 @@ public class MineField extends JPanel {
 			mineDistributor.distributeMines();
 			GameTimerLabel.getInstance().showTime();
 			GameTimer.getInstance().startTimer(GameTimerLabel.getInstance());
+			MenuBar.getInstance().showPlayingState(); // display pause button in the menubar
 		}
 
 		// if mine is revealed the game ends

@@ -6,6 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JPanel;
 
 import minesweeper.Minesweeper;
+import minesweeper.enums.Panel;
 
 public class MainMenu extends JPanel {
 
@@ -24,10 +25,10 @@ public class MainMenu extends JPanel {
 		JButton custom = new JButton("Benutzerdefiniert");
 		custom.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
-			view.removePanel("custom");
+			view.removePanel(Panel.CUSTOM);
 			customDifficultyView = CustomDifficulty.getInstance();
-			view.addPanel(customDifficultyView, "custom");
-			view.showPanel("custom");
+			view.addPanel(customDifficultyView, Panel.CUSTOM);
+			view.showPanel(Panel.CUSTOM);
 			view.resizeScreen();
 		});
 

@@ -11,6 +11,7 @@ public class GameTimerTask extends TimerTask {
 	private int minutes = 0;
 
 	GameTimerLabel label;
+	private boolean isPaused = false;
 
 	public GameTimerTask(GameTimerLabel label) {
 		this.label = label;
@@ -18,6 +19,8 @@ public class GameTimerTask extends TimerTask {
 
 	@Override
 	public void run() {
+		if (isPaused) return;
+
 		seconds++;
 		if (seconds >= 60) {
 			seconds = 0;
@@ -39,4 +42,7 @@ public class GameTimerTask extends TimerTask {
 		return minutes;
 	}
 
+	public void setPaused(boolean isPaused) {
+		this.isPaused = isPaused;
+	}
 }

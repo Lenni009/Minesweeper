@@ -11,6 +11,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JPanel;
 import javax.swing.UIManager;
 
+import minesweeper.enums.Panel;
 import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
 
@@ -23,6 +24,8 @@ public class MsGUI extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private JPanel cardPanel = new JPanel(cardLayout);
 	private Map<String, JPanel> panels = new HashMap<>();
+
+	private Panel currentlyActivePanel;
 
 	private MsGUI() {
 		// set text colour of disabled buttons to black for better contrast
@@ -52,46 +55,51 @@ public class MsGUI extends JFrame {
 		return instance;
 	}
 
-	public void addPanel(JPanel panel, String identifier) {
-		if (panels.containsKey(identifier)) {
-			Logger.error("Panel Key already exists!");
-		}
-
-		cardPanel.add(panel, identifier);
-		panels.put(identifier, panel);
-	}
-
-	public void showPanel(String identifier) {
-		cardLayout.show(cardPanel, identifier);
-	}
-
-	public void removePanel(String identifier) {
-		if (!panels.containsKey(identifier)) {
-			Logger.error("Panel Key doesn't exist!");
-		}
-
-		JPanel panelToRemove = panels.get(identifier);
-		if (panelToRemove == null) {
+	public void addPanel(JPanel panel, Panel identifier) {
+		String idString = identifier.toString();
+		if (panels.containsKey(idString)) {
+			Logger.error("Panel Key " + idString + " already exists!");
 			return;
 		}
 
-		cardPanel.remove(panelToRemove);
-		panels.remove(identifier);
+		cardPanel.add(panel, idString);
+		panels.put(idString, panel);
 	}
-	
+
+	public void showPanel(Panel identifier) {
+		cardLayout.show(cardPanel, identifier.toString());
+		currentlyActivePanel = identifier;
+	}
+
+	public void removePanel(Panel identifier) {
+		String idString = identifier.toString();
+		if (!panels.containsKey(idString)) {
+			Logger.error("Panel Key " + idString + " doesn't exist!");
+			return;
+		}
+
+		JPanel panelToRemove = panels.get(idString);
+		cardPanel.remove(panelToRemove);
+		panels.remove(idString);
+	}
+
+	public Panel getCurrentlyActivePanel() {
+		return currentlyActivePanel;
+	}
+
 	public void resizeScreen() {
 		// standard width is 600 pixel
-		// resizeScreen clamps value, so we can provide an value < _DEFAULT_SCREENSIZE
+		// resizeScreen clamps value, so we can provide a value < DEFAULT_SCREENSIZE
 		resizeScreen(1);
 	}
-	
+
 	public void resizeScreen(int FieldLen) {
 		// one Button needs a width of at least 55 pixels
 		int ScreenSize = MIN_WIDTH_BUTTON * FieldLen;
-		
-		ScreenSize = (int) Clamp.clamp(ScreenSize, DEFAULT_SCREENSIZE, Toolkit.getDefaultToolkit().getScreenSize().width);
-		
+
+		ScreenSize = (int) Clamp.clamp(ScreenSize, DEFAULT_SCREENSIZE,
+				Toolkit.getDefaultToolkit().getScreenSize().width);
+
 		MsGUI.getInstance().setSize(ScreenSize, ScreenSize);
 	}
-
 }
