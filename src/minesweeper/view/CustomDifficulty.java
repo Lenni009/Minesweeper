@@ -14,6 +14,7 @@ import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
+import minesweeper.enums.Panel;
 import minesweeper.model.CustomDifficultyModel;
 
 public class CustomDifficulty extends JPanel {
@@ -109,7 +110,7 @@ public class CustomDifficulty extends JPanel {
 		});
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
-			view.showPanel("menu");
+			view.showPanel(Panel.MENU);
 			view.resizeScreen();
 		});
 

@@ -29,6 +29,14 @@ public class GameTimer {
 		timer.scheduleAtFixedRate(task, 0, 1000);
 	}
 
+	public void pauseTimer() {
+		task.setPaused(true);
+	}
+
+	public void resumeTimer() {
+		task.setPaused(false);
+	}
+
 	public void stopTimer() {
 		if (task != null) {
 			task.cancel();
