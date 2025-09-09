@@ -1,10 +1,8 @@
-package minesweeper.controller;
+package minesweeper.utils;
 
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-
-import minesweeper.utils.Logger;
 
 public class FileCreator {
 
