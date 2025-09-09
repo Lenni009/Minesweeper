@@ -23,12 +23,11 @@ public class Field {
 	 */
 	private int mineNeighbourCount;
 
-	// TODO better name
 	/**
 	 * true: can still be clicked -> show flagged false: uncovered -> show number
 	 * (or death lol)
 	 */
-	private boolean isClickable;
+	private boolean isRevealed;
 
 	/**
 	 * ID of the mine, is generated from MsData
@@ -57,7 +56,7 @@ public class Field {
 
 		caption = FieldLabel.UNLABELLED.toString();
 
-		isClickable = true;
+		isRevealed = true;
 
 		setBackgroundColor(FieldColor.WHITE);
 	}
@@ -96,7 +95,7 @@ public class Field {
 
 	public void setText(String text) {
 		// does field show number of flag?
-		if (this.isClickable) {
+		if (this.isRevealed) {
 			this.caption = text;
 		} else if (mineNeighbourCount == 0) {
 			this.caption = "";
@@ -110,11 +109,11 @@ public class Field {
 	}
 
 	public boolean isClickable() {
-		return isClickable;
+		return isRevealed;
 	}
 
 	public void setClickable(boolean isClickable) {
-		this.isClickable = isClickable;
+		this.isRevealed = isClickable;
 	}
 
 	public Color getBackgroundColor() {

@@ -14,18 +14,16 @@ import javax.swing.SpinnerNumberModel;
 
 import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
+import minesweeper.model.CustomDifficultyModel;
 
 public class CustomDifficulty extends JPanel {
 
 	private static CustomDifficulty instance;
 
-	// TODO: should this be in the view? Or is it better to put this into model?
-	private int sideLength = 10; // setting initial value
-	private int minePercentage;
-	private int mineCount;
-
 	private SpinnerNumberModel minePercentageModel;
 	private JLabel mineCountDisplay = new JLabel();
+
+	private CustomDifficultyModel model = CustomDifficultyModel.getInstance();
 
 	private CustomDifficulty() {
 
@@ -35,20 +33,23 @@ public class CustomDifficulty extends JPanel {
 
 		// min size: 4*4
 		// max size: 20*20
-		SpinnerNumberModel lengthModel = new SpinnerNumberModel(sideLength, 4, 20, 1);
+		SpinnerNumberModel lengthModel = new SpinnerNumberModel(model.getSideLength(), 4, 20, 1);
 		JSpinner lengthSpinner = new JSpinner(lengthModel);
 
 		lengthSpinner.addChangeListener(e -> {
 			// copied from https://www.java-forum.org/thema/jspinner-getvalue.3079/
-			sideLength = ((Number) lengthSpinner.getValue()).intValue();
+			int newSideLength = ((Number) lengthSpinner.getValue()).intValue();
 			// end of copy
+			model.setSideLength(newSideLength);
 
 			// extract this into the controller
-			int minMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
-			int maxMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
+			int minMinePercentage = MineCalculator.getMinMinePercentage(newSideLength);
+			int maxMinePercentage = MineCalculator.getMaxMinePercentage(newSideLength);
 
 			minePercentageModel.setMinimum(minMinePercentage);
 			minePercentageModel.setMaximum(maxMinePercentage);
+
+			int minePercentage = model.getMinePercentage();
 
 			// function pauses here to execute the actionListener on minePercentageSpinner
 			// first (or runs on second thread, in any case, we cannot be sure that the
@@ -66,10 +67,14 @@ public class CustomDifficulty extends JPanel {
 			}
 		});
 
+		int sideLength = model.getSideLength();
+
 		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
-		minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
-		mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+		model.setMinePercentage((maxInitialMinePercentage - minInitialMinePercentage) / 2);
+		int minePercentage = model.getMinePercentage();
+		model.setMineCount(MineCalculator.getMineCount(minePercentage, sideLength));
+		int mineCount = model.getMineCount();
 		setMineCountLabel(mineCount);
 		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
 				1);
@@ -77,8 +82,8 @@ public class CustomDifficulty extends JPanel {
 
 		minePercentageSpinner.addChangeListener(e -> {
 			// copied like above in changeListener
-			minePercentage = ((Number) minePercentageSpinner.getValue()).intValue();
-			mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+			model.setMinePercentage(((Number) minePercentageSpinner.getValue()).intValue());
+			model.setMineCount(MineCalculator.getMineCount(minePercentage, sideLength));
 			setMineCountLabel(mineCount);
 		});
 
