@@ -6,9 +6,9 @@ import java.util.List;
 
 import javax.swing.table.DefaultTableModel;
 
-import minesweeper.controller.CsvHandler;
-import minesweeper.controller.FileCreator;
-import minesweeper.controller.FileReader;
+import minesweeper.utils.CsvHandler;
+import minesweeper.utils.FileCreator;
+import minesweeper.utils.FileReader;
 
 public class LeaderBoardData extends DefaultTableModel {
 

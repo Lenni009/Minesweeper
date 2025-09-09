@@ -1,12 +1,10 @@
-package minesweeper.controller;
+package minesweeper.utils;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
-
-import minesweeper.utils.Logger;
 
 public class FileReader {
 
