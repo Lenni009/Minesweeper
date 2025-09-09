@@ -31,24 +31,22 @@ public class RevealChecker {
 	}
 
 	public Set<Field> revealMap() {
-		// TODO: use colors -> Related to Issue #4
-
 		Set<Field> changedFields = new HashSet<Field>();
 
-		for (Field[] fieldX : data.getMinefield()) {
-			for (Field fieldY : fieldX) {
-				checkAndSetFlags(changedFields, fieldY);
+		for (Field[] fieldRow : data.getMinefield()) {
+			for (Field field : fieldRow) {
+				checkAndSetFlags(changedFields, field);
 			}
 		}
 		return changedFields;
 	}
 
-	private void checkAndSetFlags(Set<Field> changedFields, Field fieldY) {
-		if (fieldY.isMine() && fieldY.getFlagged() == Flag.NOFLAG) {
-			fieldY.setText(FieldLabel.FLAG.toString());
-			fieldY.setFlagged(Flag.FLAGGED);
+	private void checkAndSetFlags(Set<Field> changedFields, Field field) {
+		if (field.isMine() && field.getFlagged() == Flag.NOFLAG) {
+			field.setText(FieldLabel.FLAG.toString());
+			field.setFlagged(Flag.FLAGGED);
 		}
-		changedFields.add(fieldY);
+		changedFields.add(field);
 	}
 
 }

@@ -15,9 +15,8 @@ import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
 
 public class MsGUI extends JFrame {
-	private static final int _DEFAULT_SCREENSIZE = 600;
-
-	private static final int _MIN_WIDTH_BUTTON = 55;
+	private static final int DEFAULT_SCREENSIZE = 600;
+	private static final int MIN_WIDTH_BUTTON = 55;
 
 	private static MsGUI instance;
 
@@ -88,9 +87,9 @@ public class MsGUI extends JFrame {
 	
 	public void resizeScreen(int FieldLen) {
 		// one Button needs a width of at least 55 pixels
-		int ScreenSize = _MIN_WIDTH_BUTTON * FieldLen;
+		int ScreenSize = MIN_WIDTH_BUTTON * FieldLen;
 		
-		ScreenSize = (int) Clamp.clamp(ScreenSize, _DEFAULT_SCREENSIZE, Toolkit.getDefaultToolkit().getScreenSize().width);
+		ScreenSize = (int) Clamp.clamp(ScreenSize, DEFAULT_SCREENSIZE, Toolkit.getDefaultToolkit().getScreenSize().width);
 		
 		MsGUI.getInstance().setSize(ScreenSize, ScreenSize);
 	}
