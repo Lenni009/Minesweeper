@@ -10,7 +10,7 @@ import minesweeper.model.MsData;
 public class AutoRevealer {
 
 	private MsData data;
-	public RevealChecker revealChecker;
+	private RevealChecker revealChecker;
 
 	public AutoRevealer(MsData model) {
 		this.data = model;
@@ -19,7 +19,7 @@ public class AutoRevealer {
 
 	public Set<Field> revealField(Field field) {
 
-		Set<Field> changedFields = new HashSet<Field>();
+		Set<Field> changedFields = new HashSet<>();
 
 		// early return, if field is a mine or is already revealed
 		if (field.isMine() || !field.isClickable()) {
@@ -79,4 +79,7 @@ public class AutoRevealer {
 		return (0 <= posX && posX < fieldLen && 0 <= posY && posY < fieldLen);
 	}
 
+	public RevealChecker getRevealChecker() {
+		return revealChecker;
+	}
 }

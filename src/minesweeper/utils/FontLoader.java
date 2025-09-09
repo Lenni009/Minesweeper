@@ -8,13 +8,13 @@ import java.io.InputStream;
 import minesweeper.Minesweeper;
 
 public class FontLoader {
-	
+
 	private static FontLoader instance;
-	
-	private static Font emojiFont;
-	
+	private Font emojiFont;
+
 	private FontLoader() {
-		// copied from https://stackoverflow.com/questions/12998604/adding-fonts-to-swing-application-and-include-in-package
+		// copied from
+		// https://stackoverflow.com/questions/12998604/adding-fonts-to-swing-application-and-include-in-package
 		InputStream is = Minesweeper.class.getResourceAsStream("/assets/font/segoe-ui-emoji.ttf");
 		try {
 			Font font = Font.createFont(Font.TRUETYPE_FONT, is);
@@ -26,7 +26,7 @@ public class FontLoader {
 			emojiFont = new Font("Arial", Font.PLAIN, 30);
 		}
 	}
-	
+
 	// singleton :3
 	public static FontLoader getInstance() {
 		if (instance == null) {
@@ -34,7 +34,7 @@ public class FontLoader {
 		}
 		return instance;
 	}
-	
+
 	public Font getFont() {
 		return emojiFont;
 	}

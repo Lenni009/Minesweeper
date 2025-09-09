@@ -17,7 +17,7 @@ public class MineDistributor {
 		this.initField = initField;
 	}
 
-	Set<Field> choosenMines = new HashSet<Field>();
+	Set<Field> choosenMines = new HashSet<>();
 
 	Random random = new Random();
 
