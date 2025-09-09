@@ -60,7 +60,7 @@ public class MineField extends JPanel {
 	 * @param posY   Y-Coord of corresponding Field-Object
 	 * @return
 	 */
-	private MouseListener createMouseListener(JButton button, int posX, int posY) { // TODO auslagern in Data
+	private MouseListener createMouseListener(JButton button, int posX, int posY) {
 		return new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -76,7 +76,6 @@ public class MineField extends JPanel {
 				}
 				if (SwingUtilities.isRightMouseButton(e)) {
 					rightclickEvent(button, field);
-					Logger.info("width" + button.getWidth());
 				}
 			}
 		};
@@ -116,7 +115,7 @@ public class MineField extends JPanel {
 		MenuBar.getInstance().setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + amountOfMines);
 		button.setText(field.getText());
 
-		Logger.info("# platzierte Flaggen: " + data.getPlacedFlags());
+		Logger.info("placed flags: " + data.getPlacedFlags());
 	}
 
 	/**
@@ -129,7 +128,7 @@ public class MineField extends JPanel {
 
 		// prevent leftclick: FLAGGED fields will not be revealed
 		if (field.getFlagged() == Flag.FLAGGED) {
-			Logger.info("FLAGGED Feld wird nicht aufgedeckt");
+			Logger.info("FLAGGED field will not be revealed!");
 			return;
 		}
 
@@ -144,7 +143,7 @@ public class MineField extends JPanel {
 
 		// if mine is revealed the game ends
 		if (field.isMine()) {
-			Logger.info("BOOOOOOOM");
+			Logger.info("Mine exploded - game over!");
 
 			GameTimer.getInstance().stopTimer();
 			revealMap(field);
@@ -199,15 +198,6 @@ public class MineField extends JPanel {
 		if (!fieldY.isMine() && fieldY.getFlagged() == Flag.FLAGGED) {
 			fieldY.setBackgroundColor(FieldColor.RED);
 			changedFields.add(fieldY);
-		}
-		// it was not a mine, but was flagged with "?"
-		else if (!fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {
-			// TODO: clean this up
-			// nothing to do, but the documentation in the issue described this case
-
-			// optional: falsely "?"-flagged fields could also be marked red:
-			// fieldY.setBackgroundColor(FieldColor.RED);
-			// changedFields.add(fieldY);
 		}
 		// it was a mine and got flagged with "?" -> counts, field doesn't change
 		else if (fieldY.isMine() && fieldY.getFlagged() == Flag.QUESTIONMARK) {

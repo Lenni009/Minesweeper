@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
+import minesweeper.utils.Logger;
+
 public class FileCreator {
 
 	public static void writeFile(String filePath, String data) {
@@ -15,8 +17,7 @@ public class FileCreator {
 			fileWriter.close(); // it would be better if this was in the `finally` block, but .close() can throw
 								// as well, which would need a nested try-catch inside the `finally` block
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			Logger.error(e.getMessage());
 		}
 	}
 }
