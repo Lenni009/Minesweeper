@@ -43,7 +43,6 @@ public class CustomDifficulty extends JPanel {
 			// end of copy
 			model.setSideLength(newSideLength);
 
-			// extract this into the controller
 			int minMinePercentage = MineCalculator.getMinMinePercentage(newSideLength);
 			int maxMinePercentage = MineCalculator.getMaxMinePercentage(newSideLength);
 
@@ -72,10 +71,13 @@ public class CustomDifficulty extends JPanel {
 
 		int minInitialMinePercentage = MineCalculator.getMinMinePercentage(sideLength);
 		int maxInitialMinePercentage = MineCalculator.getMaxMinePercentage(sideLength);
-		model.setMinePercentage((maxInitialMinePercentage - minInitialMinePercentage) / 2);
-		int minePercentage = model.getMinePercentage();
-		model.setMineCount(MineCalculator.getMineCount(minePercentage, sideLength));
-		int mineCount = model.getMineCount();
+
+		int minePercentage = (maxInitialMinePercentage - minInitialMinePercentage) / 2;
+		model.setMinePercentage(minePercentage);
+
+		int mineCount = MineCalculator.getMineCount(minePercentage, sideLength);
+		model.setMineCount(mineCount);
+
 		setMineCountLabel(mineCount);
 		minePercentageModel = new SpinnerNumberModel(minePercentage, minInitialMinePercentage, maxInitialMinePercentage,
 				1);
@@ -84,8 +86,8 @@ public class CustomDifficulty extends JPanel {
 		minePercentageSpinner.addChangeListener(e -> {
 			// copied like above in changeListener
 			model.setMinePercentage(((Number) minePercentageSpinner.getValue()).intValue());
-			model.setMineCount(MineCalculator.getMineCount(minePercentage, sideLength));
-			setMineCountLabel(mineCount);
+			model.setMineCount(MineCalculator.getMineCount(model.getMinePercentage(), model.getSideLength()));
+			setMineCountLabel(model.getMineCount());
 		});
 
 		JPanel lengthInput = createNumberInput("Seitenlänge", lengthSpinner);
@@ -105,7 +107,8 @@ public class CustomDifficulty extends JPanel {
 		buttons.add(playButton);
 		// end of copy
 
-		playButton.addActionListener(e -> Minesweeper.getInstance().startGame(sideLength, mineCount));
+		playButton.addActionListener(
+				e -> Minesweeper.getInstance().startGame(model.getSideLength(), model.getMineCount()));
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
 			view.showPanel(Panel.MENU);
