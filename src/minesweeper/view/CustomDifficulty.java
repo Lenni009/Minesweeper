@@ -107,7 +107,8 @@ public class CustomDifficulty extends JPanel {
 		buttons.add(playButton);
 		// end of copy
 
-		playButton.addActionListener(e -> Minesweeper.getInstance().startGame(sideLength, mineCount));
+		playButton.addActionListener(
+				e -> Minesweeper.getInstance().startGame(model.getSideLength(), model.getMineCount()));
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
 			view.showPanel(Panel.MENU);
