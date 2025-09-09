@@ -90,8 +90,7 @@ public class EndScreen extends JDialog {
 
 		wrapper.add(buttons);
 
-		// TODO: set "true" to "isWon"
-		if (true) {
+		if (isWon) {
 			LeaderBoard leaderBoard = new LeaderBoard();
 			wrapper.add(leaderBoard);
 		}
