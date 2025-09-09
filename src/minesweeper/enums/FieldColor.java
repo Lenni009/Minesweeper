@@ -6,7 +6,7 @@ public enum FieldColor {
 	RED(Color.RED), ORANGE(Color.ORANGE), YELLOW(Color.YELLOW), LIGHTGREY(Color.LIGHT_GRAY), BLACK(Color.BLACK),
 	WHITE(Color.WHITE), LIGHTRED(new Color(0xE6A28C));
 
-	final Color color;
+	private final Color color;
 
 	FieldColor(Color color) {
 		this.color = color;

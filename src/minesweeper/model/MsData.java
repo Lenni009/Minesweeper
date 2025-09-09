@@ -1,7 +1,6 @@
 package minesweeper.model;
 
 import minesweeper.controller.Field;
-import minesweeper.utils.Logger;
 
 public class MsData {
 
