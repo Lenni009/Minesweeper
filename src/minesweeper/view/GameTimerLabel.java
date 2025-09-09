@@ -2,7 +2,6 @@ package minesweeper.view;
 
 import javax.swing.JLabel;
 
-@SuppressWarnings("serial")
 public class GameTimerLabel extends JLabel {
 
 	private static GameTimerLabel instance;

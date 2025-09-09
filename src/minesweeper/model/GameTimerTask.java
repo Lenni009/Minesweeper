@@ -27,7 +27,7 @@ public class GameTimerTask extends TimerTask {
 
 		// not great, but it works
 		// would be nicer if this would be in the view, not the data
-		String timeString = GameTimer.getInstance().getTime();
+		String timeString = GameTimer.getInstance().getFormattedTime();
 		label.setText(timeString);
 	}
 

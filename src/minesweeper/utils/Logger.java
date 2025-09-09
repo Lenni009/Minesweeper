@@ -2,6 +2,7 @@ package minesweeper.utils;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.List;
 
 public class Logger {
 
@@ -28,4 +29,12 @@ public class Logger {
 		}
 	}
 
+	public static void logArray(List<String[]> arr) {
+		for (String[] row : arr) {
+			for (String item : row) {
+				System.out.println(item);
+			}
+			System.out.println("------------------");
+		}
+	}
 }

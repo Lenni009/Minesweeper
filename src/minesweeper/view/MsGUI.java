@@ -14,7 +14,6 @@ import javax.swing.UIManager;
 import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
 
-@SuppressWarnings("serial")
 public class MsGUI extends JFrame {
 	private static final int _DEFAULT_SCREENSIZE = 600;
 

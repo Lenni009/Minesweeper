@@ -50,6 +50,11 @@ public class GameTimer {
 			secondsString = "0" + seconds;
 		}
 
-		return "Zeit: " + minutesString + ":" + secondsString;
+		return minutesString + ":" + secondsString;
+	}
+
+	public String getFormattedTime() {
+		String timeString = getTime();
+		return "Zeit: " + timeString;
 	}
 }

@@ -16,7 +16,6 @@ import javax.swing.JPanel;
 import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 
-@SuppressWarnings("serial")
 public class EndScreen extends JDialog {
 
 	public EndScreen(boolean isWon) {
@@ -76,7 +75,7 @@ public class EndScreen extends JDialog {
 			this.setVisible(false);
 		});
 
-		String elapsedTime = GameTimer.getInstance().getTime();
+		String elapsedTime = GameTimer.getInstance().getFormattedTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
 		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -86,13 +85,15 @@ public class EndScreen extends JDialog {
 		Color winningStatusColor = isWon ? new Color(0x007F00) : new Color(0xFF0000); // isWon ? green : red
 		winningStatusDisplay.setForeground(winningStatusColor);
 
-		// TODO: Bestenliste
-		// new Bestenliste().setVisible(isWon);
-
 		wrapper.add(winningStatusDisplay);
 		wrapper.add(timeDisplay);
 
 		wrapper.add(buttons);
+
+		if (isWon) {
+			LeaderBoard leaderBoard = new LeaderBoard();
+			wrapper.add(leaderBoard);
+		}
 
 		this.add(wrapper);
 

@@ -35,9 +35,10 @@ public class MineDistributor {
 				{ initX, initY - 1 }, { initX, initY }, { initX, initY + 1 }, { initX + 1, initY - 1 },
 				{ initX + 1, initY }, { initX + 1, initY + 1 } };
 
-		while (choosenMines.size() < data.amountOfMines) {
-			int fieldX = random.nextInt(data.fieldLen);
-			int fieldY = random.nextInt(data.fieldLen);
+		while (choosenMines.size() < data.getAmountOfMines()) {
+			int fieldLen = data.getFieldLen();
+			int fieldX = random.nextInt(fieldLen);
+			int fieldY = random.nextInt(fieldLen);
 			if (isPosValid(fieldX, fieldY, freeFields)) {
 				data.getField(fieldX, fieldY).setMine(true);
 				choosenMines.add(data.getField(fieldX, fieldY));

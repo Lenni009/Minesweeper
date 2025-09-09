@@ -13,7 +13,6 @@ import javax.swing.JSeparator;
 import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
 
-@SuppressWarnings("serial")
 public class MenuBar extends JMenuBar {
 
 	private static MenuBar instance;

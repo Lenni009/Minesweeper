@@ -70,6 +70,12 @@ public class Minesweeper {
 
 		view.addPanel(mainMenu, "menu");
 		view.showPanel("menu");
+
 		view.resizeScreen();
+		view.revalidate();
+	}
+
+	public MsData getModel() {
+		return model;
 	}
 }
