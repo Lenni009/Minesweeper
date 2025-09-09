@@ -86,7 +86,6 @@ public class MsData {
 				counterMines++;
 			}
 		}
-		Logger.info("" + counterMines);
 		getField(posX, posY).setMineNeighbourCount(counterMines);
 	}
 

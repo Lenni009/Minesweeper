@@ -68,13 +68,12 @@ public class MineField extends JPanel {
 
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					leftclickEvent(button, field);
-					Logger.info("links");
+					
 				}
 				if (SwingUtilities.isRightMouseButton(e)) {
 					rightclickEvent(button, field);
-					Logger.info("rechts");
+					Logger.info("width" + button.getWidth());
 				}
-				Logger.info(field.getFlagged().toString());
 			}
 		};
 	}
