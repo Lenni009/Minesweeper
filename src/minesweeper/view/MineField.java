@@ -29,7 +29,7 @@ public class MineField extends JPanel {
 	private JButton[][] buttons;
 
 	private AutoRevealer autoRevealer;
-	
+
 	private final Font font = FontLoader.getInstance().getFont();
 
 	// SonarQube wanted to have this extracted
@@ -125,8 +125,6 @@ public class MineField extends JPanel {
 		button.setText(field.getText());
 
 		Logger.info("placed flags: " + data.getPlacedFlags());
-		
-		Logger.info("width: " + button.getWidth());
 	}
 
 	/**
