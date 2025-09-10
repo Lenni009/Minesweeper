@@ -24,11 +24,8 @@ public class Field {
 	private int mineNeighbourCount;
 
 	/**
-	 * true: can still be clicked -> show flagged false: uncovered -> show number
-	 * (or death lol)
-	 * TODO FIXME semantic logic error
-	 * if field is revealed (true) it can't be clicked on anymore
-	 * if field is not revealed (false) it can still be clicked on
+	 * if field is revealed (true) it can't be clicked on anymore if field is not
+	 * revealed (false) it can still be clicked on
 	 */
 	private boolean isRevealed;
 
