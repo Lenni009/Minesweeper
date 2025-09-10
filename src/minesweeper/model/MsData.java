@@ -70,8 +70,13 @@ public class MsData {
 	public void countMineNeighbours(int posX, int posY) {
 		// calculate neighbours
 		/*
-		 * +--+--+-----+-----+ |-1/-1|-1/00|-1/+1| +--+--+-----+-----+ |00/-1| X/Y
-		 * |00/+1| +--+--+-----+-----+ |+1/-1|+1/00|+1/+1| +--+--+-----+-----+
+		 * +--+--+-----+-----+ 
+		 * |-1/-1|-1/00|-1/+1| 
+		 * +--+--+-----+-----+ 
+		 * |00/-1| X/Y |00/+1|
+		 * +--+--+-----+-----+ 
+		 * |+1/-1|+1/00|+1/+1| 
+		 * +--+--+-----+-----+
 		 */
 		int[][] neighbourPos = { { posX - 1, posY - 1 }, { posX - 1, posY }, { posX - 1, posY + 1 }, { posX, posY - 1 },
 				{ posX, posY + 1 }, { posX + 1, posY - 1 }, { posX + 1, posY }, { posX + 1, posY + 1 } };
