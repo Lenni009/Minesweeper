@@ -92,11 +92,18 @@ public class MsGUI extends JFrame {
 		return currentlyActivePanel;
 	}
 
+	/**
+	 * Default case (no arg is provided): resize screen to default values
+	 */
 	public void resizeScreen() {
 		// resizeScreen clamps value, so we can provide a value < DEFAULT_SCREENSIZE
 		resizeScreen(1);
 	}
 
+	/**
+	 * Overloaded to accept argument, so the rezise is based on the needed width an height
+	 * @param fieldLen
+	 */
 	public void resizeScreen(int fieldLen) {
 		Dimension currentWindowSize = this.getSize();
 
@@ -108,6 +115,14 @@ public class MsGUI extends JFrame {
 
 	}
 
+	/**
+	 * Calculates the size of the new window, based on the number of buttons
+	 * and the minimum width each buttons needs to display its text.
+	 * Clamps the result, so it fits right on the screen.
+	 * 
+	 * @param fieldLen number of buttons in a row / col
+	 * @return clamped windowsize
+	 */
 	private Dimension getWindowSize(int fieldLen) {
 		int minWindowSize = MIN_WIDTH_BUTTON * fieldLen;
 
@@ -122,8 +137,14 @@ public class MsGUI extends JFrame {
 		return windowSize;
 	}
 
+	/**
+	 * Relocate window on the screen while trying to keep window as close as
+	 * possible to the old position using the center of the old and new windows
+	 * 
+	 * @param newWindowSize size of the new window
+	 * @param oldWindowSize size of the old window
+	 */
 	private void updateLocation(Dimension newWindowSize, Dimension oldWindowSize) {
-		// get center and use it for relocation
 		Point currentLocation = this.getLocation();
 
 		int centerX = currentLocation.x + oldWindowSize.width / 2;
@@ -132,20 +153,20 @@ public class MsGUI extends JFrame {
 		int newLocationX = centerX - newWindowSize.width / 2;
 		int newLocationY = centerY - newWindowSize.height / 2;
 
-		if (newLocationX < 0 || (newLocationX + newWindowSize.width) > SCREEN_SIZE.width) {
-			// center window
-			newLocationX = (SCREEN_SIZE.width - newWindowSize.width) / 2;
-		}
-		if (newLocationY < 0 || (newLocationY + newWindowSize.height) > SCREEN_SIZE.height) {
-			// center window
-			newLocationY = (SCREEN_SIZE.height - newWindowSize.height) / 2;
-		}
+		// Bounds for new window on screen:
+		// 0 (upper left corner) < newLocation < (screensize - windowsize)
+		newLocationX = (int) Clamp.clamp(newLocationX, 0, SCREEN_SIZE.width - newWindowSize.width);
+		newLocationY = (int) Clamp.clamp(newLocationY, 0, SCREEN_SIZE.height - newWindowSize.height);
 
 		Logger.info("Set Location at [" + newLocationX + "/" + newLocationY + "]");
 
 		this.setLocation(newLocationX, newLocationY);
 	}
 
+	/**
+	 * This method should only be called once - at the start of loading minesweeper.
+	 * This method will center the window an the screen.
+	 */
 	private void initLocation() {
 		int locationWidth = (SCREEN_SIZE.width - DEFAULT_SCREENSIZE) / 2;
 		int locationHeight = (SCREEN_SIZE.height - DEFAULT_SCREENSIZE) / 2;
