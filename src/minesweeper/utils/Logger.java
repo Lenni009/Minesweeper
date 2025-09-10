@@ -5,7 +5,7 @@ import java.time.LocalTime;
 import java.util.List;
 
 // using a custom logger implementation as opposed to java.util.logging.Logger because it makes our life easier
-public class Logger {
+public abstract class Logger {
 
 	private static boolean isLoggingActive = true;
 
