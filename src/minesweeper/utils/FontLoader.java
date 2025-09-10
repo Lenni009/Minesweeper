@@ -5,7 +5,7 @@ import java.awt.FontFormatException;
 import java.io.IOException;
 import java.io.InputStream;
 
-import minesweeper.Minesweeper;
+import minesweeper.controller.Minesweeper;
 
 public class FontLoader {
 

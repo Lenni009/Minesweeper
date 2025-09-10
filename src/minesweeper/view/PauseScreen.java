@@ -10,7 +10,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import minesweeper.Minesweeper;
+import minesweeper.controller.Minesweeper;
 
 public class PauseScreen extends JPanel {
 

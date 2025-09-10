@@ -10,8 +10,8 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.AncestorEvent;
 import javax.swing.event.AncestorListener;
 
-import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
+import minesweeper.controller.Minesweeper;
 import minesweeper.model.LeaderBoardData;
 import minesweeper.model.MsData;
 

@@ -10,8 +10,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
+import minesweeper.controller.Minesweeper;
 
 public class MenuBar extends JMenuBar {
 

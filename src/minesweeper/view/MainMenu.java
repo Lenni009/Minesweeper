@@ -5,7 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 
-import minesweeper.Minesweeper;
+import minesweeper.controller.Minesweeper;
 import minesweeper.enums.Panel;
 
 public class MainMenu extends JPanel {
