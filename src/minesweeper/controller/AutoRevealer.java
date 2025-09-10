@@ -44,7 +44,8 @@ public class AutoRevealer {
 		field.setText(String.valueOf(mineNeighborCount));
 		changedFields.add(field);
 
-		// if the field has no mines as neighbours, call reveal for the direct neighbours
+		// if the field has no mines as neighbours, call reveal for the direct
+		// neighbours
 		if (mineNeighborCount == 0) {
 			updateNeighbours(changedFields, fieldX, fieldY);
 		}
