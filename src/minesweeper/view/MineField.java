@@ -3,6 +3,7 @@ package minesweeper.view;
 import java.awt.GridLayout;
 import javax.swing.*;
 
+import java.awt.Font;
 import minesweeper.controller.GameTimer;
 import minesweeper.controller.AutoRevealer;
 import minesweeper.controller.MineDistributor;
@@ -29,6 +30,8 @@ public class MineField extends JPanel {
 
 	private AutoRevealer autoRevealer;
 
+	private final Font font = FontLoader.getInstance().getFont();
+
 	// SonarQube wanted to have this extracted
 	private String placedFlagsLabelText = "Platzierte Flaggen: ";
 
@@ -48,7 +51,7 @@ public class MineField extends JPanel {
 			for (int posY = 0; posY < fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
-				button.setFont(FontLoader.getInstance().getFont());
+				button.setFont(font);
 				add(button);
 				buttons[posX][posY] = button;
 			}
