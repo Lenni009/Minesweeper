@@ -108,7 +108,7 @@ public class Field {
 		return this.caption;
 	}
 
-	public boolean isClickable() {
+	public boolean isRevealed() {
 		return isRevealed;
 	}
 
