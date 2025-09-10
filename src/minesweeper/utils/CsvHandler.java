@@ -3,7 +3,7 @@ package minesweeper.utils;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CsvHandler {
+public abstract class CsvHandler {
 
 	private static final int AMOUNT_OF_FIELDS_TO_PARSE = 2;
 

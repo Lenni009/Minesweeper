@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class FileReader {
+public abstract class FileReader {
 
 	public static List<String> readFile(String filePath) {
 		List<String> rows = new ArrayList<>();
