@@ -2,7 +2,8 @@ package minesweeper.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Toolkit;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,13 +94,25 @@ public class MsGUI extends JFrame {
 		resizeScreen(1);
 	}
 
-	public void resizeScreen(int fieldLen) {
+		public void resizeScreen(int fieldLen) {
 		// one Button needs a width of at least 55 pixels
-		int screenSize = MIN_WIDTH_BUTTON * fieldLen;
+		int windowSize = MIN_WIDTH_BUTTON * fieldLen;
+		Rectangle screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
+		int minScreenDimension = Math.min(screenSize.width, screenSize.height);
 
-		screenSize = (int) Clamp.clamp(screenSize, DEFAULT_SCREENSIZE,
-				Toolkit.getDefaultToolkit().getScreenSize().width);
+		windowSize = (int) Clamp.clamp(windowSize, DEFAULT_SCREENSIZE, minScreenDimension);
 
-		MsGUI.getInstance().setSize(screenSize, screenSize);
+		MsGUI.getInstance().setSize(windowSize, windowSize);
+
+		updateLocation(windowSize, screenSize, minScreenDimension);
+
+	}
+
+	private void updateLocation(int windowSize, Rectangle screenSize, int minScreenDimension) {
+
+		int locationWidth = (screenSize.width - windowSize) / 2;
+		int locationHeight = (screenSize.height - windowSize) / 2;
+
+		this.setLocation(locationWidth, locationHeight);
 	}
 }
