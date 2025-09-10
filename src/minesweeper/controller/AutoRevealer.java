@@ -1,7 +1,6 @@
 package minesweeper.controller;
 
 import java.awt.Color;
-import java.util.HashSet;
 import java.util.Set;
 
 import minesweeper.enums.Flag;
@@ -17,9 +16,7 @@ public class AutoRevealer {
 		revealChecker = new RevealChecker(data);
 	}
 
-	public Set<Field> revealField(Field field) {
-
-		Set<Field> changedFields = new HashSet<>();
+	public Set<Field> revealField(Field field, Set<Field> changedFields) {
 
 		// early return, if field is a mine or is already revealed
 		if (field.isMine() || field.isRevealed()) {
@@ -70,7 +67,7 @@ public class AutoRevealer {
 
 	private void updateField(Set<Field> changedFields, int[] fieldXY) {
 		if (isValidPosition(fieldXY[0], fieldXY[1])) {
-			changedFields.addAll(revealField(data.getField(fieldXY[0], fieldXY[1])));
+			revealField(data.getField(fieldXY[0], fieldXY[1]), changedFields);
 		}
 	}
 

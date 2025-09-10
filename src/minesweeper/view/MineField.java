@@ -164,7 +164,8 @@ public class MineField extends JPanel {
 	}
 
 	private void revealField(Field field) {
-		Set<Field> revealedFields = autoRevealer.revealField(field);
+		Set<Field> revealedFields = new HashSet<>();
+		autoRevealer.revealField(field, revealedFields);
 
 		RevealChecker revealChecker = autoRevealer.getRevealChecker();
 
