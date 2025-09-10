@@ -100,8 +100,9 @@ public class MsGUI extends JFrame {
 	public void resizeScreen(int fieldLen) {
 		// one Button needs a width of at least 55 pixels
 		int windowSize = getWindowSize(fieldLen);
+		int minWindowWidth = (windowSize >= fieldLen * MIN_WIDTH_BUTTON) ? windowSize : fieldLen * MIN_WIDTH_BUTTON;
 
-		MsGUI.getInstance().setSize(windowSize, windowSize);
+		MsGUI.getInstance().setSize(minWindowWidth, windowSize);
 
 		updateLocation(windowSize);
 
