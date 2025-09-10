@@ -122,6 +122,9 @@ public class MineField extends JPanel {
 		button.setText(field.getText());
 
 		Logger.info("placed flags: " + data.getPlacedFlags());
+
+		// TODO remove Logger when problems (min width for buttons) are fixed
+		Logger.info("width: " + button.getWidth());
 	}
 
 	/**

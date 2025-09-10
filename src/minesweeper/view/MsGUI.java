@@ -19,6 +19,8 @@ import minesweeper.utils.Logger;
 public class MsGUI extends JFrame {
 	private static final int DEFAULT_SCREENSIZE = 600;
 	private static final int MIN_WIDTH_BUTTON = 55;
+	private static final Rectangle SCREEN_SIZE = GraphicsEnvironment.getLocalGraphicsEnvironment()
+			.getMaximumWindowBounds();
 
 	private static MsGUI instance;
 
@@ -34,7 +36,8 @@ public class MsGUI extends JFrame {
 
 		// JFrame config
 		this.setSize(600, 600);
-		this.setLocation(300, 300);
+		updateLocation(getWindowSize(1));
+		//this.setLocation(300, 300);
 		this.setTitle("Minesweeper");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -94,24 +97,29 @@ public class MsGUI extends JFrame {
 		resizeScreen(1);
 	}
 
-		public void resizeScreen(int fieldLen) {
+	public void resizeScreen(int fieldLen) {
 		// one Button needs a width of at least 55 pixels
-		int windowSize = MIN_WIDTH_BUTTON * fieldLen;
-		Rectangle screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
-		int minScreenDimension = Math.min(screenSize.width, screenSize.height);
-
-		windowSize = (int) Clamp.clamp(windowSize, DEFAULT_SCREENSIZE, minScreenDimension);
+		int windowSize = getWindowSize(fieldLen);
 
 		MsGUI.getInstance().setSize(windowSize, windowSize);
 
-		updateLocation(windowSize, screenSize, minScreenDimension);
+		updateLocation(windowSize);
 
 	}
 
-	private void updateLocation(int windowSize, Rectangle screenSize, int minScreenDimension) {
+	private int getWindowSize(int fieldLen) {
+		int windowSize = MIN_WIDTH_BUTTON * fieldLen;
 
-		int locationWidth = (screenSize.width - windowSize) / 2;
-		int locationHeight = (screenSize.height - windowSize) / 2;
+		int minScreenDimension = Math.min(SCREEN_SIZE.width, SCREEN_SIZE.height);
+
+		windowSize = (int) Clamp.clamp(windowSize, DEFAULT_SCREENSIZE, minScreenDimension);
+		return windowSize;
+	}
+
+	private void updateLocation(int windowSize) {
+
+		int locationWidth = (SCREEN_SIZE.width - windowSize) / 2;
+		int locationHeight = (SCREEN_SIZE.height - windowSize) / 2;
 
 		this.setLocation(locationWidth, locationHeight);
 	}
