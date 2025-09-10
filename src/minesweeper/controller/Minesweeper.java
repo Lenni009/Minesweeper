@@ -1,6 +1,5 @@
-package minesweeper;
+package minesweeper.controller;
 
-import minesweeper.controller.GameTimer;
 import minesweeper.enums.Panel;
 import minesweeper.model.MsData;
 import minesweeper.view.GameTimerLabel;
@@ -21,6 +20,14 @@ public class Minesweeper {
 	private int mines;
 
 	private Minesweeper() {
+		view = MsGUI.getInstance();
+		MainMenu mainMenu = MainMenu.getInstance();
+
+		view.addPanel(mainMenu, Panel.MENU);
+		view.showPanel(Panel.MENU);
+
+		view.resizeScreen();
+		view.revalidate();
 	}
 
 	// in case someone asks: this is the singleton pattern!
@@ -85,17 +92,6 @@ public class Minesweeper {
 		MenuBar menuBar = MenuBar.getInstance();
 		menuBar.setStatusText("");
 		menuBar.hideGameMenu();
-	}
-
-	public static void main(String[] args) {
-		view = MsGUI.getInstance();
-		MainMenu mainMenu = MainMenu.getInstance();
-
-		view.addPanel(mainMenu, Panel.MENU);
-		view.showPanel(Panel.MENU);
-
-		view.resizeScreen();
-		view.revalidate();
 	}
 
 	public MsData getModel() {

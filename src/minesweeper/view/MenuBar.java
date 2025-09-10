@@ -10,8 +10,8 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
+import minesweeper.controller.Minesweeper;
 
 public class MenuBar extends JMenuBar {
 
@@ -31,7 +31,7 @@ public class MenuBar extends JMenuBar {
 		JMenuItem restart = new JMenuItem("Neustart", KeyEvent.VK_N);
 		JMenuItem mainMenu = new JMenuItem("Hauptmenü", KeyEvent.VK_H);
 		pause = new JMenuItem("Pause", KeyEvent.VK_P);
-		resume = new JMenuItem("Fortfahren", KeyEvent.VK_F);
+		resume = new JMenuItem("Fortsetzen", KeyEvent.VK_F);
 		JMenu helpMenu = new JMenu("Hilfe");
 		JMenuItem rules = new JMenuItem("Regeln", KeyEvent.VK_R);
 		JSeparator sep = new JSeparator();

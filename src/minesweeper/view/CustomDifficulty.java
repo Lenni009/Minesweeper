@@ -12,8 +12,8 @@ import javax.swing.JPanel;
 import javax.swing.JSpinner;
 import javax.swing.SpinnerNumberModel;
 
-import minesweeper.Minesweeper;
 import minesweeper.controller.MineCalculator;
+import minesweeper.controller.Minesweeper;
 import minesweeper.enums.Panel;
 import minesweeper.model.CustomDifficultyModel;
 

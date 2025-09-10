@@ -13,8 +13,8 @@ import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-import minesweeper.Minesweeper;
 import minesweeper.controller.GameTimer;
+import minesweeper.controller.Minesweeper;
 
 public class EndScreen extends JDialog {
 
