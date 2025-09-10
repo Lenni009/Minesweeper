@@ -22,7 +22,7 @@ public class AutoRevealer {
 		Set<Field> changedFields = new HashSet<>();
 
 		// early return, if field is a mine or is already revealed
-		if (field.isMine() || !field.isClickable()) {
+		if (field.isMine() || field.isRevealed()) {
 			return changedFields;
 		}
 
@@ -40,7 +40,7 @@ public class AutoRevealer {
 		int fieldY = field.getPosY();
 
 		// reveal field
-		field.setClickable(false);
+		field.setRevealedStatus(true);
 		data.countMineNeighbours(fieldX, fieldY);
 		int mineNeighborCount = field.getMineNeighbourCount();
 		if (mineNeighborCount > 0) {

@@ -26,6 +26,9 @@ public class Field {
 	/**
 	 * true: can still be clicked -> show flagged false: uncovered -> show number
 	 * (or death lol)
+	 * TODO FIXME semantic logic error
+	 * if field is revealed (true) it can't be clicked on anymore
+	 * if field is not revealed (false) it can still be clicked on
 	 */
 	private boolean isRevealed;
 
@@ -56,7 +59,7 @@ public class Field {
 
 		caption = FieldLabel.UNLABELLED.toString();
 
-		isRevealed = true;
+		isRevealed = false;
 
 		setBackgroundColor(FieldColor.WHITE);
 	}
@@ -95,11 +98,11 @@ public class Field {
 
 	public void setText(String text) {
 		// does field show number of flag?
-		if (this.isRevealed) {
+		if (!this.isRevealed) { // field is not revealed by now
 			this.caption = text;
-		} else if (mineNeighbourCount == 0) {
+		} else if (mineNeighbourCount == 0) { // field is revealed, has 0 mines -> display nothing
 			this.caption = "";
-		} else {
+		} else { // display number of mine neighbours
 			this.caption = String.valueOf(mineNeighbourCount);
 		}
 	}
@@ -108,12 +111,12 @@ public class Field {
 		return this.caption;
 	}
 
-	public boolean isClickable() {
+	public boolean isRevealed() {
 		return isRevealed;
 	}
 
-	public void setClickable(boolean isClickable) {
-		this.isRevealed = isClickable;
+	public void setRevealedStatus(boolean isRevealed) {
+		this.isRevealed = isRevealed;
 	}
 
 	public Color getBackgroundColor() {
