@@ -2,7 +2,8 @@ package minesweeper.view;
 
 import java.awt.CardLayout;
 import java.awt.Color;
-import java.awt.Toolkit;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.util.HashMap;
 import java.util.Map;
 
