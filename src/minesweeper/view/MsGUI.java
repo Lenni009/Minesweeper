@@ -3,7 +3,9 @@ package minesweeper.view;
 import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.GraphicsEnvironment;
+import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.Dimension;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -18,7 +20,7 @@ import minesweeper.utils.Logger;
 
 public class MsGUI extends JFrame {
 	private static final int DEFAULT_SCREENSIZE = 600;
-	private static final int MIN_WIDTH_BUTTON = 55;
+	private static final int MIN_WIDTH_BUTTON = 60;
 	private static final Rectangle SCREEN_SIZE = GraphicsEnvironment.getLocalGraphicsEnvironment()
 			.getMaximumWindowBounds();
 
@@ -36,8 +38,7 @@ public class MsGUI extends JFrame {
 
 		// JFrame config
 		this.setSize(600, 600);
-		updateLocation(getWindowSize(1));
-		//this.setLocation(300, 300);
+		initLocation();
 		this.setTitle("Minesweeper");
 		this.setDefaultCloseOperation(EXIT_ON_CLOSE);
 
@@ -92,36 +93,62 @@ public class MsGUI extends JFrame {
 	}
 
 	public void resizeScreen() {
-		// standard width is 600 pixel
 		// resizeScreen clamps value, so we can provide a value < DEFAULT_SCREENSIZE
 		resizeScreen(1);
 	}
 
 	public void resizeScreen(int fieldLen) {
-		// one Button needs a width of at least 55 pixels
-		int windowSize = getWindowSize(fieldLen);
-		int minWindowWidth = (windowSize >= fieldLen * MIN_WIDTH_BUTTON) ? windowSize : fieldLen * MIN_WIDTH_BUTTON;
+		Dimension currentWindowSize = this.getSize();
 
-		MsGUI.getInstance().setSize(minWindowWidth, windowSize);
+		Dimension windowSize = getWindowSize(fieldLen);
 
-		updateLocation(windowSize);
+		MsGUI.getInstance().setSize(windowSize.width, windowSize.height);
+
+		updateLocation(windowSize, currentWindowSize);
 
 	}
 
-	private int getWindowSize(int fieldLen) {
-		int windowSize = MIN_WIDTH_BUTTON * fieldLen;
+	private Dimension getWindowSize(int fieldLen) {
+		int minWindowSize = MIN_WIDTH_BUTTON * fieldLen;
 
-		int minScreenDimension = Math.min(SCREEN_SIZE.width, SCREEN_SIZE.height);
+		int maxWindowWidth = SCREEN_SIZE.width;
+		int maxWindowHeight = SCREEN_SIZE.height;
 
-		windowSize = (int) Clamp.clamp(windowSize, DEFAULT_SCREENSIZE, minScreenDimension);
+		int windowWidth = (int) Clamp.clamp(minWindowSize, DEFAULT_SCREENSIZE, maxWindowWidth);
+		int windowHeight = (int) Clamp.clamp(minWindowSize, DEFAULT_SCREENSIZE, maxWindowHeight);
+
+		Dimension windowSize = new Dimension(windowWidth, windowHeight);
+
 		return windowSize;
 	}
 
-	private void updateLocation(int windowSize) {
+	private void updateLocation(Dimension newWindowSize, Dimension oldWindowSize) {
+		// get center and use it for relocation
+		Point currentLocation = this.getLocation();
 
-		int locationWidth = (SCREEN_SIZE.width - windowSize) / 2;
-		int locationHeight = (SCREEN_SIZE.height - windowSize) / 2;
+		int centerX = currentLocation.x + oldWindowSize.width / 2;
+		int centerY = currentLocation.y + oldWindowSize.height / 2;
 
+		int newLocationX = centerX - newWindowSize.width / 2;
+		int newLocationY = centerY - newWindowSize.height / 2;
+
+		if (newLocationX < 0 || (newLocationX + newWindowSize.width) > SCREEN_SIZE.width) {
+			// center window
+			newLocationX = (SCREEN_SIZE.width - newWindowSize.width) / 2;
+		}
+		if (newLocationY < 0 || (newLocationY + newWindowSize.height) > SCREEN_SIZE.height) {
+			// center window
+			newLocationY = (SCREEN_SIZE.height - newWindowSize.height) / 2;
+		}
+
+		Logger.info("Set Location at [" + newLocationX + "/" + newLocationY + "]");
+
+		this.setLocation(newLocationX, newLocationY);
+	}
+
+	private void initLocation() {
+		int locationWidth = (SCREEN_SIZE.width - DEFAULT_SCREENSIZE) / 2;
+		int locationHeight = (SCREEN_SIZE.height - DEFAULT_SCREENSIZE) / 2;
 		this.setLocation(locationWidth, locationHeight);
 	}
 }
