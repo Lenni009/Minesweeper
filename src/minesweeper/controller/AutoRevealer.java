@@ -17,20 +17,15 @@ public class AutoRevealer {
 	}
 
 	public Set<Field> revealField(Field field, Set<Field> changedFields) {
-
 		// early return, if field is a mine or is already revealed
 		if (field.isMine() || field.isRevealed()) {
 			return changedFields;
 		}
 
-		if (field.getFlagged() == Flag.FLAGGED) {
-			// maintaining single source of truth
-			data.setPlacedFlags(data.getPlacedFlags() - 1);
-			field.setFlagged(Flag.NOFLAG);
-		} else if (field.getFlagged() == Flag.QUESTIONMARK) {
-			field.setFlagged(Flag.NOFLAG);
-		}
+		// remove Flag from field, after it got revealed
+		removePotentialFlag(field);
 
+		// counts how many fields are revealed already
 		revealChecker.incrementRevealedFields();
 
 		int fieldX = field.getPosX();
@@ -47,27 +42,38 @@ public class AutoRevealer {
 			field.setBackgroundColor(backgroundColor);
 		}
 		field.setText(String.valueOf(mineNeighborCount));
+		changedFields.add(field);
 
+		// if the field has no mines as neighbours, call reveal for the direct
+		// neighbours
+		if (mineNeighborCount == 0) {
+			updateNeighbours(changedFields, fieldX, fieldY);
+		}
+
+		return changedFields;
+	}
+
+	private void updateNeighbours(Set<Field> changedFields, int fieldX, int fieldY) {
+		// relative positions of all 8 neighbours
 		int[][] neighbours = { { fieldX - 1, fieldY - 1 }, { fieldX - 1, fieldY }, { fieldX - 1, fieldY + 1 }, // above
 				{ fieldX, fieldY - 1 }, { fieldX, fieldY + 1 }, // left & right
 				{ fieldX + 1, fieldY - 1 }, { fieldX + 1, fieldY }, { fieldX + 1, fieldY + 1 } }; // under
 
-		// if field has 0 mines as neighbours call reveal for direct neighbours
-		if (mineNeighborCount == 0) {
-			for (int[] fieldXY : neighbours) {
-				updateField(changedFields, fieldXY);
+		// reveal all valid neighbours
+		for (int[] fieldXY : neighbours) {
+			if (isValidPosition(fieldXY[0], fieldXY[1])) {
+				revealField(data.getField(fieldXY[0], fieldXY[1]), changedFields);
 			}
 		}
-
-		changedFields.add(field);
-
-		return changedFields;
-
 	}
 
-	private void updateField(Set<Field> changedFields, int[] fieldXY) {
-		if (isValidPosition(fieldXY[0], fieldXY[1])) {
-			revealField(data.getField(fieldXY[0], fieldXY[1]), changedFields);
+	private void removePotentialFlag(Field field) {
+		if (field.getFlagged() == Flag.FLAGGED) {
+			// maintaining single source of truth
+			data.setPlacedFlags(data.getPlacedFlags() - 1);
+			field.setFlagged(Flag.NOFLAG);
+		} else if (field.getFlagged() == Flag.QUESTIONMARK) {
+			field.setFlagged(Flag.NOFLAG);
 		}
 	}
 
