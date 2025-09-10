@@ -98,11 +98,11 @@ public class Field {
 
 	public void setText(String text) {
 		// does field show number of flag?
-		if (this.isRevealed) {
+		if (!this.isRevealed) { // field is not revealed by now
 			this.caption = text;
-		} else if (mineNeighbourCount == 0) {
+		} else if (mineNeighbourCount == 0) { // field is revealed, has 0 mines -> display nothing
 			this.caption = "";
-		} else {
+		} else { // display number of mine neighbours
 			this.caption = String.valueOf(mineNeighbourCount);
 		}
 	}
