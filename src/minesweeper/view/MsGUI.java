@@ -93,19 +93,25 @@ public class MsGUI extends JFrame {
 		resizeScreen(1);
 	}
 
-	public void resizeScreen(int fieldLen) {
+		public void resizeScreen(int fieldLen) {
 		// one Button needs a width of at least 55 pixels
 		int windowSize = MIN_WIDTH_BUTTON * fieldLen;
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		Rectangle screenSize = GraphicsEnvironment.getLocalGraphicsEnvironment().getMaximumWindowBounds();
 		int minScreenDimension = Math.min(screenSize.width, screenSize.height);
 
 		windowSize = (int) Clamp.clamp(windowSize, DEFAULT_SCREENSIZE, minScreenDimension);
 
 		MsGUI.getInstance().setSize(windowSize, windowSize);
 
-		if (windowSize + 300 > minScreenDimension) {
-			
-			this.setLocation(0, 0);
-		}
+		updateLocation(windowSize, screenSize, minScreenDimension);
+
+	}
+
+	private void updateLocation(int windowSize, Rectangle screenSize, int minScreenDimension) {
+
+		int locationWidth = (screenSize.width - windowSize) / 2;
+		int locationHeight = (screenSize.height - windowSize) / 2;
+
+		this.setLocation(locationWidth, locationHeight);
 	}
 }
