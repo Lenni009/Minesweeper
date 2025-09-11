@@ -30,7 +30,8 @@ public class MineField extends JPanel {
 
 	private AutoRevealer autoRevealer;
 
-	// "font" is already a parent class field, so we use a different variable name here
+	// "font" is already a parent class field, so we use a different variable name
+	// here
 	private final Font fontObj = FontLoader.getInstance().getFont();
 
 	// SonarQube wanted to have this extracted
@@ -159,10 +160,7 @@ public class MineField extends JPanel {
 			revealMap(field);
 
 			new EndScreen(false);
-		}
-
-		// reveal field
-		else {
+		} else {
 			revealField(field);
 		}
 	}
