@@ -19,17 +19,21 @@ public class GameTimerTask extends TimerTask {
 
 	@Override
 	public void run() {
-		if (isPaused) return;
+		if (isPaused) {
+			return;
+		}
 
 		seconds++;
 		if (seconds >= 60) {
 			seconds = 0;
-			// this will lead to funny problems, if minutes get > 60
+			// this will lead to funny problems if minutes get > 60
+			// common case should be games < 60 minutes, it's not worth taking these edge
+			// cases into account and add complexity just for them
 			minutes++;
 		}
 
 		// not great, but it works
-		// would be nicer if this would be in the view, not the data
+		// would be nicer if this was be in the view, not the data
 		String timeString = GameTimer.getInstance().getLabelTime();
 		label.setText(timeString);
 	}

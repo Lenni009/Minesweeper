@@ -175,7 +175,6 @@ public class MineField extends JPanel {
 		if (revealChecker.isGameWon()) {
 			// Flag all mines if game is won
 			revealedFields.addAll(revealChecker.revealMap());
-			// updateButtonsGUI(revealedFields);
 
 			// using invokeLater so the UI is updated before it is
 			// locked and we don't have to duplicate code

@@ -13,6 +13,8 @@ public class MineDistributor {
 
 	private Field initField;
 
+	private Random random = new Random(); // SonarQube wanted this to be extracted
+
 	public MineDistributor(MsData model, Field initField) {
 		this.data = model;
 		this.initField = initField;
@@ -32,7 +34,6 @@ public class MineDistributor {
 				{ initX, initY - 1 }, { initX, initY }, { initX, initY + 1 }, { initX + 1, initY - 1 },
 				{ initX + 1, initY }, { initX + 1, initY + 1 } };
 
-		Random random = new Random();
 		Set<Field> chosenMines = new HashSet<>();
 		int fieldLen = data.getFieldLen();
 
