@@ -32,6 +32,10 @@ public abstract class Logger {
 	}
 
 	public static void logArray(List<String[]> arr) {
+		if (!isLoggingActive) {
+			return;
+		}
+
 		for (String[] row : arr) {
 			for (String item : row) {
 				System.out.println(item);
