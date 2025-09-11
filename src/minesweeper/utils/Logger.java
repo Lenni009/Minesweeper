@@ -7,7 +7,7 @@ import java.util.List;
 // using a custom logger implementation as opposed to java.util.logging.Logger because it makes our life easier
 public abstract class Logger {
 
-	private static final boolean isLoggingActive = true;
+	private static final boolean isLoggingActive = false;
 
 	public static void info(String msg) {
 		log(msg, false);
