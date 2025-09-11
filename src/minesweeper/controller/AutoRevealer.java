@@ -34,19 +34,26 @@ public class AutoRevealer {
 		// reveal field
 		field.setRevealedStatus(true);
 		data.countMineNeighbours(fieldX, fieldY);
-		int mineNeighborCount = field.getMineNeighbourCount();
-		if (mineNeighborCount > 0) {
+		int mineNeighbourCount = field.getMineNeighbourCount();
+		if (mineNeighbourCount > 0) {
 			// scaling between 0x80 (orange) and 0xFF (yellow)
-			int greenValue = 0xFF - (mineNeighborCount - 1) * 18;
+			int maxPotentialNeighbours = 8;
+			int minValue = 0x80;
+			int maxValue = 0xFF;
+			int increments = (maxValue - minValue) / (maxPotentialNeighbours - 1); // subtracting 1 because we only
+																					// differentiate between 7 states
+																					// (one state is 0)
+			int greenValue = maxValue - (mineNeighbourCount - 1) * increments; // subtracting 1 so mineNeighbourCount of
+																				// 1 results in 0xFF (bright yellow)
 			Color backgroundColor = new Color(0xFF, greenValue, 0);
 			field.setBackgroundColor(backgroundColor);
 		}
-		field.setText(String.valueOf(mineNeighborCount));
+		field.setText(String.valueOf(mineNeighbourCount));
 		changedFields.add(field);
 
 		// if the field has no mines as neighbours, call reveal for the direct
 		// neighbours
-		if (mineNeighborCount == 0) {
+		if (mineNeighbourCount == 0) {
 			updateNeighbours(changedFields, fieldX, fieldY);
 		}
 
