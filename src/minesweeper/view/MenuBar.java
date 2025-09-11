@@ -10,7 +10,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JSeparator;
 
-import minesweeper.controller.GameTimer;
 import minesweeper.controller.Minesweeper;
 
 public class MenuBar extends JMenuBar {
@@ -37,7 +36,6 @@ public class MenuBar extends JMenuBar {
 		JSeparator sep = new JSeparator();
 		statusLabel = new JLabel("");
 		gameTimerLabel = GameTimerLabel.getInstance();
-		GameTimer.getInstance();
 
 		exit.addActionListener(e -> System.exit(0));
 
@@ -63,7 +61,7 @@ public class MenuBar extends JMenuBar {
 		this.add(Box.createHorizontalStrut(10));
 		this.add(gameTimerLabel);
 
-		hideGameMenu(); // initially hide game menu
+		hideGameMenu(); // initially hide game menu because you can't restart a game in the main menu
 	}
 
 	// singleton <grin>
@@ -74,6 +72,11 @@ public class MenuBar extends JMenuBar {
 		return instance;
 	}
 
+	/**
+	 * change status text on the top right
+	 * 
+	 * @param text text to put
+	 */
 	public void setStatusText(String text) {
 		statusLabel.setText(text);
 	}

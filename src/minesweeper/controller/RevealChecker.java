@@ -8,6 +8,7 @@ import minesweeper.enums.Flag;
 import minesweeper.model.MsData;
 import minesweeper.utils.Logger;
 
+// handles end-of-game conditions
 public class RevealChecker {
 
 	private MsData data;
@@ -26,10 +27,15 @@ public class RevealChecker {
 		Logger.info("revealed fields: " + revealedFields);
 	}
 
-	public boolean isGameOver() {
+	public boolean isGameWon() {
 		return amountOfNormalFields == revealedFields;
 	}
 
+	/**
+	 * place flags on all non-flagged fields
+	 * 
+	 * @return set containing all changed fields
+	 */
 	public Set<Field> revealMap() {
 		Set<Field> changedFields = new HashSet<>();
 
@@ -41,10 +47,17 @@ public class RevealChecker {
 		return changedFields;
 	}
 
+	/**
+	 * place flag on a field if it's a mine and not flagged
+	 * 
+	 * @param changedFields set containing all changed fields
+	 * @param field         field to check
+	 */
 	private void checkAndSetFlags(Set<Field> changedFields, Field field) {
 		if (field.isMine() && field.getFlagged() == Flag.NOFLAG) {
 			field.setText(FieldLabel.FLAG.toString());
 			field.setFlagged(Flag.FLAGGED);
+			data.setPlacedFlags(data.getPlacedFlags() + 1);
 		}
 		changedFields.add(field);
 	}

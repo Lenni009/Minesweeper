@@ -18,8 +18,13 @@ import minesweeper.enums.Panel;
 import minesweeper.utils.Clamp;
 import minesweeper.utils.Logger;
 
+// main window handler
 public class MsGUI extends JFrame {
-	private static final int DEFAULT_SCREENSIZE = 600;
+	// these are static so SonarQube stops complaining
+	// if the class would be instantiated multiple times, having these as just
+	// private final would result in higher memory usage compared to private static
+	// final because the value is duplicated for every instance of the class
+	private static final int DEFAULT_WINDOWSIZE = 600;
 	private static final int MIN_WIDTH_BUTTON = 60;
 	private static final Rectangle SCREEN_SIZE = GraphicsEnvironment.getLocalGraphicsEnvironment()
 			.getMaximumWindowBounds();
@@ -29,8 +34,6 @@ public class MsGUI extends JFrame {
 	private CardLayout cardLayout = new CardLayout();
 	private JPanel cardPanel = new JPanel(cardLayout);
 	private Map<String, JPanel> panels = new HashMap<>();
-
-	private Panel currentlyActivePanel;
 
 	private MsGUI() {
 		// set text colour of disabled buttons to black for better contrast
@@ -60,6 +63,12 @@ public class MsGUI extends JFrame {
 		return instance;
 	}
 
+	/**
+	 * adds a panel to the panel stack
+	 * 
+	 * @param panel      panel object to add
+	 * @param identifier identifier by which the added panel can later be referenced
+	 */
 	public void addPanel(JPanel panel, Panel identifier) {
 		String idString = identifier.toString();
 		if (panels.containsKey(idString)) {
@@ -71,11 +80,20 @@ public class MsGUI extends JFrame {
 		panels.put(idString, panel);
 	}
 
+	/**
+	 * displays a panel by its identifier
+	 * 
+	 * @param identifier identifier of the panel to display
+	 */
 	public void showPanel(Panel identifier) {
 		cardLayout.show(cardPanel, identifier.toString());
-		currentlyActivePanel = identifier;
 	}
 
+	/**
+	 * remvoes a panel by its identifier
+	 * 
+	 * @param identifier identifier of the panel to remove
+	 */
 	public void removePanel(Panel identifier) {
 		String idString = identifier.toString();
 		if (!panels.containsKey(idString)) {
@@ -88,37 +106,34 @@ public class MsGUI extends JFrame {
 		panels.remove(idString);
 	}
 
-	public Panel getCurrentlyActivePanel() {
-		return currentlyActivePanel;
+	/**
+	 * Default case (no arg is provided): resize window to default values
+	 */
+	public void resizeWindow() {
+		// resizeWindow clamps value, so we can provide a value < DEFAULT_SCREENSIZE
+		resizeWindow(1);
 	}
 
 	/**
-	 * Default case (no arg is provided): resize screen to default values
+	 * Overloaded to accept argument, so the resize is based on the needed width and
+	 * height
+	 * 
+	 * @param fieldLen number of buttons in a row / col
 	 */
-	public void resizeScreen() {
-		// resizeScreen clamps value, so we can provide a value < DEFAULT_SCREENSIZE
-		resizeScreen(1);
-	}
-
-	/**
-	 * Overloaded to accept argument, so the rezise is based on the needed width an height
-	 * @param fieldLen
-	 */
-	public void resizeScreen(int fieldLen) {
+	public void resizeWindow(int fieldLen) {
 		Dimension currentWindowSize = this.getSize();
 
 		Dimension windowSize = getWindowSize(fieldLen);
 
-		MsGUI.getInstance().setSize(windowSize.width, windowSize.height);
+		this.setSize(windowSize.width, windowSize.height);
 
 		updateLocation(windowSize, currentWindowSize);
-
 	}
 
 	/**
-	 * Calculates the size of the new window, based on the number of buttons
-	 * and the minimum width each buttons needs to display its text.
-	 * Clamps the result, so it fits right on the screen.
+	 * Calculates the size of the new window based on the number of buttons and the
+	 * minimum width each button needs to display its text. Clamps the result, so it
+	 * fits right on the screen.
 	 * 
 	 * @param fieldLen number of buttons in a row / col
 	 * @return clamped windowsize
@@ -129,12 +144,10 @@ public class MsGUI extends JFrame {
 		int maxWindowWidth = SCREEN_SIZE.width;
 		int maxWindowHeight = SCREEN_SIZE.height;
 
-		int windowWidth = (int) Clamp.clamp(minWindowSize, DEFAULT_SCREENSIZE, maxWindowWidth);
-		int windowHeight = (int) Clamp.clamp(minWindowSize, DEFAULT_SCREENSIZE, maxWindowHeight);
+		int windowWidth = Clamp.clamp(minWindowSize, DEFAULT_WINDOWSIZE, maxWindowWidth);
+		int windowHeight = Clamp.clamp(minWindowSize, DEFAULT_WINDOWSIZE, maxWindowHeight);
 
-		Dimension windowSize = new Dimension(windowWidth, windowHeight);
-
-		return windowSize;
+		return new Dimension(windowWidth, windowHeight);
 	}
 
 	/**
@@ -155,8 +168,8 @@ public class MsGUI extends JFrame {
 
 		// Bounds for new window on screen:
 		// 0 (upper left corner) < newLocation < (screensize - windowsize)
-		newLocationX = (int) Clamp.clamp(newLocationX, 0, SCREEN_SIZE.width - newWindowSize.width);
-		newLocationY = (int) Clamp.clamp(newLocationY, 0, SCREEN_SIZE.height - newWindowSize.height);
+		newLocationX = Clamp.clamp(newLocationX, 0, SCREEN_SIZE.width - newWindowSize.width);
+		newLocationY = Clamp.clamp(newLocationY, 0, SCREEN_SIZE.height - newWindowSize.height);
 
 		Logger.info("Set Location at [" + newLocationX + "/" + newLocationY + "]");
 
@@ -168,8 +181,8 @@ public class MsGUI extends JFrame {
 	 * This method will center the window an the screen.
 	 */
 	private void initLocation() {
-		int locationWidth = (SCREEN_SIZE.width - DEFAULT_SCREENSIZE) / 2;
-		int locationHeight = (SCREEN_SIZE.height - DEFAULT_SCREENSIZE) / 2;
+		int locationWidth = (SCREEN_SIZE.width - DEFAULT_WINDOWSIZE) / 2;
+		int locationHeight = (SCREEN_SIZE.height - DEFAULT_WINDOWSIZE) / 2;
 		this.setLocation(locationWidth, locationHeight);
 	}
 }

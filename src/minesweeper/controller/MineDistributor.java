@@ -6,20 +6,19 @@ import java.util.HashSet;
 import java.util.Random;
 import java.util.Set;
 
+// handle distributing mines on first click
 public class MineDistributor {
 
 	private MsData data;
 
 	private Field initField;
 
+	private Random random = new Random(); // SonarQube wanted this to be extracted
+
 	public MineDistributor(MsData model, Field initField) {
 		this.data = model;
 		this.initField = initField;
 	}
-
-	Set<Field> choosenMines = new HashSet<>();
-
-	Random random = new Random();
 
 	/**
 	 * Randomly chooses fields that will contain mines. The field initially clicked
@@ -35,13 +34,17 @@ public class MineDistributor {
 				{ initX, initY - 1 }, { initX, initY }, { initX, initY + 1 }, { initX + 1, initY - 1 },
 				{ initX + 1, initY }, { initX + 1, initY + 1 } };
 
-		while (choosenMines.size() < data.getAmountOfMines()) {
-			int fieldLen = data.getFieldLen();
+		Set<Field> chosenMines = new HashSet<>();
+		int fieldLen = data.getFieldLen();
+
+		// fill set until specified amount of mines has been reached
+		while (chosenMines.size() < data.getAmountOfMines()) {
 			int fieldX = random.nextInt(fieldLen);
 			int fieldY = random.nextInt(fieldLen);
 			if (isPosValid(fieldX, fieldY, freeFields)) {
-				data.getField(fieldX, fieldY).setMine(true);
-				choosenMines.add(data.getField(fieldX, fieldY));
+				Field targetField = data.getField(fieldX, fieldY);
+				targetField.setMine(true);
+				chosenMines.add(targetField);
 			}
 		}
 	}
@@ -52,7 +55,7 @@ public class MineDistributor {
 	 * @param randomX    randomly generated X-Coord
 	 * @param randomY    randomly generated Y-Coord
 	 * @param freeFields coords of the initially clicked field and its neighbours
-	 * @return true, if chosen position is valid
+	 * @return whether chosen position is valid
 	 */
 	private boolean isPosValid(int randomX, int randomY, int[][] freeFields) {
 
@@ -64,5 +67,4 @@ public class MineDistributor {
 
 		return true;
 	}
-
 }

@@ -112,7 +112,7 @@ public class CustomDifficulty extends JPanel {
 		backButton.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
 			view.showPanel(Panel.MENU);
-			view.resizeScreen();
+			view.resizeWindow();
 		});
 
 		wrapper.add(lengthInput);

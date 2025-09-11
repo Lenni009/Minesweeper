@@ -6,6 +6,7 @@ import minesweeper.model.GameTimerTask;
 import minesweeper.view.GameTimerLabel;
 
 // based on https://www.javaspring.net/java_util/mastering_the_java_timer_scheduleatfixedrate_method/
+// timer to count the time a game takes
 public class GameTimer {
 	private static GameTimer instance;
 
@@ -23,6 +24,11 @@ public class GameTimer {
 		return instance;
 	}
 
+	/**
+	 * stops all existing timers and starts a new timer
+	 * 
+	 * @param label label to display the timer in
+	 */
 	public void startTimer(GameTimerLabel label) {
 		stopTimer();
 		task = new GameTimerTask(label);
@@ -30,20 +36,31 @@ public class GameTimer {
 	}
 
 	public void pauseTimer() {
-		task.setPaused(true);
+		if (task != null) {
+			task.setPaused(true);
+		}
 	}
 
 	public void resumeTimer() {
-		task.setPaused(false);
+		if (task != null) {
+			task.setPaused(false);
+		}
 	}
 
 	public void stopTimer() {
 		if (task != null) {
-			task.cancel();
+			task.cancel(); // stop timer
 		}
+
+		// remove task from timer's task queue so the task can be garbage collected
 		timer.purge();
 	}
 
+	/**
+	 * gives a string showing the timer's current time
+	 * 
+	 * @return mm:ss time string
+	 */
 	public String getTime() {
 		int minutes = task.getMinutes();
 		int seconds = task.getSeconds();
@@ -61,7 +78,12 @@ public class GameTimer {
 		return minutesString + ":" + secondsString;
 	}
 
-	public String getFormattedTime() {
+	/**
+	 * gives the time string as it appears in the label
+	 * 
+	 * @return time string prefixed with "Zeit: " for display in the label
+	 */
+	public String getLabelTime() {
 		String timeString = getTime();
 		return "Zeit: " + timeString;
 	}

@@ -1,14 +1,17 @@
 package minesweeper.model;
 
+// data store for the custom difficulty UI
 public class CustomDifficultyModel {
-	
+
 	private static CustomDifficultyModel instance;
-	
+
 	private int sideLength = 10; // setting initial value
 	private int minePercentage;
 	private int mineCount;
-	
-	
+
+	private CustomDifficultyModel() {
+	}
+
 	public int getSideLength() {
 		return sideLength;
 	}
@@ -25,7 +28,6 @@ public class CustomDifficultyModel {
 		this.minePercentage = minePercentage;
 	}
 
-	
 	public int getMineCount() {
 		return mineCount;
 	}
@@ -34,10 +36,6 @@ public class CustomDifficultyModel {
 		this.mineCount = mineCount;
 	}
 
-	private CustomDifficultyModel() {
-		
-	}
-	
 	// singleton :3
 	public static CustomDifficultyModel getInstance() {
 		if (instance == null) {
@@ -45,6 +43,4 @@ public class CustomDifficultyModel {
 		}
 		return instance;
 	}
-	
-
 }

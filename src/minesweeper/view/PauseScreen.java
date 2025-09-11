@@ -12,6 +12,7 @@ import javax.swing.JPanel;
 
 import minesweeper.controller.Minesweeper;
 
+// handles the pause screen overlay
 public class PauseScreen extends JPanel {
 
 	private static PauseScreen instance;

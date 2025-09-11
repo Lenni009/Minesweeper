@@ -6,6 +6,7 @@ import minesweeper.enums.FieldColor;
 import minesweeper.enums.FieldLabel;
 import minesweeper.enums.Flag;
 
+// a field object in the UI
 public class Field {
 
 	/**
@@ -94,7 +95,7 @@ public class Field {
 	}
 
 	public void setText(String text) {
-		// does field show number of flag?
+		// does field show number or flag?
 		if (!this.isRevealed) { // field is not revealed by now
 			this.caption = text;
 		} else if (mineNeighbourCount == 0) { // field is revealed, has 0 mines -> display nothing

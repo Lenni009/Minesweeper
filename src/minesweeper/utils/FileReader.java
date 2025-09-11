@@ -8,17 +8,23 @@ import java.util.Scanner;
 
 public abstract class FileReader {
 
+	/**
+	 * reads a text file
+	 * 
+	 * @param filePath path to the file
+	 * @return list of lines in the file
+	 */
 	public static List<String> readFile(String filePath) {
 		List<String> rows = new ArrayList<>();
 		// copied from https://www.w3schools.com/java/java_files_read.asp
 		try {
-			File myObj = new File(filePath);
-			Scanner myReader = new Scanner(myObj);
-			while (myReader.hasNextLine()) {
-				String data = myReader.nextLine();
+			File file = new File(filePath);
+			Scanner reader = new Scanner(file);
+			while (reader.hasNextLine()) {
+				String data = reader.nextLine();
 				rows.add(data);
 			}
-			myReader.close();
+			reader.close();
 		} catch (FileNotFoundException e) {
 			Logger.error(e.getMessage());
 		}

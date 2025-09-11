@@ -2,6 +2,7 @@ package minesweeper.model;
 
 import minesweeper.controller.Field;
 
+// main data store for the game
 public class MsData {
 
 	private final int fieldLen;
@@ -26,12 +27,12 @@ public class MsData {
 	}
 
 	/**
-	 * Generate Minefield with given Length
+	 * Generate minefield with given Length
 	 * 
-	 * @param sideLength Length of one site
+	 * @param sideLength Length of one side
 	 */
 	public void generateMinefield(int sideLength) {
-		// n*n-Spielfeld erstellen und mit Minen-Objekten befuellen
+		// create n*n playing field and fill with mine objects
 		for (int x = 0; x < sideLength; x++) {
 			for (int y = 0; y < sideLength; y++) {
 				Field field = new Field(x, y);
