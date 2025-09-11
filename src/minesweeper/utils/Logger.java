@@ -17,11 +17,18 @@ public abstract class Logger {
 		log(msg, true);
 	}
 
+	/**
+	 * logs a formatted debug string to the console
+	 * 
+	 * @param msg     string to be logged
+	 * @param isError whether the message is an error
+	 */
 	private static void log(String msg, boolean isError) {
 		if (!isLoggingActive) {
 			return;
 		}
 
+		// adding timestamp to log
 		String time = LocalDate.now().toString() + " " + LocalTime.now().toString();
 
 		if (isError) {
@@ -31,6 +38,11 @@ public abstract class Logger {
 		}
 	}
 
+	/**
+	 * log all items in a list of string arrays
+	 * 
+	 * @param arr list of string arrays to log
+	 */
 	public static void logArray(List<String[]> arr) {
 		if (!isLoggingActive) {
 			return;
