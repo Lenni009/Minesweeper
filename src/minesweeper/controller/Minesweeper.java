@@ -11,10 +11,9 @@ import minesweeper.view.PauseScreen;
 
 public class Minesweeper {
 
-	private static MsGUI view;
 	private static Minesweeper instance;
+	private MsGUI view;
 	private MsData model;
-	private MineField mineField;
 
 	private int sideLength;
 	private int mines;
@@ -46,7 +45,7 @@ public class Minesweeper {
 		view.removePanel(Panel.PAUSE);
 
 		model = new MsData(sideLength, mines);
-		mineField = new MineField(model);
+		MineField mineField = new MineField(model);
 
 		view.addPanel(mineField, Panel.GAME);
 		view.showPanel(Panel.GAME);

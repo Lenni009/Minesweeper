@@ -10,7 +10,7 @@ public class GameTimerTask extends TimerTask {
 	private int seconds = 0;
 	private int minutes = 0;
 
-	GameTimerLabel label;
+	private GameTimerLabel label;
 	private boolean isPaused = false;
 
 	public GameTimerTask(GameTimerLabel label) {

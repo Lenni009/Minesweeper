@@ -22,7 +22,7 @@ public class AutoRevealer {
 			return changedFields;
 		}
 
-		// remove Flag from field, after it got revealed
+		// remove Flag from field after it got revealed
 		removePotentialFlag(field);
 
 		// counts how many fields are revealed already

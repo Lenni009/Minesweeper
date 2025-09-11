@@ -7,7 +7,7 @@ import java.util.List;
 // using a custom logger implementation as opposed to java.util.logging.Logger because it makes our life easier
 public abstract class Logger {
 
-	private static boolean isLoggingActive = true;
+	private static final boolean isLoggingActive = true;
 
 	public static void info(String msg) {
 		log(msg, false);
@@ -18,8 +18,9 @@ public abstract class Logger {
 	}
 
 	private static void log(String msg, boolean isError) {
-		if (!isLoggingActive)
+		if (!isLoggingActive) {
 			return;
+		}
 
 		String time = LocalDate.now().toString() + " " + LocalTime.now().toString();
 

@@ -30,7 +30,8 @@ public class MineField extends JPanel {
 
 	private AutoRevealer autoRevealer;
 
-	private final Font font = FontLoader.getInstance().getFont();
+	// "font" is already a parent class field, so we use a different variable name here
+	private final Font fontObj = FontLoader.getInstance().getFont();
 
 	// SonarQube wanted to have this extracted
 	private String placedFlagsLabelText = "Platzierte Flaggen: ";
@@ -51,7 +52,7 @@ public class MineField extends JPanel {
 			for (int posY = 0; posY < fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
-				button.setFont(font);
+				button.setFont(fontObj);
 				add(button);
 				buttons[posX][posY] = button;
 			}
