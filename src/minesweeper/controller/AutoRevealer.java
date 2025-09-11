@@ -6,6 +6,7 @@ import java.util.Set;
 import minesweeper.enums.Flag;
 import minesweeper.model.MsData;
 
+// automatically reveals fields when one field is clicked
 public class AutoRevealer {
 
 	private MsData data;
@@ -17,7 +18,7 @@ public class AutoRevealer {
 	}
 
 	/**
-	 * reveals one field
+	 * reveals a field in the data layer
 	 * 
 	 * @param field         field to reveal
 	 * @param changedFields set of fields that need to be updated

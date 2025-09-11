@@ -75,7 +75,9 @@ public class EndScreen extends JDialog {
 			this.setVisible(false);
 		});
 
-		String elapsedTime = GameTimer.getInstance().getFormattedTime();
+		GameTimer timer = GameTimer.getInstance();
+		timer.stopTimer();
+		String elapsedTime = timer.getLabelTime();
 		JLabel timeDisplay = new JLabel(elapsedTime);
 		timeDisplay.setAlignmentX(CENTER_ALIGNMENT);
 
@@ -98,7 +100,5 @@ public class EndScreen extends JDialog {
 		this.add(wrapper);
 
 		this.setVisible(true);
-
-		minesweeper.endGame();
 	}
 }

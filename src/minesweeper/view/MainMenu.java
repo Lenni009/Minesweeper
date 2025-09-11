@@ -15,7 +15,7 @@ public class MainMenu extends JPanel {
 
 	private MainMenu() {
 
-		GridLayout menuGrid = new GridLayout(2, 2);
+		GridLayout menuGrid = new GridLayout(2, 2); // 2x2 layout
 		this.setLayout(menuGrid);
 
 		JButton easy = generatePlayButton(8, 10);
@@ -25,11 +25,10 @@ public class MainMenu extends JPanel {
 		JButton custom = new JButton("Benutzerdefiniert");
 		custom.addActionListener(e -> {
 			MsGUI view = MsGUI.getInstance();
-			view.removePanel(Panel.CUSTOM);
+			view.removePanel(Panel.CUSTOM); // remove custom panel if it already exists
 			customDifficultyView = CustomDifficulty.getInstance();
 			view.addPanel(customDifficultyView, Panel.CUSTOM);
 			view.showPanel(Panel.CUSTOM);
-			view.resizeScreen();
 		});
 
 		this.add(easy);
@@ -38,6 +37,14 @@ public class MainMenu extends JPanel {
 		this.add(custom);
 	}
 
+	/**
+	 * generates a button that starts a new minesweeper game with the specified
+	 * settings
+	 * 
+	 * @param sideLength length of one side of the playing field
+	 * @param mines      total amount of mines to be put on the playing field
+	 * @return button to start game
+	 */
 	private JButton generatePlayButton(int sideLength, int mines) {
 		JButton playButton = new JButton(sideLength + " x " + sideLength + " (" + mines + " Minen)");
 		playButton.addActionListener(e -> Minesweeper.getInstance().startGame(sideLength, mines));

@@ -20,6 +20,7 @@ import java.awt.event.*;
 import java.util.HashSet;
 import java.util.Set;
 
+// handles displaying the playing field
 public class MineField extends JPanel {
 
 	private MsData data;
@@ -29,13 +30,6 @@ public class MineField extends JPanel {
 	private JButton[][] buttons;
 
 	private AutoRevealer autoRevealer;
-
-	// "font" is already a parent class field, so we use a different variable name
-	// here
-	private final Font fontObj = FontLoader.getInstance().getFont();
-
-	// SonarQube wanted to have this extracted
-	private String placedFlagsLabelText = "Platzierte Flaggen: ";
 
 	public MineField(MsData model) {
 		this.data = model;
@@ -49,18 +43,20 @@ public class MineField extends JPanel {
 
 		buttons = new JButton[fieldLen][fieldLen];
 
+		Font font = FontLoader.getInstance().getFont();
+
+		// create buttons and store them for later use
 		for (int posX = 0; posX < fieldLen; posX++) {
 			for (int posY = 0; posY < fieldLen; posY++) {
 				JButton button = new JButton("");
 				button.addMouseListener(createMouseListener(button, posX, posY));
-				button.setFont(fontObj);
-				add(button);
+				button.setFont(font);
+				this.add(button);
 				buttons[posX][posY] = button;
 			}
 		}
 
-		MenuBar.getInstance()
-				.setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + data.getAmountOfMines());
+		updatePlacedFlagLabel();
 	}
 
 	/**
@@ -83,8 +79,8 @@ public class MineField extends JPanel {
 
 				if (SwingUtilities.isLeftMouseButton(e)) {
 					leftclickEvent(field);
-
 				}
+
 				if (SwingUtilities.isRightMouseButton(e)) {
 					rightclickEvent(button, field);
 				}
@@ -123,7 +119,7 @@ public class MineField extends JPanel {
 		field.setText(label.toString());
 		field.setFlagged(flag);
 
-		MenuBar.getInstance().setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + amountOfMines);
+		updatePlacedFlagLabel();
 		button.setText(field.getText());
 
 		Logger.info("placed flags: " + data.getPlacedFlags());
@@ -147,8 +143,9 @@ public class MineField extends JPanel {
 			isFirstClick = false;
 			MineDistributor mineDistributor = new MineDistributor(data, field);
 			mineDistributor.distributeMines();
-			GameTimerLabel.getInstance().showTime();
-			GameTimer.getInstance().startTimer(GameTimerLabel.getInstance());
+			GameTimerLabel timerLabel = GameTimerLabel.getInstance();
+			timerLabel.showTime();
+			GameTimer.getInstance().startTimer(timerLabel);
 			MenuBar.getInstance().showPlayingState(); // display pause button in the menubar
 		}
 
@@ -156,7 +153,6 @@ public class MineField extends JPanel {
 		if (field.isMine()) {
 			Logger.info("Mine exploded - game over!");
 
-			GameTimer.getInstance().stopTimer();
 			revealMap(field);
 
 			new EndScreen(false);
@@ -165,28 +161,45 @@ public class MineField extends JPanel {
 		}
 	}
 
+	/**
+	 * reveal a field in the UI
+	 * 
+	 * @param field field to reveal
+	 */
 	private void revealField(Field field) {
 		Set<Field> revealedFields = new HashSet<>();
-		autoRevealer.revealField(field, revealedFields);
+		autoRevealer.revealField(field, revealedFields); // recursively fills up revealedFields
 
 		RevealChecker revealChecker = autoRevealer.getRevealChecker();
 
-		if (!revealChecker.isGameOver()) {
-			updateButtonsGUI(revealedFields);
-			MenuBar.getInstance()
-					.setStatusText(placedFlagsLabelText + data.getPlacedFlags() + " / " + data.getAmountOfMines());
-		} else {
-
-			// Flag all mines, if game is won
+		if (revealChecker.isGameWon()) {
+			// Flag all mines if game is won
 			revealedFields.addAll(revealChecker.revealMap());
-			updateButtonsGUI(revealedFields);
+			// updateButtonsGUI(revealedFields);
 
-			GameTimer.getInstance().stopTimer();
-
-			new EndScreen(true);
+			// using invokeLater so the UI is updated before it is
+			// locked and we don't have to duplicate code
+			SwingUtilities.invokeLater(() -> new EndScreen(true));
 		}
+
+		// this would have no effect without the invokeLater in the if statement
+		updateButtonsGUI(revealedFields);
+		updatePlacedFlagLabel();
 	}
 
+	/**
+	 * updates the placed flags label with the current data
+	 */
+	private void updatePlacedFlagLabel() {
+		MenuBar.getInstance()
+				.setStatusText("Platzierte Flaggen: " + data.getPlacedFlags() + " / " + data.getAmountOfMines());
+	}
+
+	/**
+	 * reveal all mines on the map
+	 * 
+	 * @param field field that triggered this method
+	 */
 	private void revealMap(Field field) {
 		Set<Field> changedFields = new HashSet<>();
 
@@ -196,6 +209,7 @@ public class MineField extends JPanel {
 			}
 		}
 
+		// give triggered mine different icon and background colour
 		field.setText(FieldLabel.EXPLOSION.toString());
 		field.setBackgroundColor(FieldColor.LIGHTRED);
 
@@ -204,6 +218,13 @@ public class MineField extends JPanel {
 		updateButtonsGUI(changedFields);
 	}
 
+	/**
+	 * reveals a field if it is a mine, or changes the background colour if the
+	 * field was incorrectly flagged
+	 * 
+	 * @param changedFields set with all fields that need to be updated
+	 * @param field         field to reveal
+	 */
 	private void revealMines(Set<Field> changedFields, Field field) {
 		// it was no mine, but was flagged
 		if (!field.isMine() && field.getFlagged() == Flag.FLAGGED) {
@@ -218,6 +239,11 @@ public class MineField extends JPanel {
 		}
 	}
 
+	/**
+	 * update a set of buttons in the UI
+	 * 
+	 * @param revealedFields set of buttons to update
+	 */
 	private void updateButtonsGUI(Set<Field> revealedFields) {
 		for (Field changedField : revealedFields) {
 			int posX = changedField.getPosX();
@@ -228,6 +254,9 @@ public class MineField extends JPanel {
 			changedButton.setText(changedField.getText());
 			changedButton.setBackground(changedField.getBackgroundColor());
 			changedButton.setEnabled(false);
+
+			// there could be multiple listeners on the buttons, we want to remove them all
+			// so no code is executed when they are clicked again
 			for (ActionListener listener : changedButton.getActionListeners()) {
 				changedButton.removeActionListener(listener);
 			}
