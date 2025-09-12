@@ -1,6 +1,6 @@
 stages:
-  - sonarqube-check
   - build
+  - sonarqube-check
 
 sonarqube-check:
   stage: sonarqube-check
@@ -32,10 +32,10 @@ build:
   stage: build
   image: bitnami/java:latest
   script:
-    - find -name "*.java" > sources.txt
-    - javac @sources.txt --release 11
+    - javac -d classes **/*.java --release 11
   only:
     - merge_requests
     - main
-
-
+  artifacts:
+    paths:
+      - classes
