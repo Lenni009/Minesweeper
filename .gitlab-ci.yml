@@ -32,7 +32,8 @@ build:
   stage: build
   image: bitnami/java:latest
   script:
-    - javac -d classes **/*.java --release 11
+    - find -name "*.java" > sources.txt
+    - javac -d classes @sources.txt --release 11
   only:
     - merge_requests
     - main
