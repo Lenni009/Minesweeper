@@ -4,7 +4,11 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 
-public abstract class FileCreator {
+public final class FileCreator {
+
+	private FileCreator() {
+		// this class is not meant to be instantiated
+	}
 
 	/**
 	 * writes a text file, overwrites existing files

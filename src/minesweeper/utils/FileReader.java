@@ -6,7 +6,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public abstract class FileReader {
+public final class FileReader {
+
+	private FileReader() {
+		// this class is not meant to be instantiated
+	}
 
 	/**
 	 * reads a text file
