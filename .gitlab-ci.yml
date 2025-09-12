@@ -32,8 +32,7 @@ build:
   stage: build
   image: bitnami/java:latest
   script:
-    - find -name "*.java" > sources.txt
-    - javac -d classes @sources.txt --release 11
+    - javac -d classes -sourcepath src src/minesweeper/Main.java --release 11
   only:
     - merge_requests
     - main
