@@ -31,12 +31,11 @@ sonarqube-check:
 build:
   stage: build
   image: bitnami/java:latest
-  test-compile:
-    script:
-      - find -name "*.java" > sources.txt
-      - javac @sources.txt --release 11
-    only:
-      - merge_requests
-      - main
+  script:
+    - find -name "*.java" > sources.txt
+    - javac @sources.txt --release 11
+  only:
+    - merge_requests
+    - main
 
 
