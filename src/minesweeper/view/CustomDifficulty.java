@@ -24,7 +24,10 @@ public class CustomDifficulty extends JPanel {
 	private SpinnerNumberModel minePercentageModel;
 	private JLabel mineCountDisplay = new JLabel();
 
-	private CustomDifficultyModel model = CustomDifficultyModel.getInstance();
+	// marking as transient so that SonarQube stops complaining
+	// transient means that in case this class is serialised (written to disk), this
+	// field is *not* serialised
+	private transient CustomDifficultyModel model = CustomDifficultyModel.getInstance();
 
 	private CustomDifficulty() {
 

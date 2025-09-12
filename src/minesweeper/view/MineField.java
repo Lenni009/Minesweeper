@@ -23,13 +23,16 @@ import java.util.Set;
 // handles displaying the playing field
 public class MineField extends JPanel {
 
-	private MsData data;
+	// marking as transient so SonarQube shuts up
+	// transient means that in case this class is serialised (written to disk), this
+	// field is *not* serialised
+	private transient MsData data;
 
 	private boolean isFirstClick = true;
 
 	private JButton[][] buttons;
 
-	private AutoRevealer autoRevealer;
+	private transient AutoRevealer autoRevealer;
 
 	public MineField(MsData model) {
 		this.data = model;
