@@ -4,9 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 // handles csv operations
-public abstract class CsvHandler {
+public final class CsvHandler {
 
 	private static final int AMOUNT_OF_FIELDS_TO_PARSE = 2;
+
+	private CsvHandler() {
+		// this class is not meant to be instantiated
+	}
 
 	/**
 	 * creates a csv string that can be written to a file

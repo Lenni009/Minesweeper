@@ -1,8 +1,10 @@
 package minesweeper.controller;
 
-// abstract means that this class cannot be instantiated, but it can still be inherited from
-// calculate numbers related to mines
-public abstract class MineCalculator {
+public final class MineCalculator {
+
+	private MineCalculator() {
+		// this class is not meant to be instantiated
+	}
 
 	/**
 	 * calculate total absolute mine count for specific playing field settings

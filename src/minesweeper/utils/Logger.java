@@ -5,9 +5,13 @@ import java.time.LocalTime;
 import java.util.List;
 
 // using a custom logger implementation as opposed to java.util.logging.Logger because it makes our life easier
-public abstract class Logger {
+public final class Logger {
 
-	private static final boolean isLoggingActive = false;
+	private static final boolean IS_LOGGING_ACTIVE = false;
+
+	private Logger() {
+		// this class is not meant to be instantiated
+	}
 
 	public static void info(String msg) {
 		log(msg, false);
@@ -24,7 +28,7 @@ public abstract class Logger {
 	 * @param isError whether the message is an error
 	 */
 	private static void log(String msg, boolean isError) {
-		if (!isLoggingActive) {
+		if (!IS_LOGGING_ACTIVE) {
 			return;
 		}
 
@@ -44,7 +48,7 @@ public abstract class Logger {
 	 * @param arr list of string arrays to log
 	 */
 	public static void logArray(List<String[]> arr) {
-		if (!isLoggingActive) {
+		if (!IS_LOGGING_ACTIVE) {
 			return;
 		}
 
